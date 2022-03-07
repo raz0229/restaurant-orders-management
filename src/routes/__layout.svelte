@@ -3,7 +3,7 @@
   import Footer from '$lib/footer.svelte'
   import '../styles/global.css'
 
-  let businessName = "Your Business"
+  let businessName = "Pizza Home"
 </script>
 
 <header>
