@@ -5,17 +5,72 @@ import Canva from "./deals";
 let deal1 = {
     hotwings: 1,
     pizza: 1,
-    mpizza: 1,
-    spizza: 1,
+    mpizza: 0,
+    spizza: 0,
     drink: 1,
-    nuggets: 1,
-    zinger: 1,
-    fries: 1
+    nuggets: 0,
+    zinger: 0,
+    fries: 0
+};
+let deal2 = {
+    hotwings: 0,
+    pizza: 1,
+    mpizza: 1,
+    spizza: 0,
+    drink: 1,
+    nuggets: 0,
+    zinger: 0,
+    fries: 0
+};
+let deal3 = {
+    hotwings: 1,
+    pizza: 0,
+    mpizza: 1,
+    spizza: 0,
+    drink: 1,
+    nuggets: 0,
+    zinger: 0,
+    fries: 0
+};
+let deal4 = {
+    hotwings: 0,
+    pizza: 2,
+    mpizza: 0,
+    spizza: 0,
+    drink: 1,
+    nuggets: 0,
+    zinger: 0,
+    fries: 0
+};
+let deal5 = {
+    hotwings: 2,
+    pizza: 2,
+    mpizza: 0,
+    spizza: 0,
+    drink: 2,
+    nuggets: 0,
+    zinger: 3,
+    fries: 0
+};
+let deal6 = {
+    hotwings: 1,
+    pizza: 3,
+    mpizza: 0,
+    spizza: 0,
+    drink: 3,
+    nuggets: 2,
+    zinger: 5,
+    fries: 2
 };
 
 if (browser) {
-    
-    const canva = new Canva(document.querySelector('#canvas1'),document.querySelector("#canvasimg1"));
+    let canvas = document.querySelector('#canvas');
+    const canva1 = new Canva(canvas, document.querySelector("#canvasimg1"), deal1);
+    const canva2 = new Canva(canvas, document.querySelector("#canvasimg2"), deal2);
+    const canva3 = new Canva(canvas, document.querySelector("#canvasimg3"), deal3);
+    const canva4 = new Canva(canvas, document.querySelector("#canvasimg4"), deal4);
+    const canva5 = new Canva(canvas, document.querySelector("#canvasimg5"), deal5);
+    const canva6 = new Canva(canvas, document.querySelector("#canvasimg6"), deal6);
 
     let imageURL = ["deal-template.jpg","hotwings.png", "pizza.png", "drink.png", "nuggets.png", "zinger.png", "fries.png", "mpizza.png", "spizza.png"]; // list of image URLs
     const images = []; /// array to hold images.
@@ -28,7 +83,13 @@ if (browser) {
              imageCount++;
              if(imageCount === imageURL.length){ // have all loaded?
 
-                 canva.loadDeal(images, deal1); // start rendering`
+                 // start rendering all deals
+                 canva1.loadDeal(images);
+                 canva2.loadDeal(images);
+                 canva3.loadDeal(images);
+                 canva4.loadDeal(images);
+                 canva5.loadDeal(images);
+                 canva6.loadDeal(images);
              }
          }
          images.push(image);
@@ -38,12 +99,7 @@ if (browser) {
 </script>
 
 <!-- Generating images via canvas -->
-<canvas id="canvas1" class="hidden" width="400" height="250"></canvas>
-<canvas id="canvas2" class="hidden"></canvas>
-<canvas id="canvas3" class="hidden"></canvas>
-<canvas id="canvas4" class="hidden"></canvas>
-<canvas id="canvas5" class="hidden"></canvas>
-<canvas id="canvas6" class="hidden"></canvas>
+<canvas id="canvas" class="hidden" width="400" height="250"></canvas>
 
 <div class="w-full mt-9 bg-white dark:bg-gray-800">
     <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12">
@@ -85,7 +141,7 @@ if (browser) {
                     <div class="label">10% OFF</div>
                 </div>
                 <div>
-                    <img class="object-center object-cover h-auto w-full" src="" alt="photo">
+                    <img class="canva object-center object-cover h-auto w-full" id="canvasimg2" src="" alt="photo">
                 </div>
                 <div class="flex justify-between w-64">
                     <div class="py-8 sm:py-6">
@@ -109,7 +165,7 @@ if (browser) {
                     <div class="label">15% OFF</div>
                 </div>
                 <div>
-                    <img class="object-center object-cover h-auto w-full" src="" alt="photo">
+                    <img class="canva object-center object-cover h-auto w-full" id="canvasimg3" src="" alt="photo">
                 </div>
                 <div class="flex justify-between w-64">
                     <div class="py-8 sm:py-6">
@@ -133,7 +189,7 @@ if (browser) {
                     <div class="label">25% OFF</div>
                 </div>
                 <div>
-                    <img class="object-center object-cover h-auto w-full" src="" alt="photo">
+                    <img class="canva object-center object-cover h-auto w-full" id="canvasimg4" src="" alt="photo">
                 </div>
                 <div class="flex justify-between w-64">
                     <div class="py-8 sm:py-6">
@@ -156,7 +212,7 @@ if (browser) {
                     <div class="label">9% OFF</div>
                 </div>
                 <div>
-                    <img class="object-center object-cover h-auto w-full" src="" alt="photo">
+                    <img class="canva object-center object-cover h-auto w-full" id="canvasimg5" src="" alt="photo">
                 </div>
                 <div class="flex justify-between w-64">
                     <div class="py-8 sm:py-6">
@@ -181,7 +237,7 @@ if (browser) {
                     <div class="label">18% OFF</div>
                 </div>
                 <div>
-                    <img class="object-center object-cover h-auto w-full" src="" alt="photo">
+                    <img class="canva object-center object-cover h-auto w-full" id="canvasimg6" src="" alt="photo">
                 </div>
                 <div class="flex justify-between w-64">
                     <div class="py-8 sm:py-6">

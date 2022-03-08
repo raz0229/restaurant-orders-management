@@ -2,9 +2,10 @@ export default class Canva {
 
 
 
-    constructor(canvas, img) {
+    constructor(canvas, img, deal) {
         this.canvas = canvas;
         this.img = img;
+        this.deal = deal;
 
         canvas.width = 400;
         canvas.height = 250;
@@ -13,8 +14,10 @@ export default class Canva {
     
 
 // function called once all images have loaded.
-loadDeal (images, deal) {
+loadDeal (images) {
     let context = this.canvas.getContext('2d');
+    let deal = this.deal;
+
     context.drawImage(images[0],0,0); // draw background
     // base positions
     for (let base = 100; deal.pizza > 0; base -= 30) {
