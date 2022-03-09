@@ -5,58 +5,33 @@ import Canva from "./deals";
 let deal1 = {
     hotwings: 1,
     pizza: 1,
-    mpizza: 0,
-    spizza: 0,
+    spizza: 1,
     drink: 1,
-    nuggets: 0,
-    zinger: 0,
-    fries: 0
+    sdrink: 2,
 };
 let deal2 = {
-    hotwings: 0,
     pizza: 1,
     mpizza: 1,
-    spizza: 0,
-    drink: 1,
-    nuggets: 0,
-    zinger: 0,
-    fries: 0
+    drink: 1
 };
 let deal3 = {
     hotwings: 1,
-    pizza: 0,
     mpizza: 1,
-    spizza: 0,
-    drink: 1,
-    nuggets: 0,
-    zinger: 0,
-    fries: 0
+    drink: 1
 };
 let deal4 = {
-    hotwings: 0,
     pizza: 2,
-    mpizza: 0,
-    spizza: 0,
-    drink: 1,
-    nuggets: 0,
-    zinger: 0,
-    fries: 0
+    drink: 1
 };
 let deal5 = {
     hotwings: 2,
     pizza: 2,
-    mpizza: 0,
-    spizza: 0,
     drink: 2,
-    nuggets: 0,
-    zinger: 3,
-    fries: 0
+    zinger: 3
 };
 let deal6 = {
     hotwings: 1,
     pizza: 3,
-    mpizza: 0,
-    spizza: 0,
     drink: 3,
     nuggets: 2,
     zinger: 5,
@@ -72,7 +47,7 @@ if (browser) {
     const canva5 = new Canva(canvas, document.querySelector("#canvasimg5"), deal5);
     const canva6 = new Canva(canvas, document.querySelector("#canvasimg6"), deal6);
 
-    let imageURL = ["deal-template.jpg","hotwings.png", "pizza.png", "drink.png", "nuggets.png", "zinger.png", "fries.png", "mpizza.png", "spizza.png"]; // list of image URLs
+    let imageURL = ["deal-template.jpg","hotwings.png", "pizza.png", "drink.png", "nuggets.png", "zinger.png", "fries.png", "mpizza.png", "spizza.png", "sdrink.png"]; // list of image URLs
     const images = []; /// array to hold images.
     let imageCount = 0; // number of loaded images;
 
@@ -96,6 +71,13 @@ if (browser) {
     });
 }
 
+const showNotificationOnCart = () => {
+    document.querySelector('#notificationCart').classList.remove('hidden');
+}
+const showNotificationOnBell = () => {
+    document.querySelector('#notificationBell').classList.remove('hidden');
+}
+
 </script>
 
 <!-- Generating images via canvas -->
@@ -112,7 +94,7 @@ if (browser) {
             </h1>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="relative w-full bg-gray-900 rounded-lg sahdow-lg overflow-hidden flex flex-col justify-center items-center">
+            <div class="relative w-full bg-gray-900 rounded-lg shadow-lg overflow-hidden flex flex-col justify-center items-center">
                 <div class="ribbon font-bold text-white whitespace-no-wrap px-4">
                     <div class="label">20% OFF</div>
                 </div>
@@ -128,15 +110,21 @@ if (browser) {
                             <li class="text-base text-gray-400 font-normal">1.5 litre drink</li>
                           </ul>
                     </div>
-                    <div class="py-8 sm:py-6">
+                    <div class="relative py-8 sm:py-6">
                         <p class="text-3xl text-white font-bold">1350</p>
                         <span class="text-base text-gray-400 font-normal">PKR</span>
+                        <button on:click={ showNotificationOnCart } class="adddealbutton absolute bottom-0 rounded-full bg-indigo-500 text-white drop-shadow-xl hover:bg-indigo-700">
+                            <span class="material-icons">
+                                add_shopping_cart
+                                </span>
+                        </button>
                     </div>
+                    
                 </div>
             </div>
 
 
-            <div class="relative w-full bg-gray-900 rounded-lg sahdow-lg overflow-hidden flex flex-col justify-center items-center">
+            <div class="relative w-full bg-gray-900 rounded-lg shadow-lg overflow-hidden flex flex-col justify-center items-center">
                 <div class="ribbon font-bold text-white whitespace-no-wrap px-4">
                     <div class="label">10% OFF</div>
                 </div>
@@ -155,12 +143,17 @@ if (browser) {
                     <div class="py-8 sm:py-6">
                         <p class="text-3xl text-white font-bold">1600</p>
                         <span class="text-base text-gray-400 font-normal">PKR</span>
+                        <button class="adddealbutton absolute bottom-0 rounded-full bg-indigo-500 text-white drop-shadow-xl hover:bg-indigo-700">
+                            <span class="material-icons">
+                                add_shopping_cart
+                                </span>
+                        </button>
                     </div>
                 </div>
             </div>
 
 
-            <div class="relative w-full bg-gray-900 rounded-lg sahdow-lg overflow-hidden flex flex-col justify-center items-center">
+            <div class="relative w-full bg-gray-900 rounded-lg shadow-lg overflow-hidden flex flex-col justify-center items-center">
                 <div class="ribbon font-bold text-white whitespace-no-wrap px-4">
                     <div class="label">15% OFF</div>
                 </div>
@@ -179,12 +172,17 @@ if (browser) {
                     <div class="py-8 sm:py-6">
                         <p class="text-3xl text-white font-bold">1050</p>
                         <span class="text-base text-gray-400 font-normal">PKR</span>
+                        <button class="adddealbutton absolute bottom-0 rounded-full bg-indigo-500 text-white drop-shadow-xl hover:bg-indigo-700">
+                            <span class="material-icons">
+                                add_shopping_cart
+                                </span>
+                        </button>
                     </div>
                 </div>
             </div>
 
 
-            <div class="relative w-full bg-gray-900 rounded-lg sahdow-lg overflow-hidden flex flex-col justify-center items-center">
+            <div class="relative w-full bg-gray-900 rounded-lg shadow-lg overflow-hidden flex flex-col justify-center items-center">
                 <div class="ribbon font-bold text-white whitespace-no-wrap px-4">
                     <div class="label">25% OFF</div>
                 </div>
@@ -202,12 +200,17 @@ if (browser) {
                     <div class="py-8 sm:py-6">
                         <p class="text-3xl text-white font-bold">1850</p>
                         <span class="text-base text-gray-400 font-normal">PKR</span>
+                        <button class="adddealbutton absolute bottom-0 rounded-full bg-indigo-500 text-white drop-shadow-xl hover:bg-indigo-700">
+                            <span class="material-icons">
+                                add_shopping_cart
+                                </span>
+                        </button>
                     </div>
                 </div>
             </div>
 
 
-            <div class="relative w-full bg-gray-900 rounded-lg sahdow-lg overflow-hidden flex flex-col justify-center items-center">
+            <div class="relative w-full bg-gray-900 rounded-lg shadow-lg overflow-hidden flex flex-col justify-center items-center">
                 <div class="ribbon font-bold text-white whitespace-no-wrap px-4">
                     <div class="label">9% OFF</div>
                 </div>
@@ -227,12 +230,17 @@ if (browser) {
                     <div class="py-8 sm:py-6">
                         <p class="text-3xl text-white font-bold">3300</p>
                         <span class="text-base text-gray-400 font-normal">PKR</span>
+                        <button class="adddealbutton absolute bottom-0 rounded-full bg-indigo-500 text-white drop-shadow-xl hover:bg-indigo-700">
+                            <span class="material-icons">
+                                add_shopping_cart
+                                </span>
+                        </button>
                     </div>
                 </div>
             </div>
 
 
-            <div class="relative w-full bg-gray-900 rounded-lg sahdow-lg overflow-hidden flex flex-col justify-center items-center">
+            <div class="relative w-full bg-gray-900 rounded-lg shadow-lg overflow-hidden flex flex-col justify-center items-center">
                 <div class="ribbon font-bold text-white whitespace-no-wrap px-4">
                     <div class="label">18% OFF</div>
                 </div>
@@ -253,15 +261,31 @@ if (browser) {
                     <div class="py-8 sm:py-6">
                         <p class="text-3xl text-white font-bold">5300</p>
                         <span class="text-base text-gray-400 font-normal">PKR</span>
+                        <button class="adddealbutton absolute bottom-0 rounded-full bg-indigo-500 text-white drop-shadow-xl hover:bg-indigo-700">
+                            <span class="material-icons">
+                                add_shopping_cart
+                                </span>
+                        </button>
                     </div>
                 </div>
             </div>
 
         </div>
+        <div class="text-center">
+            <button class="text-xl mt-12 bg-indigo-600 border border-transparent rounded-md py-3 px-8 text-white hover:bg-indigo-700">
+                Load all deals
+            </button>
+        </div>
     </section>
 </div>
 
 <style>
+
+    .adddealbutton {
+    padding: 10px;
+    bottom: 1rem;
+    }
+
     .canva {
         width: 440px;
     }

@@ -36,6 +36,10 @@ loadDeal (images) {
         context.drawImage(images[3],base,20); // draw drink
         deal.drink--;
     }
+    for (let base = 200; deal.sdrink > 0; base += 30) {
+        context.drawImage(images[9],base,120); // draw small drink
+        deal.sdrink--;
+    }
     for (let base = 30; deal.nuggets > 0; base += 30) {
         context.drawImage(images[4],base,90); // draw nuggets
         deal.nuggets--;
