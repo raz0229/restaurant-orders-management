@@ -8,6 +8,7 @@
 
 <header>
   <Title title={ businessName } />
+  
 </header>
 
 <main>
@@ -15,6 +16,5 @@
 </main>
 
 <Footer title ={ businessName }/>
-
 <style>
 </style>
