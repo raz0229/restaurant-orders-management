@@ -1,9 +1,9 @@
 <script>
-
+  export let hideCart = true;
 </script>
 
 
-<div class="fixed inset-0 z-30 overflow-hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+<div class:hidden={ hideCart } class="fixed inset-0 z-30 overflow-hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
     <div class="absolute inset-0 overflow-hidden">
       <!--
         Background overlay, show/hide based on slide-over state.
@@ -15,7 +15,7 @@
           From: "opacity-100"
           To: "opacity-0"
       -->
-      <div class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+      <div class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" on:click={()=>hideCart=true} aria-hidden="true"></div>
       <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
         <!--
           Slide-over panel, show/hide based on slide-over state.
@@ -38,7 +38,7 @@
               From: "opacity-100"
               To: "opacity-0"
           -->
-          <div class="absolute top-0 left-0 -ml-8 flex pt-20 pr-2 sm:-ml-10 sm:pr-4">
+          <div class="absolute top-0 left-0 -ml-8 flex pt-20 pr-2 sm:-ml-10 sm:pr-4" on:click="{ () => hideCart = true }">
             <button type="button" class="rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
               <span class="sr-only">Close panel</span>
               <!-- Heroicon name: outline/x -->

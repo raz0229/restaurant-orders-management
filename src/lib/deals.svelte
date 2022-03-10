@@ -2,6 +2,8 @@
 import { browser } from "$app/env";
 import Canva from "./deals";
 
+export let hideCart;
+
 let deal1 = {
     hotwings: 1,
     pizza: 1,
@@ -73,6 +75,7 @@ if (browser) {
 
 const showNotificationOnCart = () => {
     document.querySelector('#notificationCart').classList.remove('hidden');
+    hideCart = false;
 }
 const showNotificationOnBell = () => {
     document.querySelector('#notificationBell').classList.remove('hidden');
