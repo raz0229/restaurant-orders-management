@@ -1,5 +1,7 @@
 <script>
   import { cart } from './stores.js';
+  import { fly } from 'svelte/transition';
+  
   export let title = "Your Business"
   let isMobile = true;
 
@@ -69,7 +71,6 @@
           
         </button>
 
-        <!-- Profile dropdown -->
         <div class="ml-3 relative">
           <button on:click={showCart} type="button" class="relative bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
             <span class="sr-only">View notifications</span>
@@ -80,32 +81,17 @@
               </span>
             
           </button>
-          <!--
-            Dropdown menu, show/hide based on menu state.
-
-            Entering: "transition ease-out duration-100"
-              From: "transform opacity-0 scale-95"
-              To: "transform opacity-100 scale-100"
-            Leaving: "transition ease-in duration-75"
-              From: "transform opacity-100 scale-100"
-              To: "transform opacity-0 scale-95"
-          -->
-          <div class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-            <!-- Active: "bg-gray-100", Not Active: "" -->
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
-          </div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Mobile menu, show/hide based on menu state. -->
-  <div class="transition-all ease-in-out delay-150" class:hidden={ isMobile } id="mobile-menu">
+  {#if isMobile}
+  <div in:fly="{{ y: -200, duration: 500 }}" out:fly="{{ y: -200, duration: 500 }}" class="transition-all ease-in-out delay-150" id="mobile-menu">
     <div class="px-2 pt-2 pb-3 space-y-1">
       <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-      <a href="#" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Admin</a>
+      <a href="#" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Admin1</a>
 
       <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Deals</a>
 
@@ -114,6 +100,7 @@
       <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
     </div>
   </div>
+  {/if}
 </nav>
 
 <style>
