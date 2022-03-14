@@ -152,7 +152,7 @@ let dealArray = [
             "2 Zinger Burgers"
         ],
         deal: {
-            pizza: 3,
+            pizza: 1,
             drink: 1,
             nuggets: 2,
             zinger: 2

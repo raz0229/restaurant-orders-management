@@ -6,5 +6,23 @@
 
 h1,h2,h3,h4,a,p,li {
   font-family: 'DM Sans', sans-serif;
+}
 
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: #c2c9d2;
+}
+/* Track */
+::-webkit-scrollbar-track {
+background: #f1f1f1;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: #555;
 }
