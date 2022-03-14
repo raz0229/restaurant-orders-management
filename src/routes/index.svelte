@@ -5,6 +5,7 @@
   import Location from '$lib/location.svelte'
   import Testimonials from '$lib/testimonials.svelte'
   import { cart } from '$lib/stores';
+  import { browser } from '$app/env';
 
   let hideCart;
   cart.subscribe(val => {
@@ -13,14 +14,20 @@
 
 </script>
 
-<Cart bind:hideCart/>
-
+<Cart 
+  bind:hideCart
+  />
 <Promo/>
-
 <Location/>
-
-<Deals bind:hideCart/>
-
+<!-- 
+  (OPTIONAL)
+  MAX_DEALS can only be between 3 and deals.length 
+-->
+<Deals 
+  bind:hideCart
+  MAX_DEALS=3
+  showButton=true
+  />
 <Testimonials/>
 
 <style>

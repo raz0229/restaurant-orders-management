@@ -6,7 +6,7 @@ export default class Canva {
         this.canvas = canvas;
         this.img = img;
         this.deal = deal;
-
+        
         canvas.width = 400;
         canvas.height = 250;
 
@@ -58,7 +58,6 @@ loadDeal (images) {
     }
 
     this.img.setAttribute("src", this.canvas.toDataURL("img/png")); // populate source of provided blank image
-    
 }
 
 
