@@ -1,6 +1,7 @@
 <script>
     import Deals from "$lib/deals.svelte"
     import Cart from "$lib/cart.svelte"
+    import Products from "$lib/products.svelte"
     import {browser} from "$app/env"
     import { cart } from '$lib/stores';
 
@@ -8,9 +9,7 @@
   cart.subscribe(val => {
     hideCart = val;
   });
-
 //if (browser) location.reload();
-
 </script>
 
 <Cart 
@@ -20,3 +19,5 @@
 <Deals 
     bind:hideCart
 />
+
+<Products/>

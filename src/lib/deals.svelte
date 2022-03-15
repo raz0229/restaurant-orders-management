@@ -227,7 +227,7 @@ const showNotificationOnBell = () => {
                 <div class="ribbon font-bold text-white whitespace-no-wrap px-4">
                     <div class="label">{da.discount}% OFF</div>
                 </div>
-                <div>
+                <div class="zoom">
                     <img class="canva object-center object-cover h-auto w-full" id="canvasimg{i}" src="" alt="photo">
                 </div>
                 <div class="flex justify-between w-64">
@@ -269,6 +269,16 @@ const showNotificationOnBell = () => {
 
 <style>
 
+.zoom {
+    transition: transform 0.2s;
+}
+
+.zoom:hover {
+  -ms-transform: scale(1.1); /* IE 9 */
+  -webkit-transform: scale(1.1); /* Safari 3-8 */
+  transform: scale(1.1); 
+}
+
     .adddealbutton {
     padding: 10px;
     bottom: 1rem;
@@ -280,6 +290,7 @@ const showNotificationOnBell = () => {
 
 .ribbon {
 position: absolute;
+z-index: 10;
 display: block;
 top: -4px;
 right: 0;
