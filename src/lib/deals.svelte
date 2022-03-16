@@ -11,6 +11,7 @@ let canvas;
 
 let dealArray = [
     {
+        id: 0,
         title: "Today's Special",
         price: 1350,
         discount: 20,
@@ -26,6 +27,7 @@ let dealArray = [
         }
     },
     {
+        id: 1,
         title: "Regular Deal 1",
         price: 1600,
         discount: 10,
@@ -41,6 +43,7 @@ let dealArray = [
         }
     },
     {
+        id: 2,
         title: "Regular Deal 2",
         price: 1050,
         discount: 15,
@@ -56,6 +59,7 @@ let dealArray = [
         }
     },
     {
+        id: 3,
         title: "Regular Deal 3",
         price: 1850,
         discount: 25,
@@ -69,6 +73,7 @@ let dealArray = [
         }
     },
     {
+        id: 4,
         title: "Banger Deal 1",
         price: 3300,
         discount: 9,
@@ -86,6 +91,7 @@ let dealArray = [
         }
     },
     {
+        id: 5,
         title: "Banger Deal 2",
         price: 5300,
         discount: 18,
@@ -106,6 +112,7 @@ let dealArray = [
         }
     },
     {
+        id: 6,
         title: "Banger Deal 3",
         price: 4500,
         discount: 20,
@@ -125,6 +132,7 @@ let dealArray = [
         }
     },
     {
+        id: 7,
         title: "Special Deal 1",
         price: 2300,
         discount: 10,
@@ -142,6 +150,7 @@ let dealArray = [
         }
     },
     {
+        id: 8,
         title: "Special Deal 2",
         price: 2600,
         discount: 12,
@@ -201,10 +210,6 @@ const showNotificationOnBell = () => {
 }
 
 </script>
-
-{#each dealArray as x}
-<p></p>
-{/each}
 
 <!-- Generating images via canvas -->
 <canvas id="canvas" class="hidden" width="400" height="250"></canvas>
