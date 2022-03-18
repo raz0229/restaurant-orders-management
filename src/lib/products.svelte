@@ -1,6 +1,8 @@
 <script>
     export let loaded;
     export let products;
+    export let cartItems;
+
     let waiting = 0
     
     const notifyLoaded = () => {
@@ -18,11 +20,10 @@
         })
     }
 
-    const revealObj = obj => {
-        for(var property in obj) {
-    alert(property + "=" + obj[property]);
-}
+    const sendToCart = () => {
+        
     }
+    
 </script>
 
 <div class="bg-white">

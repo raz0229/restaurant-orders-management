@@ -1,12 +1,16 @@
 <script context="module">
   export async function load({ fetch }) {
-    const res = await fetch('/deals.json')
-    const { products } = await res.json()
+    const res = await fetch('/api')
+    const dealRes = await fetch('/api/deals')
 
+    const { dealArray } = await dealRes.json()
+    const { products } = await res.json()
+    
     if (res.ok) {
       return {
         props: {
-          products
+          products,
+          dealArray
         }
       }
     }
@@ -23,7 +27,8 @@
     import Cart from "$lib/cart.svelte"
     import Products from "$lib/products.svelte"
     import { cart } from '$lib/stores';
-
+    
+    export let dealArray;
     export let products;
 
   let hideCart;
@@ -56,6 +61,7 @@ const scrollHandler = () => {
 />
 
 <Deals
+    bind:dealArray
     bind:hideCart
 />
 

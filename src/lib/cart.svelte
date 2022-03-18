@@ -1,20 +1,35 @@
 <script>
   export let hideCart = true;
   import { fly, fade } from 'svelte/transition';
+  import { cartItems } from "./stores.js"
+  import { browser } from "$app/env"
+  let storedItems;
 
 const handleOverlay = () => {
     hideCart = true;
   }
 
-const increment = (e) => {
-  let qnt = parseInt(e.target.offsetParent.childNodes[2].innerText);
-  if(!(++qnt > 10)) e.target.offsetParent.childNodes[2].innerText = qnt;
+const updateQnt = (type, index) => {
+  let qnt = storedItems[index].qnt;
+  
+  if (type == 'inc') {
+    if(!(qnt >= 9)) ++storedItems[index].qnt; // increment counter
+  }
+  else { 
+    if(!(qnt <= 1)) --storedItems[index].qnt; // decrement counter
+  }
+
+  localStorage.setItem("cartItems", JSON.stringify(storedItems));
 }
 
-const decrement = e => {
-  let qnt = parseInt(e.target.offsetParent.childNodes[2].innerText);
-  if(!(--qnt <= 0)) e.target.offsetParent.childNodes[2].innerText = qnt;
+if (browser) {
+  cartItems.subscribe( arr => {
+    storedItems = JSON.parse(arr);
+  })
+
+
 }
+
 
 </script>
 
@@ -73,18 +88,22 @@ const decrement = e => {
 							</tr>
 						</thead>
 						<tbody>
+
+              {#if storedItems}
+              {#each storedItems as item, i}
 							<tr class="border-b border-gray-200">
 								<td class="px-5 py-5 bg-white text-sm">
-									<p class="text-gray-900 whitespace-no-wrap">Banger Deal 2</p>
+									<p class="text-gray-900 whitespace-no-wrap">{ item.title }</p>
 								</td>
 								<td class="flex align-center px-5 py-5 bg-white text-sm">
-                  <button on:click="{ increment }" class="text-white round bg-blue-400 disabled:bg-gray-200 hover:bg-blue-500"><span class="text-sm material-icons">
+                  <button on:click="{ ()=>updateQnt('inc', i) }" class="text-white round bg-blue-400 disabled:bg-gray-200 hover:bg-blue-500"><span class="text-sm material-icons">
                     add
                     </span></button>
+                  
 									<p class="text-gray-900 px-2 whitespace-no-wrap">
-										1
-									</p>
-                  <button on:click="{ decrement }" class="text-white round bg-blue-400 hover:bg-blue-500"><span class="text-sm material-icons">
+									{item.qnt}
+                  </p>
+                  <button on:click="{ ()=>updateQnt('dec', i) }" class="text-white round bg-blue-400 hover:bg-blue-500"><span class="text-sm material-icons">
                     remove
                     </span></button>
 								</td>
@@ -97,78 +116,9 @@ const decrement = e => {
 									</span>
 								</td>
 							</tr>
-							<tr class="border-b border-gray-200">
-								<td class="px-5 py-5 bg-white text-sm">
-									<p class="text-gray-900 whitespace-no-wrap">Coca Cola 1.5L</p>
-								</td>
-								<td class="flex align-center px-5 py-5 bg-white text-sm">
-                  <button on:click="{ increment }" class="text-white round bg-blue-400 disabled:bg-gray-200 hover:bg-blue-500"><span class="text-sm material-icons">
-                    add
-                    </span></button>
-									<p class="text-gray-900 px-2 whitespace-no-wrap">
-										1
-									</p>
-                  <button on:click="{ decrement }" class="text-white round bg-blue-400 hover:bg-blue-500"><span class="text-sm material-icons">
-                    remove
-                    </span></button>
-								</td>
-								<td class="px-5 py-5 bg-white text-sm">
-									<span
-                      class="relative inline-block px-3 py-1 font-semibold leading-tight">
-                          <span aria-hidden
-                            class="absolute inset-0 opacity-50 rounded-full"></span>
-									<span class="relative">120</span>
-									</span>
-								</td>
-							</tr>
-							<tr class="border-b border-gray-200">
-								<td class="px-5 py-5 bg-white text-sm">
-									<p class="text-gray-900 whitespace-no-wrap">Extra Cheesy Pizza (L)</p>
-								</td>
-								<td class="flex align-center px-5 py-5 bg-white text-sm">
-                  <button on:click="{ increment }" class="text-white round bg-blue-400 disabled:bg-gray-200 hover:bg-blue-500"><span class="text-sm material-icons">
-                    add
-                    </span></button>
-									<p class="text-gray-900 px-2 whitespace-no-wrap">
-										1
-									</p>
-                  <button on:click="{ decrement }" class="text-white round bg-blue-400 hover:bg-blue-500"><span class="text-sm material-icons">
-                    remove
-                    </span></button>
-								</td>
-								<td class="px-5 py-5 bg-white text-sm">
-									<span
-                      class="relative inline-block px-3 py-1 font-semibold leading-tight">
-                          <span aria-hidden
-                            class="absolute inset-0 opacity-50 rounded-full"></span>
-									<span class="relative">1200</span>
-									</span>
-								</td>
-							</tr>
-							<tr class="border-b border-gray-200">
-								<td class="px-5 py-5 bg-white text-sm">
-									<p class="text-gray-900 whitespace-no-wrap">10 Chicken Nuggets</p>
-								</td>
-								<td class="flex align-center px-5 py-5 bg-white text-sm">
-                  <button on:click="{ increment }" class="text-white round bg-blue-400 disabled:bg-gray-200 hover:bg-blue-500"><span class="text-sm material-icons">
-                    add
-                    </span></button>
-									<p class="text-gray-900 px-2 whitespace-no-wrap">
-										1
-									</p>
-                  <button on:click="{ decrement }" class="text-white round bg-blue-400 hover:bg-blue-500"><span class="text-sm material-icons">
-                    remove
-                    </span></button>
-								</td>
-								<td class="px-5 py-5 bg-white text-sm">
-									<span
-                      class="relative inline-block px-3 py-1 font-semibold leading-tight">
-                          <span aria-hidden
-                            class="absolute inset-0 opacity-50 rounded-full"></span>
-									<span class="relative">850</span>
-									</span>
-								</td>
-							</tr>
+              {/each}
+              {/if}
+							
 							
 						</tbody>
 					</table>

@@ -1,3 +1,23 @@
+<script context="module">
+  export async function load({ fetch }) {
+    const dealRes = await fetch('/api/deals')
+    const { dealArray } = await dealRes.json()
+    
+    if (dealRes.ok) {
+      return {
+        props: {
+          dealArray
+        }
+      }
+    }
+
+    return {
+      status: res.status,
+      error: new Error('Could not fetch the products')
+    }
+  }
+</script>
+
 <script>
   import Cart from "$lib/cart.svelte"
   import Promo from "$lib/promo.svelte"
@@ -6,6 +26,8 @@
   import Testimonials from '$lib/testimonials.svelte'
   import { cart } from '$lib/stores';
   import { browser } from '$app/env';
+  
+  export let dealArray;
 
   let hideCart;
   cart.subscribe(val => {
@@ -24,6 +46,7 @@
   MAX_DEALS can only be between 3 and deals.length 
 -->
 <Deals 
+  bind:dealArray
   bind:hideCart
   MAX_DEALS=3
   showButton=true

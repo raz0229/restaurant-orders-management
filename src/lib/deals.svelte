@@ -3,179 +3,23 @@ import { browser } from "$app/env";
 import { onMount } from "svelte";
 import Canva from "./deals";
 
+export let dealArray;
 export let hideCart;
 export let showButton = false;
 // MAX_DEALS can only be an integer between 3 and deals.length
 export let MAX_DEALS = 1; // set to 1 for deals.length
 let canvas;
-
-let dealArray = [
-    {
-        id: 0,
-        title: "Today's Special",
-        price: 1350,
-        discount: 20,
-        content: [
-            "1 Large Pizza",
-            "10 Hot Wings",
-            "1.5 litre drink"
-        ],
-        deal: {
-            hotwings: 1,
-            pizza: 1,
-            drink: 1
-        }
-    },
-    {
-        id: 1,
-        title: "Regular Deal 1",
-        price: 1600,
-        discount: 10,
-        content: [
-            "1 Large Pizza",
-            "1 Medium Pizza",
-            "1.5 litre drink"
-        ],
-        deal: {
-            pizza: 1,
-            mpizza: 1,
-            drink: 1
-        }
-    },
-    {
-        id: 2,
-        title: "Regular Deal 2",
-        price: 1050,
-        discount: 15,
-        content: [
-            "1 Medium Pizza",
-            "10 Hot Wings",
-            "1 litre drink"
-        ],
-        deal: {
-            hotwings: 1,
-            mpizza: 1,
-            drink: 1
-        }
-    },
-    {
-        id: 3,
-        title: "Regular Deal 3",
-        price: 1850,
-        discount: 25,
-        content: [
-            "2 Large Pizza",
-            "1.5 litre drink"
-        ],
-        deal: {
-            pizza: 2,
-            drink: 1
-        }
-    },
-    {
-        id: 4,
-        title: "Banger Deal 1",
-        price: 3300,
-        discount: 9,
-        content: [
-            "2 Large Pizza",
-            "3 Zinger Burgers",
-            "20 Hot wings",
-            "1.5 litre drinks (2)"
-        ],
-        deal: {
-            hotwings: 2,
-            pizza: 2,
-            drink: 2,
-            zinger: 3
-        }
-    },
-    {
-        id: 5,
-        title: "Banger Deal 2",
-        price: 5300,
-        discount: 18,
-        content: [
-            "3 Large Pizza",
-            "20 Chicken Nuggets",
-            "1.5 litre drinks (3)",
-            "5 Zinger Burgers",
-            "2 Family Fries"
-        ],
-        deal: {
-            hotwings: 1,
-            pizza: 3,
-            drink: 3,
-            nuggets: 2,
-            zinger: 5,
-            fries: 2
-        }
-    },
-    {
-        id: 6,
-        title: "Banger Deal 3",
-        price: 4500,
-        discount: 20,
-        content: [
-            "3 Large Pizza",
-            "20 Chicken Nuggets",
-            "1 litre drink (2)",
-            "2 Zinger Burgers",
-            "1 Family Fries"
-        ],
-        deal: {
-            pizza: 3,
-            sdrink: 2,
-            nuggets: 2,
-            zinger: 2,
-            fries: 1
-        }
-    },
-    {
-        id: 7,
-        title: "Special Deal 1",
-        price: 2300,
-        discount: 10,
-        content: [
-            "1 Large Pizza",
-            "1 Medium Pizza",
-            "1 Family Fries",
-            "1.5 litr drink"
-        ],
-        deal: {
-            pizza: 1,
-            mpizza: 1,
-            drink: 1,
-            fries: 1,
-        }
-    },
-    {
-        id: 8,
-        title: "Special Deal 2",
-        price: 2600,
-        discount: 12,
-        content: [
-            "1 Large Pizza",
-            "20 Chicken Nuggets",
-            "1.5 litre drink",
-            "2 Zinger Burgers"
-        ],
-        deal: {
-            pizza: 1,
-            drink: 1,
-            nuggets: 2,
-            zinger: 2
-        }
-    }
-]
+let storedItems;
 
 // how many deals to display
-if (!(MAX_DEALS > dealArray.length) && !(MAX_DEALS < 3)) dealArray.length = MAX_DEALS;
+    if (!(MAX_DEALS > dealArray.length) && !(MAX_DEALS < 3)) dealArray.length = MAX_DEALS;
 //else MAX_DEALS = dealArray.length // default behavior
+
 
 onMount(() => {
 
 if (browser) {
+
     canvas = document.querySelector('#canvas')
 
     let imageURL = ["deal-template.jpg","hotwings.png", "pizza.png", "drink.png", "nuggets.png", "zinger.png", "fries.png", "mpizza.png", "spizza.png", "sdrink.png"]; // list of image URLs
@@ -225,7 +69,6 @@ const showNotificationOnBell = () => {
             </h1>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
 
            {#each dealArray as da, i}
             <div class="relative w-full bg-gray-900 rounded-lg shadow-lg overflow-hidden flex flex-col justify-center items-center">
