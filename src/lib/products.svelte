@@ -1,4 +1,7 @@
 <script>
+import { dataset_dev } from "svelte/internal";
+
+
     export let loaded;
     export let products;
     export let cartItems;
@@ -22,6 +25,19 @@
 
     const sendToCart = () => {
         
+    }
+
+    /* DOM Magic */
+    const sizeSet = (t, e) => {
+        let price;
+        // set data-size to provided size {'l', 'm', 's'}
+        e.target.parentNode.parentNode.dataset.size = t
+
+        if (t == 'l') price = e.target.parentNode.parentNode.dataset.priceL
+        else if (t == 'm') price = e.target.parentNode.parentNode.dataset.priceM
+        else price = e.target.parentNode.parentNode.dataset.priceS
+
+        e.target.parentNode.parentNode.childNodes[2].textContent = `${price} PKR`;
     }
     
 </script>
@@ -56,9 +72,15 @@
                                 <span class="material-icons">add_shopping_cart</span>
                             </button>
                         </div>
-                        <div class="px-5 py-3">
+                        <div class="px-5 py-3 size-check" data-size="l" data-title="{item.title}"
+                            data-price-s="{item.priceS}" data-price-m="{item.priceM}" data-price-l="{item.priceL}">
                             <h3 class="text-gray-700 uppercase">{item.title}</h3>
-                            <span class="text-gray-500 mt-2">{item.priceM} PKR</span>
+                            <span class="text-gray-500 mt-2">{item.priceL} PKR</span>
+                            <div class="size">
+                                <span class="sizes" on:click="{()=>sizeSet('s', event)}">S</span>
+                                <span class="sizes" on:click="{()=>sizeSet('m', event)}">M</span>
+                                <span class="sizes" on:click="{()=>sizeSet('l', event)}">L</span>
+                            </div>
                         </div>
                     </div>
                     {/if}
@@ -81,9 +103,15 @@
                                 <span class="material-icons">add_shopping_cart</span>
                             </button>
                         </div>
-                        <div class="px-5 py-3">
+                        <div class="px-5 py-3 size-check" data-size="l" data-title="{item.title}"
+                            data-price-s="{item.priceS}" data-price-m="{item.priceM}" data-price-l="{item.priceL}">
                             <h3 class="text-gray-700 uppercase">{item.title}</h3>
-                            <span class="text-gray-500 mt-2">{item.priceM} PKR</span>
+                            <span class="text-gray-500 mt-2">{item.priceL} PKR</span>
+                            <div class="size">
+                                <span class="sizes" on:click="{()=>sizeSet('s', event)}">S</span>
+                                <span class="sizes" on:click="{()=>sizeSet('m', event)}">M</span>
+                                <span class="sizes" on:click="{()=>sizeSet('l', event)}">L</span>
+                            </div>
                         </div>
                     </div>
                     {/if}
@@ -104,9 +132,15 @@
                                 <span class="material-icons">add_shopping_cart</span>
                             </button>
                         </div>
-                        <div class="px-5 py-3">
+                        <div class="px-5 py-3 size-check" data-size="l" data-title="{item.title}"
+                            data-price-s="{item.priceS}" data-price-m="{item.priceM}" data-price-l="{item.priceL}">
                             <h3 class="text-gray-700 uppercase">{item.title}</h3>
-                            <span class="text-gray-500 mt-2">{item.priceM} PKR</span>
+                            <span class="text-gray-500 mt-2">{item.priceL} PKR</span>
+                            <div class="size">
+                                <span class="sizes" on:click="{()=>sizeSet('s', event)}">S</span>
+                                <span class="sizes" on:click="{()=>sizeSet('m', event)}">M</span>
+                                <span class="sizes" on:click="{()=>sizeSet('l', event)}">L</span>
+                            </div>
                         </div>
                     </div>
                     {/if}
@@ -138,6 +172,24 @@
                 </div>
 
 
+                <!-- Hidden data members to make the CSS work for some strange reason -->
+
+                <div class="hidden size-check" data-size="s">
+                    <div class="size">
+                        <span class="sizes"></span><span class="sizes"></span><span class="sizes"></span>
+                    </div>
+                </div>
+                <div class="hidden size-check" data-size="m">
+                    <div class="size">
+                        <span class="sizes"></span><span class="sizes"></span><span class="sizes"></span>
+                    </div>
+                </div>
+                <div class="hidden size-check" data-size="l">
+                    <div class="size">
+                        <span class="sizes"></span><span class="sizes"></span><span class="sizes"></span>
+                    </div>
+                </div>
+
 
             </div>
         </div>
@@ -155,4 +207,49 @@
   -webkit-transform: scale(1.1); /* Safari 3-8 */
   transform: scale(1.1); 
 }
+div.size {
+    position: relative;
+}
+div.size .sizes {
+    position: absolute;
+    cursor: pointer;
+    width: 2rem;
+    text-align: center;
+    padding: 3px;
+    border-radius: 20%;
+    font-size: 1rem;
+    font-weight: bold;
+    color: rgb(99 102 241);
+    border: solid 2px rgb(99 102 241);
+    bottom: -0.3rem;
+    transition: all 0.3s ease;
+}
+div.size .sizes:hover {
+    background-color: rgb(99 102 241);
+    color: #f7f7f7;
+}
+
+div.size .sizes:first-child {
+    right: 5.4rem;
+}
+div.size .sizes:nth-child(2) {
+    right: 3.2rem;
+}
+div.size .sizes:nth-child(3) {
+    right: 1rem;
+}
+
+.size-check[data-size='s'] .sizes:first-child {
+    background-color: rgb(99 102 241);
+    color: #f7f7f7;
+}
+.size-check[data-size='m'] .sizes:nth-child(2) {
+    background-color: rgb(99 102 241);
+    color: #f7f7f7;
+}
+.size-check[data-size='l'] .sizes:nth-child(3) {
+    background-color: rgb(99 102 241);
+    color: #f7f7f7;
+}
+
 </style>
