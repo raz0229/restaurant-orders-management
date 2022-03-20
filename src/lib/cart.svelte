@@ -3,11 +3,19 @@
   import { fly, fade } from 'svelte/transition';
   import { cartItems } from "./stores.js"
   import { browser } from "$app/env"
+
   let storedItems;
+  let totalPrice = 0;
 
 const handleOverlay = () => {
     hideCart = true;
-  }
+}
+
+const addToTotal = (val1, val2) => {
+    totalPrice = 0;
+    totalPrice += val1 * val2;
+    return val1 * val2;
+}
 
 const updateQnt = (type, index) => {
   let qnt = storedItems[index].qnt;
@@ -22,12 +30,16 @@ const updateQnt = (type, index) => {
   localStorage.setItem("cartItems", JSON.stringify(storedItems));
 }
 
+const clearCart = () => {
+  cartItems.set(null);
+  localStorage.setItem('cartItems', [])
+  document.querySelector('#notificationCart').classList.add('hidden'); // hide notification dot
+}
+
 if (browser) {
   cartItems.subscribe( arr => {
-    storedItems = JSON.parse(arr);
+      storedItems = arr ? JSON.parse(arr) : [];
   })
-
-
 }
 
 
@@ -70,6 +82,7 @@ if (browser) {
 		<div>
 			<div class="-mx-4 sm:-mx-8 py-4 overflow-x-auto">
 				<div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+          {#if storedItems}
 					<table class="min-w-full leading-normal">
 						<thead>
 							<tr>
@@ -88,8 +101,6 @@ if (browser) {
 							</tr>
 						</thead>
 						<tbody>
-
-              {#if storedItems}
               {#each storedItems as item, i}
 							<tr class="border-b border-gray-200">
 								<td class="px-5 py-5 bg-white text-sm">
@@ -112,33 +123,43 @@ if (browser) {
                       class="relative inline-block px-3 py-1 font-semibold leading-tight">
                           <span aria-hidden
                             class="absolute inset-0 opacity-50 rounded-full"></span>
-									<span class="relative">1700</span>
+									<span class="relative">{ addToTotal(item.qnt , item.price) }</span>
 									</span>
 								</td>
 							</tr>
               {/each}
-              {/if}
-							
-							
 						</tbody>
 					</table>
+          {:else}
+          <p class="text-red-500 px-6 text-xl mb-4 text-center whitespace-no-wrap"><em>Your Cart is empty!</em></p>
+          {/if}
 					<div
 						class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
 						<span class="text-xs xs:text-sm text-gray-900">
                             <span class="text-lg">Total Bill: </span><span
                             class="relative inline-block px-3 py-1 font-semibold text-lg text-green-900 leading-tight">
-                                <span aria-hidden
+                              <span aria-hidden
                                   class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                        <span class="relative">3870 PKR</span>
-                        </span>
-                        </span>
+                        
+                              <!-- Set total price to 0 instead of NaN when cart is cleared -->
+                                <span class="relative">
+                                  {#if storedItems.length === 0}
+                                    0 PKR
+                                  {:else}
+                                    { totalPrice } PKR
+                                  {/if}
+                                </span>
+                              </span>
+                            </span>
 						<div class="inline-flex mt-8 xs:mt-0">
-							<button
+							<button on:click="{clearCart}"
                                 class="text-sm text-red-400 transition duration-150 hover:bg-red-100 bg-white font-semibold py-2 px-4 rounded-l">
                                 Clear Cart
                             </button>
 							&nbsp; &nbsp;
-							<button
+
+              <!-- Disable Checkout if storedItems is null -->
+							<button class:disabled-btn="{!storedItems}"
                                 class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r">
                                 Checkout
                             </button>
@@ -173,6 +194,13 @@ if (browser) {
   {/if}
 
   <style>
+
+    .disabled-btn {
+      pointer-events: none;
+      background-color: rgba(150, 150, 150, 0.2);
+      color: #fff;
+
+    }
 
     .round {
       border-radius: 50%;
