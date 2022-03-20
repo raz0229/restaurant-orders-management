@@ -6,31 +6,40 @@
 
   let storedItems;
   let totalPrice = 0;
+  let pricesArray = [];
 
 const handleOverlay = () => {
     hideCart = true;
 }
 
 const addToTotal = (val1, val2) => {
-    totalPrice = 0;
-    totalPrice += val1 * val2;
-    return val1 * val2;
+    let price = val1 * val2
+    pricesArray.push(price)
+    totalPrice = pricesArray.reduce((a, b) => a + b, 0)
+    return price;
 }
 
 const updateQnt = (type, index) => {
   let qnt = storedItems[index].qnt;
   
   if (type == 'inc') {
-    if(!(qnt >= 9)) ++storedItems[index].qnt; // increment counter
+    if(!(qnt >= 9)) {
+      pricesArray = [];
+      ++storedItems[index].qnt; // increment counter
+    }
   }
   else { 
-    if(!(qnt <= 1)) --storedItems[index].qnt; // decrement counter
+    if(!(qnt <= 1)) {
+      pricesArray = [];
+      --storedItems[index].qnt; // decrement counter
+    }
   }
 
   localStorage.setItem("cartItems", JSON.stringify(storedItems));
 }
 
 const clearCart = () => {
+  pricesArray = []; // set total price to 0
   cartItems.set(null);
   localStorage.setItem('cartItems', [])
   document.querySelector('#notificationCart').classList.add('hidden'); // hide notification dot
