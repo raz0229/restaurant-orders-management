@@ -1,33 +1,42 @@
 <script>
-import { dataset_dev } from "svelte/internal";
+    import { cartItems } from "./stores"
+    import { browser } from "$app/env"
 
-
-    export let loaded;
     export let products;
-    export let cartItems;
+    let storedItems;
 
-    let waiting = 0
-    
-    const notifyLoaded = () => {
-        console.log('loaded all resources')
-        //loaded = true;
-    }
-    
-    const onload = el => {
-        waiting++
-        el.addEventListener('load', () => {
-            waiting--
-            if (waiting === 0) {
-                notifyLoaded()
-            }
-        })
-    }
+    const sendToCart = (e, arr) => {
+        document.querySelector('#notificationCart').classList.remove('hidden'); // show notification
 
-    const sendToCart = () => {
+        let price = 0, title = '';
+        let set = e.target.parentNode.parentNode.childNodes[2].dataset
         
+        switch (set.size) {
+            case 's':
+                price = set.priceS; title = `${set.title} (${arr[0]})`;
+                break;
+            case 'm':
+                price = set.priceM; title = `${set.title} (${arr[1]})`;
+                break;
+            default:
+                price = set.priceL; title = `${set.title} (${arr[2]})`;
+                break;
+        }
+
+        if (!storedItems.find(n=>n.title==title)) {
+            storedItems.push({
+                title,
+                qnt: 1,
+                price
+            })
+        }
+        
+        // stored in browser's localStorage
+        cartItems.set(JSON.stringify(storedItems))
+        localStorage.setItem('cartItems', JSON.stringify(storedItems));
     }
 
-    /* DOM Magic */
+    /* DOM Magic 🪄 */
     const sizeSet = (t, e) => {
         let price;
         // set data-size to provided size {'l', 'm', 's'}
@@ -39,12 +48,18 @@ import { dataset_dev } from "svelte/internal";
 
         e.target.parentNode.parentNode.childNodes[2].textContent = `${price} PKR`;
     }
+
+    if (browser) {
+        cartItems.subscribe( arr => {
+            storedItems = arr ? JSON.parse(arr) : [];
+        })
+    }
     
 </script>
 
 <div class="bg-white">
     <main class="my-8">
-        <div class="container mx-auto px-6">
+        <div class="relative container mx-auto px-6">
             
             <div class="mt-16">
                 <div class="text-center pb-12">
@@ -56,7 +71,16 @@ import { dataset_dev } from "svelte/internal";
                     </h1>
                 </div>
 
-
+                <div id="toast-success" class="fixed z-40 bottom-5 right-5 flex items-center p-4 mb-4 w-full max-w-xs text-white rounded-lg shadow bg-gray-800" role="alert">
+                    <div class="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 rounded-lg text-green-200">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                    </div>
+                    <div class="ml-3 text-sm font-normal">Item added to Cart.</div>
+                    <button type="button" class="ml-auto -mx-1.5 -my-1.5 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 inline-flex h-8 w-8 text-gray-500 hover:text-white dark:bg-gray-800 hover:bg-gray-700" data-collapse-toggle="toast-success" aria-label="Close">
+                        <span class="sr-only">Close</span>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    </button>
+                </div>
 
 <!--Regular Pizzas-->
 
@@ -67,9 +91,9 @@ import { dataset_dev } from "svelte/internal";
                     {#each products as item}
                     {#if item.id.substring(0,2) == "00"}
                     <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                        <div class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
+                        <div on:click="{()=>sendToCart(event, ['S', 'M', 'L'])}" class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
                             <button class="p-2 rounded-full bg-indigo-500 text-white mx-5 -mb-4 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-500">
-                                <span class="material-icons">add_shopping_cart</span>
+                                <span style="pointer-events: none;" class="material-icons">add_shopping_cart</span>
                             </button>
                         </div>
                         <div class="px-5 py-3 size-check" data-size="l" data-title="{item.title}"
@@ -98,9 +122,9 @@ import { dataset_dev } from "svelte/internal";
                     {#each products as item}
                     {#if item.id.substring(0,2) == "01"}
                     <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                        <div class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
+                        <div on:click="{()=>sendToCart(event, ['S', 'M', 'L'])}" class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
                             <button class="p-2 rounded-full bg-indigo-500 text-white mx-5 -mb-4 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-500">
-                                <span class="material-icons">add_shopping_cart</span>
+                                <span style="pointer-events: none;" class="material-icons">add_shopping_cart</span>
                             </button>
                         </div>
                         <div class="px-5 py-3 size-check" data-size="l" data-title="{item.title}"
@@ -127,9 +151,9 @@ import { dataset_dev } from "svelte/internal";
                     {#each products as item}
                     {#if item.id.substring(0,2) == "02"}
                     <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                        <div class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
+                        <div on:click="{()=>sendToCart(event, ['10', '15', '20'])}" class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
                             <button class="p-2 rounded-full bg-indigo-500 text-white mx-5 -mb-4 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-500">
-                                <span class="material-icons">add_shopping_cart</span>
+                                <span style="pointer-events: none;" class="material-icons">add_shopping_cart</span>
                             </button>
                         </div>
                         <div class="px-5 py-3 size-check" data-size="l" data-title="{item.title}"
@@ -137,9 +161,9 @@ import { dataset_dev } from "svelte/internal";
                             <h3 class="text-gray-700 uppercase">{item.title}</h3>
                             <span class="text-gray-500 mt-2">{item.priceL} PKR</span>
                             <div class="size">
-                                <span class="sizes" on:click="{()=>sizeSet('s', event)}">S</span>
-                                <span class="sizes" on:click="{()=>sizeSet('m', event)}">M</span>
-                                <span class="sizes" on:click="{()=>sizeSet('l', event)}">L</span>
+                                <span class="sizes" on:click="{()=>sizeSet('s', event)}">10</span>
+                                <span class="sizes" on:click="{()=>sizeSet('m', event)}">15</span>
+                                <span class="sizes" on:click="{()=>sizeSet('l', event)}">20</span>
                             </div>
                         </div>
                     </div>

@@ -1,21 +1,30 @@
 <script>
   export let hideCart = true;
   import { fly, fade } from 'svelte/transition';
-  import { cartItems } from "./stores.js"
-  import { browser } from "$app/env"
+  import { cartItems } from "./stores.js";
+  import { browser } from "$app/env";
 
   let storedItems;
-  let totalPrice = 0;
-  let pricesArray = [];
+
+  // watch for change in totalPrice and update accordingly
+  $: totalPrice = (function() {
+    let pp = 0;
+    
+    if (storedItems) {
+      storedItems.forEach(e => {
+        pp += (e.price * e.qnt)
+    })
+    }
+
+    return pp;
+})();
 
 const handleOverlay = () => {
     hideCart = true;
 }
 
 const addToTotal = (val1, val2) => {
-    let price = val1 * val2
-    pricesArray.push(price)
-    totalPrice = pricesArray.reduce((a, b) => a + b, 0)
+    let price = val1 * val2;
     return price;
 }
 
@@ -24,13 +33,13 @@ const updateQnt = (type, index) => {
   
   if (type == 'inc') {
     if(!(qnt >= 9)) {
-      pricesArray = [];
+      totalPrice = 0;
       ++storedItems[index].qnt; // increment counter
     }
   }
   else { 
     if(!(qnt <= 1)) {
-      pricesArray = [];
+      totalPrice= 0;
       --storedItems[index].qnt; // decrement counter
     }
   }
@@ -39,7 +48,7 @@ const updateQnt = (type, index) => {
 }
 
 const clearCart = () => {
-  pricesArray = []; // set total price to 0
+  totalPrice = 0; // set total price to 0
   cartItems.set(null);
   localStorage.setItem('cartItems', [])
   document.querySelector('#notificationCart').classList.add('hidden'); // hide notification dot
@@ -50,7 +59,6 @@ if (browser) {
       storedItems = arr ? JSON.parse(arr) : [];
   })
 }
-
 
 </script>
 
@@ -109,7 +117,7 @@ if (browser) {
 								</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="table-cart">
               {#each storedItems as item, i}
 							<tr class="border-b border-gray-200">
 								<td class="px-5 py-5 bg-white text-sm">
