@@ -162,9 +162,15 @@ import { dataset_dev } from "svelte/internal";
                                 <span class="material-icons">add_shopping_cart</span>
                             </button>
                         </div>
-                        <div class="px-5 py-3">
+                        <div class="px-5 py-3 size-check" data-title="{item.title}"
+                            data-price="{item.price}">
                             <h3 class="text-gray-700 uppercase">{item.title}</h3>
                             <span class="text-gray-500 mt-2">{item.price} PKR</span>
+                            <div class="size">
+                                <span class="sizes static">S</span>
+                                <span class="sizes static">M</span>
+                                <span class="sizes static">L</span>
+                            </div>
                         </div>
                     </div>
                     {/if}
@@ -224,7 +230,12 @@ div.size .sizes {
     bottom: -0.3rem;
     transition: all 0.3s ease;
 }
-div.size .sizes:hover {
+div.size .static {
+    cursor: not-allowed;
+    color: #b9b9b9;
+    border: solid 2px #b9b9b9;
+}
+div.size .sizes:hover:not(.static:hover) {
     background-color: rgb(99 102 241);
     color: #f7f7f7;
 }
