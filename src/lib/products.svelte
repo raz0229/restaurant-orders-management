@@ -1,9 +1,11 @@
 <script>
     import { cartItems } from "./stores"
     import { browser } from "$app/env"
+    import { fly } from "svelte/transition"
 
     export let products;
     let storedItems;
+    let hideToast = true;
 
     const sendToCart = (e, arr) => {
         document.querySelector('#notificationCart').classList.remove('hidden'); // show notification
@@ -34,6 +36,12 @@
         // stored in browser's localStorage
         cartItems.set(JSON.stringify(storedItems))
         localStorage.setItem('cartItems', JSON.stringify(storedItems));
+        
+        hideToast = false;    
+        setTimeout(() => {
+            hideToast = true; // wait explicitly for 5 seconds before toast disappears
+        }, 5000)
+    
     }
 
     /* DOM Magic 🪄 */
@@ -71,16 +79,19 @@
                     </h1>
                 </div>
 
-                <div id="toast-success" class="fixed z-40 bottom-5 right-5 flex items-center p-4 mb-4 w-full max-w-xs text-white rounded-lg shadow bg-gray-800" role="alert">
+            <!-- TOAST NOTIFICATION -->
+            {#if !hideToast}
+                <div id="toast-success" in:fly="{{ y: 200, duration: 500 }}" out:fly="{{ y: 0, duration: 500 }}" class="fixed z-40 bottom-5 left-5 flex items-center p-4 mb-4 w-full max-w-xs text-white rounded-lg shadow bg-gray-800" role="alert">
                     <div class="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 rounded-lg text-green-200">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                     </div>
                     <div class="ml-3 text-sm font-normal">Item added to Cart.</div>
-                    <button type="button" class="ml-auto -mx-1.5 -my-1.5 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 inline-flex h-8 w-8 text-gray-500 hover:text-white dark:bg-gray-800 hover:bg-gray-700" data-collapse-toggle="toast-success" aria-label="Close">
+                    <button on:click="{()=>hideToast = true}" type="button" class="ml-auto -mx-1.5 -my-1.5 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 inline-flex h-8 w-8 text-gray-500 hover:text-white dark:bg-gray-800 hover:bg-gray-700" data-collapse-toggle="toast-success" aria-label="Close">
                         <span class="sr-only">Close</span>
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                     </button>
                 </div>
+            {/if}
 
 <!--Regular Pizzas-->
 
