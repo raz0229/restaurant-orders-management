@@ -7,21 +7,24 @@
     let storedItems;
     let hideToast = true;
 
-    const sendToCart = (e, arr) => {
+    const sendToCart = (e, arr=['','','']) => {
         document.querySelector('#notificationCart').classList.remove('hidden'); // show notification
 
         let price = 0, title = '';
-        let set = e.target.parentNode.parentNode.childNodes[2].dataset
+        let set = e.target.parentNode.parentNode?.childNodes[2].dataset
         
         switch (set.size) {
-            case 's':
+            case 's':   // size is small
                 price = set.priceS; title = `${set.title} (${arr[0]})`;
                 break;
-            case 'm':
+            case 'm':   // size is medium
                 price = set.priceM; title = `${set.title} (${arr[1]})`;
                 break;
-            default:
+            case 'l':   // size is large
                 price = set.priceL; title = `${set.title} (${arr[2]})`;
+                break;
+            default:    // size is static
+                price = set.price; title = `${set.title}`;
                 break;
         }
 
@@ -192,13 +195,13 @@
                     {#each products as item}
                     {#if item.id.substring(0,2) == "03"}
                     <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                        <div class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
+                        <div on:click="{()=>sendToCart(event)}" class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
                             <button class="p-2 rounded-full bg-indigo-500 text-white mx-5 -mb-4 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-500">
-                                <span class="material-icons">add_shopping_cart</span>
+                                <span class="material-icons" style="pointer-events: none;">add_shopping_cart</span>
                             </button>
                         </div>
                         <div class="px-5 py-3 size-check" data-title="{item.title}"
-                            data-price="{item.price}">
+                            data-price="{item.price}" data-size="st">
                             <h3 class="text-gray-700 uppercase">{item.title}</h3>
                             <span class="text-gray-500 mt-2">{item.price} PKR</span>
                             <div class="size">
