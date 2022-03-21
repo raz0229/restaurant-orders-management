@@ -1,5 +1,12 @@
 <script>
     import Stars from "$lib/stars.svelte"
+
+    export let reviews, showButton = false;
+    export let MAX_REVIEWS = 1; // set to 1 for deals.length
+
+    // how many reviews to display
+    if (!(MAX_REVIEWS > reviews.length) && !(MAX_REVIEWS < 3)) reviews.length = MAX_REVIEWS;
+
 </script>
 
 <!-- component -->
@@ -16,106 +23,34 @@
         <p class="text-gray-400 font-normal text-base">Happy reviews by our happy customers. So, sit back, relax and watch your favorite TV show while we work on your order. You can post your own review here on our site through the Reviews page.</p>
     </div>
     <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        {#each reviews as rev}
         <div class="bg-white rounded-lg p-6">
             <div class="flex items-center space-x-6 mb-4">
                 <span class="material-icons h-28 w-28 pl-4 object-cover object-center text-8xl">
                     account_circle
                     </span>
                 <div>
-                    <p class="text-xl text-gray-700 font-normal mb-1">Muhammad Iqbal</p>
+                    <p class="text-xl text-gray-700 font-normal mb-1">{rev.title}</p>
                     <p class="text-base text-gray-400 font-normal">
-                        <Stars stars=4/>
+                        <Stars stars={rev.stars}/>
                     </p>
                 </div>
             </div>
             <div>
-                <p class="text-gray-400 leading-loose font-normal text-base">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p class="text-gray-400 leading-loose font-normal text-base">{ rev.comment }</p>
             </div>
         </div>
-        <div class="bg-white rounded-lg p-6">
-            <div class="flex items-center space-x-6 mb-4">
-                <span class="material-icons h-28 w-28 pl-4 object-cover object-center text-8xl">
-                    account_circle
-                    </span>
-                <div>
-                    <p class="text-xl text-gray-700 font-normal mb-1">Ali Janjua</p>
-                    <p class="text-base text-gray-400 font-normal">
-                        <Stars stars=4/>
-                    </p>
-                </div>
-            </div>
-            <div>
-                <p class="text-gray-400 leading-loose font-normal text-base">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            </div>
-        </div>
-        <div class="bg-white rounded-lg p-6">
-            <div class="flex items-center space-x-6 mb-4">
-                <span class="material-icons h-28 w-28 pl-4 object-cover object-center text-8xl">
-                    account_circle
-                    </span>
-                <div>
-                    <p class="text-xl text-gray-700 font-normal mb-1">Wajiha Sahreen</p>
-                    <p class="text-base text-gray-400 font-normal">
-                        <Stars stars=4/>
-                    </p>
-                </div>
-            </div>
-            <div>
-                <p class="text-gray-400 leading-loose font-normal text-base">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            </div>
-        </div>
-        <div class="bg-white rounded-lg p-6">
-            <div class="flex items-center space-x-6 mb-4">
-                <span class="material-icons h-28 w-28 pl-4 object-cover object-center text-8xl">
-                    account_circle
-                    </span>
-                <div>
-                    <p class="text-xl text-gray-700 font-normal mb-1">Hurairah Randhawa</p>
-                    <p class="text-base text-gray-400 font-normal">
-                        <Stars stars=3/>
-                    </p>
-                </div>
-            </div>
-            <div>
-                <p class="text-gray-400 leading-loose font-normal text-base">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            </div>
-        </div>
-        <div class="bg-white rounded-lg p-6">
-            <div class="flex items-center space-x-6 mb-4">
-                <span class="material-icons h-28 w-28 pl-4 object-cover object-center text-8xl">
-                    account_circle
-                    </span>
-                <div>
-                    <p class="text-xl text-gray-700 font-normal mb-1">Zafar Iqbal Raja</p>
-                    <p class="text-base text-gray-400 font-normal">
-                        <Stars stars=4/>
-                    </p>
-                </div>
-            </div>
-            <div>
-                <p class="text-gray-400 leading-loose font-normal text-base">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            </div>
-        </div>
-        <div class="bg-white rounded-lg p-6">
-            <div class="flex items-center space-x-6 mb-4">
-                <span class="material-icons h-28 w-28 pl-4 object-cover object-center text-8xl">
-                    account_circle
-                    </span>
-                <div>
-                    <p class="text-xl text-gray-700 font-normal mb-1">Rabbia Naz</p>
-                    <p class="text-base text-gray-400 font-normal">
-                        <Stars/>
-                    </p>
-                </div>
-            </div>
-            <div>
-                <p class="text-gray-400 leading-loose font-normal text-base">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            </div>
-        </div>
+        {/each}
+
     </div>
+
+    {#if showButton}
     <div class="text-center">
-        <button class="text-xl mt-12 bg-indigo-600 border border-transparent rounded-md py-3 px-8 text-white hover:bg-indigo-700">
+        <button on:click="{()=>location.href='/reviews'}" class="text-xl mt-12 bg-indigo-600 border border-transparent rounded-md py-3 px-8 text-white hover:bg-indigo-700">
             Load all reviews
         </button>
     </div>
+    {/if}
+
 </section>

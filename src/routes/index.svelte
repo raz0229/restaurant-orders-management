@@ -1,19 +1,20 @@
 <script context="module">
   export async function load({ fetch }) {
     const dealRes = await fetch('/api/deals')
-    const { dealArray } = await dealRes.json()
+    const { dealArray, reviews } = await dealRes.json()
     
     if (dealRes.ok) {
       return {
         props: {
-          dealArray
+          dealArray,
+          reviews
         }
       }
     }
 
     return {
       status: res.status,
-      error: new Error('Could not fetch the products')
+      error: new Error('Could not fetch the deals or reviews')
     }
   }
 </script>
@@ -28,6 +29,7 @@
   import { browser } from '$app/env';
   
   export let dealArray;
+  export let reviews;
 
   let hideCart;
   cart.subscribe(val => {
@@ -51,7 +53,15 @@
   MAX_DEALS=3
   showButton=true
   />
-<Testimonials/>
+<!-- 
+  (OPTIONAL)
+  MAX_REVIEWS can only be between 3 and deals.length 
+-->
+<Testimonials
+  bind:reviews
+  MAX_REVIEWS=6
+  showButton=true
+  />
 
 <style>
 

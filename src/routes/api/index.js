@@ -142,11 +142,13 @@ export async function get() {
         price: 150,
         img: "/menu/french-fries.jpg"
       }
-    ]
+    ];
   
     return {
         status: 200,
-        body: { products } 
+        body: { 
+          products 
+        } 
     }
     
   
