@@ -2,7 +2,7 @@
     import Stars from "$lib/stars.svelte"
 
     export let reviews, showButton = false;
-    export let MAX_REVIEWS = 1; // set to 1 for deals.length
+    export let MAX_REVIEWS = 1; // set to 1 for reviews.length
 
     // how many reviews to display
     if (!(MAX_REVIEWS > reviews.length) && !(MAX_REVIEWS < 3)) reviews.length = MAX_REVIEWS;
@@ -31,7 +31,9 @@
                     account_circle
                     </span>
                 <div>
-                    <p class="text-xl text-gray-700 font-normal mb-1">{rev.title}</p>
+                    <p class="text-xl text-gray-700 font-normal">{rev.title}</p>
+                    <p  on:click="{()=>location.href=`mailto:${rev.email}`}"
+                        class="rev-email text-sm text-indigo-400 fonr-normal mb-1"><em>{rev.email}</em></p>
                     <p class="text-base text-gray-400 font-normal">
                         <Stars stars={rev.stars}/>
                     </p>
@@ -54,3 +56,12 @@
     {/if}
 
 </section>
+
+<style>
+    .rev-email {
+        cursor: pointer;
+    }
+    .rev-email:hover {
+        text-decoration: underline;
+    }
+</style>

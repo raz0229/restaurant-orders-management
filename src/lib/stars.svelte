@@ -1,6 +1,6 @@
 <script>
     export let stars = 5; // 5-stars review by default
-
+    
     const loadStars = () => {
         if (stars === 0) return false
         stars--;
