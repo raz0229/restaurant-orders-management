@@ -3,11 +3,24 @@
 
     export let reviews, showButton = false;
     export let MAX_REVIEWS = 1; // set to 1 for reviews.length
+    export let showModal;
 
     // how many reviews to display
     if (!(MAX_REVIEWS > reviews.length) && !(MAX_REVIEWS < 3)) reviews.length = MAX_REVIEWS;
 
 </script>
+{#if !showButton}
+    <div class="text-center">
+        <button on:click="{()=>showModal=true}" class="text-xl mt-24 mb-10 bg-indigo-600 border border-transparent rounded-md py-3 px-8 text-white hover:bg-indigo-700">
+            <span class="material-icons" style="vertical-align: text-bottom;">
+                create
+            </span> Write a Review
+        </button>
+    </div>
+    <div class="py-4">
+        <div class="w-full border-t border-gray-300"></div>
+    </div>
+{/if}
 
 <!-- component -->
 <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12 mt-8">

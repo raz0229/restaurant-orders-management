@@ -22,10 +22,11 @@
       import Testimonials from "$lib/testimonials.svelte"
       import Cart from "$lib/cart.svelte"
       import { cart } from '$lib/stores'
+      import { fade } from "svelte/transition"
       
       export let reviews;
   
-    let hideCart;
+    let hideCart, showModal;
     let starCount = 4, charCount = 0, errorMessage = '';
     let fullname = '', email = '', textBox = '';
 
@@ -74,11 +75,12 @@
   
   <Testimonials
       bind:reviews
+      bind:showModal
   />
   
-
-  <!-- component -->
-<div id="abs" class="absolute min-h-screen flex items-center w-full justify-center bg-gray-200/50 py-12 px-4 sm:px-6 lg:px-8 relative items-center">
+{#if showModal}
+    <!-- Write a Review Modal -->
+<div  in:fade out:fade id="abs" class="absolute min-h-screen flex items-center w-full justify-center bg-gray-200/50 py-12 px-4 sm:px-6 lg:px-8 relative items-center">
     <div class="absolute bg-black opacity-60 inset-0 z-0"></div>
     <div class="mt-12 max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-lg z-10">
     <div class="grid  gap-8 grid-cols-1">
@@ -123,7 +125,7 @@
                                 </div>
                                 <p class="text-xs text-red-500 text-right my-3">{ errorMessage }</p>
                                 <div class="mt-5 text-right md:space-x-3 md:block flex flex-col-reverse">
-                                    <button id="cancel-btn" class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"> Cancel </button>
+                                    <button on:click="{()=>showModal=false}" id="cancel-btn" class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"> Cancel </button>
                                     <button on:click="{checkValidity}" id="submit-btn" class="disabled:bg-gray-300 mb-2 md:mb-0 bg-indigo-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg disabled:shadow-sm hover:bg-indigo-600">Submit</button>
                                 </div>
                             </div>
@@ -132,6 +134,8 @@
                 </div>
             </div>
         </div>
+
+{/if}
 
 <style>
     #abs {

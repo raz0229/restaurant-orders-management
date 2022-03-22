@@ -5,6 +5,7 @@
   import { browser } from "$app/env";
 
   let storedItems;
+  let delivery = 250;
 
   // watch for change in totalPrice and update accordingly
   $: totalPrice = (function() {
@@ -152,7 +153,10 @@ if (browser) {
           {/if}
 					<div
 						class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
-						<span class="text-xs xs:text-sm text-gray-900">
+						<span class="text-xs xs:text-sm text-gray-900" style="text-align: center;">
+                          <div class="relative px-3 py-1 mb-2 font-semibold text-sm text-yellow-600 leading-tight">
+                            Delivery Charges: <span class="font-normal">{delivery} PKR</span>
+                          </div>
                             <span class="text-lg">Total Bill: </span><span
                             class="relative inline-block px-3 py-1 font-semibold text-lg text-green-900 leading-tight">
                               <span aria-hidden
@@ -163,7 +167,7 @@ if (browser) {
                                   {#if storedItems.length === 0}
                                     0 PKR
                                   {:else}
-                                    { totalPrice } PKR
+                                    { totalPrice + delivery } PKR
                                   {/if}
                                 </span>
                               </span>

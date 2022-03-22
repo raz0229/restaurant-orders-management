@@ -3,7 +3,7 @@
 export async function get() {
   // connect to db to fetch & parse data
  
-  const products = [
+  const guides = [
     { id: 1, title: 'some title' },
     { id: 2, title: 'some title 2' },
     { id: 3, title: 'some title 3' },
@@ -13,6 +13,10 @@ export async function get() {
 
   return {
     status: 200,
-    body: { products } 
+    body: { guides } 
   }
 }
+
+// other handlers
+export async function post() {}
+export async function del() {}
