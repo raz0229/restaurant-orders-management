@@ -12,7 +12,7 @@
 	export let message
 </script>
 
-<div class="error">
+<div class="mt-20 error">
   <h2>Oops</h2>
   <p>{message}</p>
   <a href="/guides">View all guides</a>

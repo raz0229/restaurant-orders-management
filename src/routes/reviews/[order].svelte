@@ -1,12 +1,14 @@
 <script context="module">
-    export async function load({ fetch }) {
-      const res = await fetch('/api/reviews')
+    export async function load({ page, fetch }) {
+    let order = page.params.order;
+      const res = await fetch(`/api/reviews?order=${order}`)
       const { reviews } = await res.json()
       
       if (res.ok) {
         return {
           props: {
-            reviews
+            reviews,
+            order
           }
         }
       }
@@ -23,16 +25,22 @@
       import Cart from "$lib/cart.svelte"
       import { cart } from '$lib/stores'
       import { fade } from "svelte/transition"
+      import { browser } from "$app/env"
+      import { goto } from "$app/navigation";
+      import { page } from "$app/stores"; 
       
       export let reviews;
+      export let order;
   
     let hideCart, showModal;
     let starCount = 4, charCount = 0, errorMessage = '';
-    let fullname = '', email = '', textBox = '';
+    let fullname = '', email = '', textBox = '', selection;
 
     cart.subscribe(val => {
       hideCart = val;
     });
+
+    $: param = selection;
   
     const starSet = (length) => {
         const starDiv = document.querySelector('#star-set');
@@ -68,15 +76,24 @@
         errorMessage = '';
     }
 
+    const onnn = () => {
+        console.log('button clicked')
+    // $page.query.set('order', 'oldest'); 
+    // goto(`?${$page.query.toString()}`);
+    order = selection;
+    }
 
   </script>
   <Cart
       bind:hideCart
   />
-  
+
+  <h1 class="mt-20">{ order }</h1>
+
   <Testimonials
       bind:reviews
       bind:showModal
+      bind:selection
   />
   
 {#if showModal}
@@ -135,8 +152,9 @@
                 </div>
             </div>
         </div>
-
 {/if}
+
+<button on:click="{onnn}">asdasd</button>
 
 <style>
     #abs {

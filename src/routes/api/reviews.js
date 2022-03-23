@@ -1,10 +1,13 @@
 // import db
 import { db } from "$lib/app";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 
-const getDocuments = async () => {
+const getDocuments = async (sr) => { 
     let arr = [];
-    const querySnapshot = await getDocs(collection(db, "reviews"));
+    const ref = collection(db, 'reviews')
+    const q = query(ref, orderBy(sr), limit(20));  // default limit is 20 reviews
+
+    const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
         arr.push(Object.assign(doc.data()));
     });
@@ -13,11 +16,15 @@ const getDocuments = async () => {
 
 let reviews = [];
 
-export async function get() {
+export async function get({ query }) {
     
-    await getDocuments().then( review => {
+    let sort = query.get('order') ? query.get('order') : 'title'; // sort by default is by title 
+    console.log(sort)
+    
+    await getDocuments(sort).then( review => {
         reviews = review;
     })
+
 
     return {
         status: 200,
