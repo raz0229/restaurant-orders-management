@@ -1,9 +1,12 @@
 <script context="module">
   export async function load({ fetch }) {
     const dealRes = await fetch('/api/deals')
-    const { dealArray, reviews } = await dealRes.json()
+    const res = await fetch('api/reviews')
+
+    const { dealArray } = await dealRes.json()
+    const { reviews } = await res.json()
     
-    if (dealRes.ok) {
+    if (res.ok) {
       return {
         props: {
           dealArray,
@@ -26,7 +29,6 @@
   import Location from '$lib/location.svelte'
   import Testimonials from '$lib/testimonials.svelte'
   import { cart } from '$lib/stores';
-  import { browser } from '$app/env';
   
   export let dealArray;
   export let reviews;

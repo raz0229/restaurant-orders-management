@@ -1,6 +1,6 @@
 <script context="module">
     export async function load({ fetch }) {
-      const res = await fetch('/api/deals')
+      const res = await fetch('/api/reviews')
       const { reviews } = await res.json()
       
       if (res.ok) {
@@ -67,6 +67,7 @@
         document.querySelector('#submit-btn').disabled = false;
         errorMessage = '';
     }
+
 
   </script>
   <Cart
