@@ -19,7 +19,6 @@ let reviews = [];
 export async function get({ query }) {
     
     let sort = query.get('order') ? query.get('order') : 'title'; // sort by default is by title 
-    console.log(sort)
     
     await getDocuments(sort).then( review => {
         reviews = review;
@@ -28,7 +27,7 @@ export async function get({ query }) {
 
     return {
         status: 200,
-        body: { reviews } 
+        body: { reviews }
     }
   
 }

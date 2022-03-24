@@ -1,5 +1,6 @@
 <script>
     import Stars from "$lib/stars.svelte"
+    import { fade } from "svelte/transition"
 
     export let reviews, showButton = false;
     export let MAX_REVIEWS = 1; // set to 1 for reviews.length
@@ -10,6 +11,9 @@
 
 
     export const updateRevs = async () => {
+
+        reviews.length = 0;
+
         await fetch(`/api/reviews?order=${selection}`, { 
 		  method: "GET",
 		  mode: "cors",
@@ -71,7 +75,7 @@
 
 
 
-    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div in:fade out:fade class="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
         {#each reviews as rev}
         <div class="bg-white rounded-lg p-6">
             <div class="flex items-center space-x-6 mb-4">
@@ -95,6 +99,14 @@
         {/each}
 
     </div>
+
+    {#if !showButton}
+    <div class="text-center">
+        <button on:click="{()=>location.href='/reviews'}" class="text-xl mt-12 bg-indigo-600 border border-transparent rounded-md py-3 px-8 text-white hover:bg-indigo-700">
+            Load more
+        </button>
+    </div>
+    {/if}
 
     {#if showButton}
     <div class="text-center">

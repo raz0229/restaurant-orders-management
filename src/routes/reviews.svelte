@@ -23,9 +23,6 @@
       import Cart from "$lib/cart.svelte"
       import { cart } from '$lib/stores'
       import { fade } from "svelte/transition"
-      import { browser } from "$app/env"
-      import { goto } from "$app/navigation";
-      import { page } from "$app/stores"; 
       
       export let reviews;
   
@@ -37,8 +34,6 @@
       hideCart = val;
     });
 
-    $: param = selection;
-  
     const starSet = (length) => {
         const starDiv = document.querySelector('#star-set');
         for (let i = 0; i < starDiv.children.length; i++) {
@@ -51,16 +46,15 @@
         }
     }
 
-    const updateCharCount = () => {
-        charCount = textBox.length;
+    const checkValidity = () => {
+        charCount = textBox.trim().length;
         
         if (charCount > 200) disableSubmitBtn('Only 200 characters or less allowed')
-        else checkValidity()
-    }
-
-    const checkValidity = () => {
-        if ((fullname.trim().length >= 3) && (/\S+@\S+\.\S+/.test(email))) enableSubmitBtn()
-        else disableSubmitBtn('Please enter valid credentials')
+        else if (charCount == 0) disableSubmitBtn('Text Box cannot be blank')
+        else {
+            if ((fullname.trim().length >= 3) && (/\S+@\S+\.\S+/.test(email))) enableSubmitBtn()
+            else disableSubmitBtn('Please enter valid credentials')
+        }
     }
 
     const disableSubmitBtn = (msg) => {
@@ -71,6 +65,20 @@
     const enableSubmitBtn = () => {
         document.querySelector('#submit-btn').disabled = false;
         errorMessage = '';
+    }
+
+    const postData = async () => {
+        document.querySelector('#submit-btn').disabled = true;
+        const res = await fetch('/api/reviews/create', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({title: fullname, stars: starCount, email, comment: textBox})
+        });
+
+        if (res.ok) location.href = '/reviews'
     }
 
   </script>
@@ -84,7 +92,14 @@
       bind:selection
       bind:updateRevs
   />
-  
+
+{#if reviews.length == 0}
+    <!-- Spinner Loader -->
+    <div in:fade="{{duration: 300}}" class="top-0 right-0 padding-3 w-screen z-50 flex justify-center items-center">
+        <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-indigo-500"></div>
+    </div>    
+{/if}
+
 {#if showModal}
     <!-- Write a Review Modal -->
 <div  in:fade out:fade id="abs" class="absolute min-h-screen flex items-center w-full justify-center bg-gray-200/50 py-12 px-4 sm:px-6 lg:px-8 relative items-center">
@@ -102,12 +117,12 @@
                         <div class="md:flex flex-row md:space-x-4 w-full text-xs">
                             <div class="mb-3 space-y-2 w-full text-xs">
                                 <label class="font-semibold text-gray-600 py-2">Your Name</label>
-                                <input placeholder="Full Name" type="text" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" bind:value={fullname} required="required" name="integration[shop_name]" id="integration_shop_name">
+                                <input on:keyup="{checkValidity}" placeholder="Full Name" type="text" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" bind:value={fullname} required="required" name="integration[shop_name]" id="integration_shop_name">
                                 <p class="text-red text-xs hidden">Please fill out this field.</p>
                             </div>
                             <div class="mb-3 space-y-2 w-full text-xs">
                                 <label class="font-semibold text-gray-600 py-2">Your  Email</label>
-                                <input placeholder="Valid Email ID" type="email" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" bind:value={email} required="required" name="integration[shop_name]" id="integration_shop_name">
+                                <input on:keyup="{checkValidity}" placeholder="Valid Email ID" type="email" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" bind:value={email} required="required" name="integration[shop_name]" id="integration_shop_name">
                                 <p class="text-red text-xs hidden">Please fill out this field.</p>
                             </div>
                         </div>
@@ -127,13 +142,13 @@
                                 </div>
                                 <div class="flex-auto w-full mb-1 text-xs space-y-2">
                                     <label class="font-semibold text-gray-600 py-2">Comment</label>
-                                    <textarea on:keyup="{updateCharCount}" bind:value="{textBox}" id="text-box" required="required" name="message" class="w-full min-h-[100px] max-h-[300px] h-28 appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg  py-4 px-4" placeholder="Write a brief review of less than 200 characters" spellcheck="false"></textarea>
+                                    <textarea on:keyup="{checkValidity}" bind:value="{textBox}" id="text-box" required="required" name="message" class="w-full min-h-[100px] max-h-[300px] h-28 appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg  py-4 px-4" placeholder="Write a brief review of less than 200 characters" spellcheck="false"></textarea>
                                     <p class="text-xs text-gray-400 text-left my-3">You inserted { charCount } characters</p>
                                 </div>
                                 <p class="text-xs text-red-500 text-right my-3">{ errorMessage }</p>
                                 <div class="mt-5 text-right md:space-x-3 md:block flex flex-col-reverse">
                                     <button on:click="{()=>showModal=false}" id="cancel-btn" class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"> Cancel </button>
-                                    <button on:click="{checkValidity}" id="submit-btn" class="disabled:bg-gray-300 mb-2 md:mb-0 bg-indigo-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg disabled:shadow-sm hover:bg-indigo-600">Submit</button>
+                                    <button on:click="{postData}" id="submit-btn" disabled class="disabled:bg-gray-300 mb-2 md:mb-0 bg-indigo-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg disabled:shadow-sm hover:bg-indigo-600">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -153,5 +168,8 @@
     }
     #submit-btn {
         transition: all 0.3s ease;
+    }
+    .padding-3 {
+        padding: 5rem;
     }
 </style>
