@@ -8,6 +8,23 @@
     // how many reviews to display
     if (!(MAX_REVIEWS > reviews.length) && !(MAX_REVIEWS < 3)) reviews.length = MAX_REVIEWS;
 
+
+    export const updateRevs = async () => {
+        await fetch(`/api/reviews?order=${selection}`, { 
+		  method: "GET",
+		  mode: "cors",
+		  cache: "no-cache",
+		  credentials: "same-origin"
+		}).then((res) => {
+		  if (res.status == 200) {
+			res.json().then((data) => {
+                reviews = data.reviews;
+			  })
+            }
+        })
+    
+    }
+
 </script>
 {#if !showButton}
     <div class="text-center">
@@ -43,7 +60,7 @@
 <div>
     <span class="text-gray-600">Sort By:</span>
     <span class="rounded-sm">
-        <select class="bg-gray-200 p-1 rounded-md" bind:value="{selection}">
+        <select class="bg-gray-200 p-1 rounded-md" bind:value="{selection}" on:change="{updateRevs}">
             <option value="title">Name</option>
             <option value="latest">Latest First</option>
             <option value="oldest">Oldest</option>

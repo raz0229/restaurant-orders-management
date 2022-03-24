@@ -1,14 +1,12 @@
 <script context="module">
-    export async function load({ page, fetch }) {
-    let order = page.params.order;
-      const res = await fetch(`/api/reviews?order=${order}`)
+    export async function load({ fetch }) {
+      const res = await fetch(`/api/reviews`)
       const { reviews } = await res.json()
       
       if (res.ok) {
         return {
           props: {
-            reviews,
-            order
+            reviews
           }
         }
       }
@@ -30,9 +28,8 @@
       import { page } from "$app/stores"; 
       
       export let reviews;
-      export let order;
   
-    let hideCart, showModal;
+    let hideCart, showModal, updateRevs;
     let starCount = 4, charCount = 0, errorMessage = '';
     let fullname = '', email = '', textBox = '', selection;
 
@@ -76,24 +73,16 @@
         errorMessage = '';
     }
 
-    const onnn = () => {
-        console.log('button clicked')
-    // $page.query.set('order', 'oldest'); 
-    // goto(`?${$page.query.toString()}`);
-    order = selection;
-    }
-
   </script>
   <Cart
       bind:hideCart
   />
 
-  <h1 class="mt-20">{ order }</h1>
-
   <Testimonials
       bind:reviews
       bind:showModal
       bind:selection
+      bind:updateRevs
   />
   
 {#if showModal}
@@ -153,8 +142,6 @@
             </div>
         </div>
 {/if}
-
-<button on:click="{onnn}">asdasd</button>
 
 <style>
     #abs {
