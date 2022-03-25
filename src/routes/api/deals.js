@@ -18,7 +18,7 @@ let dealArray = [];
 
 export async function get({ query }) {
     
-    let sort = query.get('order') ? query.get('order') : 'title'; // sort by default is by title 
+    let sort = query.get('order') ? query.get('order') : 'title'; // sort by default is 'by title' 
     
     await getDocuments(sort).then( deal => {
         dealArray = deal;

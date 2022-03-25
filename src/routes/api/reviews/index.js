@@ -1,26 +1,37 @@
 // import db
 import { db } from "$lib/app";
-import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
+import { collection, getDocs, query, orderBy, limit, startAfter } from "firebase/firestore";
 
-const getDocuments = async (sr) => { 
+let reviews = [];
+let lastVisible = null;
+
+const getDocuments = async (sr, update, doc) => { 
     let arr = [];
     const ref = collection(db, 'reviews')
-    const q = query(ref, orderBy(sr), limit(20));  // default limit is 20 reviews
+    const q = query(ref, orderBy(sr), startAfter(doc || 0), limit(20));  // default limit is 20 reviews
 
     const querySnapshot = await getDocs(q);
+    if (update) lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1]
+    //const snap = await loadMore(querySnapshot, ref, sr);
+
     querySnapshot.forEach((doc) => {
-        arr.push(Object.assign(doc.data()));
+        if (doc.data()) arr.push(Object.assign(doc.data()));
     });
     return arr;
 }
 
-let reviews = [];
-
 export async function get({ query }) {
     
     let sort = query.get('order') ? query.get('order') : 'title'; // sort by default is by title 
+
+    let update;     // if true, next limit of data will be sent back
+    if (query.get('update')) update = true;
+    else {
+        update = false
+        lastVisible = null
+    }
     
-    await getDocuments(sort).then( review => {
+    await getDocuments(sort, update, lastVisible).then( review => {
         reviews = review;
     })
 
