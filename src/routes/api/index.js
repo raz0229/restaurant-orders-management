@@ -1,13 +1,49 @@
-// import db
+import { db } from "$lib/app";
+import { collection, getDocs, query } from "firebase/firestore";
+
+const getDocuments = async () => { 
+
+  let prices = new Map();
+
+    const ref = collection(db, 'prices')
+    const querySnapshot = await getDocs(query(ref));
+
+    querySnapshot.forEach((doc) => {
+
+      let temp = doc.data()
+
+      if (temp.price) prices.set(doc.id, {price: temp.price}) // for static prices
+      else {
+        prices.set(doc.id, {
+            priceS: temp.priceS,
+            priceM: temp.priceM,
+            priceL: temp.priceL
+        })
+      }
+      
+    });
+
+    return prices
+}
+
 
 export async function get() {
-    // connect to db to fetch & parse data
 
+  /*
+    products are fixed. (cant be added or removed through admin dashboard).
+    prices are fetched from Cloud Firestore for easy and secure access and modification.
+    products array is populated with fetched prices.
+    prices must cohere with Product ID of products array.
+  */
+
+const prices = await getDocuments()
+
+console.log(prices)
     const products = [
       {
         id: "00-00",
         title: "Chicken Tikka",
-        priceS: 400, priceM: 650, priceL: 950,
+        priceS: prices.get('00-00').priceS, priceM: prices.get('00-00').priceS, priceL: prices.get('00-00').priceS,
         img: "/menu/chicken-tikka.jpg"
       },
       {

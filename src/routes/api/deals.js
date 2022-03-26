@@ -5,7 +5,7 @@ import { collection, getDocs, query, orderBy } from "firebase/firestore";
 const getDocuments = async (sr) => { 
     let arr = [];
     const ref = collection(db, 'deals')
-    const q = query(ref, orderBy(sr));  // default limit is 20 reviews
+    const q = query(ref, orderBy(sr)); 
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
