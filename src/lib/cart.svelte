@@ -56,7 +56,12 @@ const clearCart = () => {
 }
 
 const checkout = () => {
+  let arr = [];
+  const table = document.querySelector('#table-cart');
+  
+  table.childNodes.forEach(obj => arr.push(obj.dataset))
 
+  console.log(arr)
 }
 
 if (browser) {
@@ -124,7 +129,7 @@ if (browser) {
 						</thead>
 						<tbody id="table-cart">
               {#each storedItems as item, i}
-							<tr class="border-b border-gray-200" data-id="{item.id}" data-qnt="{item.qnt}" >
+							<tr class="border-b border-gray-200" data-id="{item.id}" data-qnt="{item.qnt}" data-size="{item.size}" >
 								<td class="px-5 py-5 bg-white text-sm">
 									<p class="text-gray-900 whitespace-no-wrap">{ item.title }</p>
 								</td>

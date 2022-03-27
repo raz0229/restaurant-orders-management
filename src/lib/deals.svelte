@@ -50,13 +50,16 @@ if (browser) {
 
 })
 
-const showNotificationOnCart = (title, price) => {
+// send items to cart
+const showNotificationOnCart = (id, title, price) => {
     document.querySelector('#notificationCart').classList.remove('hidden');
     hideCart = false;
 
     // cant add the same item to cart twice
-    if (!storedItems.find(n=>n.title==title)) {
+    if (!storedItems.find(n=>n.id==id)) {
         storedItems.push({
+        id,
+        size: 'st',
         title,
         qnt: 1,
         price
@@ -107,7 +110,7 @@ const showNotificationOnBell = () => {
                     <div class="relative py-8 sm:py-6">
                         <p class="text-3xl text-white font-bold">{da.price}</p>
                         <span class="text-base text-gray-400 font-normal">PKR</span>
-                        <button on:click={ ()=>showNotificationOnCart(da.title, da.price) } class="adddealbutton absolute bottom-0 rounded-full bg-indigo-500 text-white drop-shadow-xl hover:bg-indigo-700">
+                        <button on:click={ ()=>showNotificationOnCart(da.id, da.title, da.price) } class="adddealbutton absolute bottom-0 rounded-full bg-indigo-500 text-white drop-shadow-xl hover:bg-indigo-700">
                             <span class="material-icons">
                                 add_shopping_cart
                                 </span>

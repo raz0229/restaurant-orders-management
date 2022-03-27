@@ -10,28 +10,29 @@
     const sendToCart = (e, arr=['','','']) => {
         document.querySelector('#notificationCart').classList.remove('hidden'); // show notification
 
-        let price = 0, title = '', id = '';
+        let price = 0, title = '';
         let set = e.target.parentNode.parentNode?.childNodes[2].dataset
         
         switch (set.size) {
             case 's':   // size is small
-                price = set.priceS; title = `${set.title} (${arr[0]})`; id = set.id;
+                price = set.priceS; title = `${set.title} (${arr[0]})`;
                 break;
             case 'm':   // size is medium
-                price = set.priceM; title = `${set.title} (${arr[1]})`; id = set.id;
+                price = set.priceM; title = `${set.title} (${arr[1]})`;
                 break;
             case 'l':   // size is large
-                price = set.priceL; title = `${set.title} (${arr[2]})`; id = set.id;
+                price = set.priceL; title = `${set.title} (${arr[2]})`;
                 break;
             default:    // size is static
-                price = set.price; title = `${set.title}`; id = set.id;
+                price = set.price; title = `${set.title}`;
                 break;
         }
 
         // check if item already exists in cart
-        if (!storedItems.find(n=>n.id==id)) {
+        if (!storedItems.find(n=>n.id==set.id)) {
             storedItems.push({
-                id,
+                id: set.id,
+                size: set.size,
                 title,
                 qnt: 1,
                 price
