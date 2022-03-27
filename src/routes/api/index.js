@@ -180,10 +180,9 @@ let products = [
       }
     ];
   
-
     // populate array with fetched prices
     products.filter(obj => {
-      if (obj.price) obj.price = prices.get(obj.id).price;
+      if (obj.price !== undefined ) obj.price = prices.get(obj.id).price;
       else {
         obj.priceS = prices.get(obj.id).priceS;
         obj.priceM = prices.get(obj.id).priceM;
