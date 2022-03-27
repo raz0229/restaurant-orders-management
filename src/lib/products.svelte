@@ -10,26 +10,28 @@
     const sendToCart = (e, arr=['','','']) => {
         document.querySelector('#notificationCart').classList.remove('hidden'); // show notification
 
-        let price = 0, title = '';
+        let price = 0, title = '', id = '';
         let set = e.target.parentNode.parentNode?.childNodes[2].dataset
         
         switch (set.size) {
             case 's':   // size is small
-                price = set.priceS; title = `${set.title} (${arr[0]})`;
+                price = set.priceS; title = `${set.title} (${arr[0]})`; id = set.id;
                 break;
             case 'm':   // size is medium
-                price = set.priceM; title = `${set.title} (${arr[1]})`;
+                price = set.priceM; title = `${set.title} (${arr[1]})`; id = set.id;
                 break;
             case 'l':   // size is large
-                price = set.priceL; title = `${set.title} (${arr[2]})`;
+                price = set.priceL; title = `${set.title} (${arr[2]})`; id = set.id;
                 break;
             default:    // size is static
-                price = set.price; title = `${set.title}`;
+                price = set.price; title = `${set.title}`; id = set.id;
                 break;
         }
 
-        if (!storedItems.find(n=>n.title==title)) {
+        // check if item already exists in cart
+        if (!storedItems.find(n=>n.id==id)) {
             storedItems.push({
+                id,
                 title,
                 qnt: 1,
                 price
@@ -111,7 +113,7 @@
                             </button>
                         </div>
                         <div class="px-5 py-3 size-check" data-size="l" data-title="{item.title}"
-                            data-price-s="{item.priceS}" data-price-m="{item.priceM}" data-price-l="{item.priceL}">
+                             data-id="{item.id}" data-price-s="{item.priceS}" data-price-m="{item.priceM}" data-price-l="{item.priceL}">
                             <h3 class="text-gray-700 uppercase">{item.title}</h3>
                             <span class="text-gray-500 mt-2">{item.priceL} PKR</span>
                             <div class="size">
@@ -142,7 +144,7 @@
                             </button>
                         </div>
                         <div class="px-5 py-3 size-check" data-size="l" data-title="{item.title}"
-                            data-price-s="{item.priceS}" data-price-m="{item.priceM}" data-price-l="{item.priceL}">
+                        data-id="{item.id}" data-price-s="{item.priceS}" data-price-m="{item.priceM}" data-price-l="{item.priceL}">
                             <h3 class="text-gray-700 uppercase">{item.title}</h3>
                             <span class="text-gray-500 mt-2">{item.priceL} PKR</span>
                             <div class="size">
@@ -171,7 +173,7 @@
                             </button>
                         </div>
                         <div class="px-5 py-3 size-check" data-size="l" data-title="{item.title}"
-                            data-price-s="{item.priceS}" data-price-m="{item.priceM}" data-price-l="{item.priceL}">
+                        data-id="{item.id}" data-price-s="{item.priceS}" data-price-m="{item.priceM}" data-price-l="{item.priceL}">
                             <h3 class="text-gray-700 uppercase">{item.title}</h3>
                             <span class="text-gray-500 mt-2">{item.priceL} PKR</span>
                             <div class="size">
@@ -201,7 +203,7 @@
                             </button>
                         </div>
                         <div class="px-5 py-3 size-check" data-title="{item.title}"
-                            data-price="{item.price}" data-size="st">
+                        data-id="{item.id}" data-price="{item.price}" data-size="st">
                             <h3 class="text-gray-700 uppercase">{item.title}</h3>
                             <span class="text-gray-500 mt-2">{item.price} PKR</span>
                             <div class="size">

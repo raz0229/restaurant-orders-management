@@ -55,6 +55,10 @@ const clearCart = () => {
   document.querySelector('#notificationCart').classList.add('hidden'); // hide notification dot
 }
 
+const checkout = () => {
+
+}
+
 if (browser) {
   cartItems.subscribe( arr => {
       storedItems = arr ? JSON.parse(arr) : [];
@@ -120,7 +124,7 @@ if (browser) {
 						</thead>
 						<tbody id="table-cart">
               {#each storedItems as item, i}
-							<tr class="border-b border-gray-200">
+							<tr class="border-b border-gray-200" data-id="{item.id}" data-qnt="{item.qnt}" >
 								<td class="px-5 py-5 bg-white text-sm">
 									<p class="text-gray-900 whitespace-no-wrap">{ item.title }</p>
 								</td>
@@ -180,7 +184,8 @@ if (browser) {
 							&nbsp; &nbsp;
 
               <!-- Disable Checkout if storedItems is null -->
-							<button class:disabled-btn="{!storedItems}"
+							<button on:click="{checkout}"
+                                class:disabled-btn="{!storedItems}"
                                 class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r">
                                 Checkout
                             </button>
