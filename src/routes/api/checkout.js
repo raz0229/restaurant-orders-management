@@ -1,6 +1,6 @@
 // import db
 import { db } from "$lib/config/app";
-import { getDeals, getProductsPopulatedWithPrices, getMetadata } from "$lib/config/controllers";
+import { getDeals, getProductsPopulatedWithPrices, getMetadata, getActiveHours } from "$lib/config/controllers";
 import { collection, addDoc } from "firebase/firestore"; 
 
 const postData = async (content) => {
@@ -47,15 +47,23 @@ const createContent = ( arrayToManipulate, deals, products ) => {
 export async function post({ body }) {
   
     try {
-        const products = await getProductsPopulatedWithPrices();
+        const isActiveHours = await getActiveHours();
 
-        const deals = await getDeals();
+        if (isActiveHours) {
+            const products = await getProductsPopulatedWithPrices();
+            const deals = await getDeals();
 
-        const content = await createContent(body, deals, products);
+            const content = await createContent(body, deals, products);
     
-        console.log(content)
-        //await postData(body)
+            console.log(content)
+            //await postData(body)
     
+        } else {
+            return {
+                status: 500
+            }
+        }
+
         return {
             status: 200
         }

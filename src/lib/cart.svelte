@@ -1,12 +1,13 @@
 <script>
   export let hideCart = true;
+  import ErrorModal from "$lib/errorModal.svelte"
   import { fly, fade } from 'svelte/transition';
   import { cartItems } from "./stores.js";
   import { browser } from "$app/env";
 
   let storedItems;
   let delivery = 250;
-  let toCheckout = false;
+  let toCheckout = false, showErrorModal, errorMessage, errorFix;
 
   // watch for change in totalPrice and update accordingly
   $: totalPrice = (function() {
@@ -76,7 +77,15 @@ const checkout = async () => {
 
         // order placed successully
         if (res.status == 200) toCheckout = false;
-        else console.log('something went wrong')
+        else if (res.status == 500) {
+          showErrorModal = true;
+          errorMessage = 'Inactive hours!'
+          errorFix = 'Service is currently unavailable. Try again in active hours'
+        } else {
+          showErrorModal = true;
+          errorMessage = 'Something went wrong!'
+          errorFix = 'Try again after clearing the cart out.'
+        }
 }
 
 if (browser) {
@@ -87,10 +96,12 @@ if (browser) {
 
 </script>
 
-
 {#if !hideCart}
+
 <div class="fixed inset-0 z-30" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
     <div class="absolute inset-0">
+
+
       <div in:fade out:fade class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" on:click={handleOverlay} aria-hidden="true"></div>
       <div class="fixed inset-y-0 right-0 flex max-w-full pl-10">
         
@@ -111,13 +122,13 @@ if (browser) {
               <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Proceed to Checkout</h2>
             </div>
             
-            
-
-
-
-
-
-
+            {#if showErrorModal}
+              <ErrorModal
+                bind:showErrorModal
+                bind:errorMessage
+                bind:errorFix
+              />
+            {/if}
 
             <!-- component -->
 <div class="lg:p-8 p-4 rounded-md w-full">

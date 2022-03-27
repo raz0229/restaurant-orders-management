@@ -1,5 +1,5 @@
 import { db, products } from "$lib/config/app";
-import { collection, getDocs, query } from "firebase/firestore";
+import { collection, getDocs, query, doc, getDoc } from "firebase/firestore";
 
 const getPrices = async () => {
 
@@ -36,6 +36,19 @@ export const getDeals = async () => {
       arr.push(Object.assign(doc.data()));
   });
   return arr;
+}
+
+export const getActiveHours = async () => {
+  const ref = doc(db, "settings", "active-hours");
+  const snap = await getDoc(ref);
+  const hour = new Date().getUTCHours();
+
+  if (snap.exists()) {
+    return new Promise((resolve) => {
+      if ((hour > snap.data().startUTC) && (hour < snap.data().endUTC)) resolve(true)
+      resolve(false)
+    })
+  } 
 }
 
 export const prices = await getPrices();
