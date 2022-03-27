@@ -33,6 +33,7 @@
             storedItems.push({
                 id: set.id,
                 size: set.size,
+                type: 'product',
                 title,
                 qnt: 1,
                 price
@@ -114,7 +115,7 @@
                             </button>
                         </div>
                         <div class="px-5 py-3 size-check" data-size="l" data-title="{item.title}"
-                             data-id="{item.id}" data-price-s="{item.priceS}" data-price-m="{item.priceM}" data-price-l="{item.priceL}">
+                            data-id="{item.id}" data-price-s="{item.priceS}" data-price-m="{item.priceM}" data-price-l="{item.priceL}">
                             <h3 class="text-gray-700 uppercase">{item.title}</h3>
                             <span class="text-gray-500 mt-2">{item.priceL} PKR</span>
                             <div class="size">

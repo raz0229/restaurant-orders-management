@@ -1,5 +1,5 @@
 // import db
-import { db } from "$lib/app";
+import { db } from "$lib/config/app";
 import { collection, getDocs, query, orderBy, limit, startAfter } from "firebase/firestore";
 
 let reviews = [];

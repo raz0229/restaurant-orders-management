@@ -1,5 +1,5 @@
 // import db
-import { db } from "$lib/app";
+import { db } from "$lib/config/app";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
 const getDocuments = async (sr) => { 
@@ -18,12 +18,11 @@ let dealArray = [];
 
 export async function get({ query }) {
     
-    let sort = query.get('order') ? query.get('order') : 'title'; // sort by default is 'by title' 
+    let sort = query.get('order') ? query.get('order') : 'id'; // sort by default is 'by id' 
     
     await getDocuments(sort).then( deal => {
         dealArray = deal;
     })
-
 
     return {
         status: 200,

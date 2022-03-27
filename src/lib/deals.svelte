@@ -60,6 +60,7 @@ const showNotificationOnCart = (id, title, price) => {
         storedItems.push({
         id,
         size: 'st',
+        type: 'deal',
         title,
         qnt: 1,
         price

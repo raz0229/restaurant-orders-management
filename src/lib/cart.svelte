@@ -6,6 +6,7 @@
 
   let storedItems;
   let delivery = 250;
+  let toCheckout = false;
 
   // watch for change in totalPrice and update accordingly
   $: totalPrice = (function() {
@@ -55,13 +56,27 @@ const clearCart = () => {
   document.querySelector('#notificationCart').classList.add('hidden'); // hide notification dot
 }
 
-const checkout = () => {
+const checkout = async () => {
   let arr = [];
+  toCheckout = true;
   const table = document.querySelector('#table-cart');
   
   table.childNodes.forEach(obj => arr.push(obj.dataset))
 
   console.log(arr)
+  document.querySelector('#checkout-btn').disabled = true;
+        const res = await fetch('/api/checkout', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(Object.assign(arr))
+        });
+
+        // order placed successully
+        if (res.status == 200) toCheckout = false;
+        else console.log('something went wrong')
 }
 
 if (browser) {
@@ -109,6 +124,7 @@ if (browser) {
 		<div>
 			<div class="-mx-4 sm:-mx-8 py-4 overflow-x-auto">
 				<div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+
           {#if storedItems}
 					<table class="min-w-full leading-normal">
 						<thead>
@@ -129,7 +145,8 @@ if (browser) {
 						</thead>
 						<tbody id="table-cart">
               {#each storedItems as item, i}
-							<tr class="border-b border-gray-200" data-id="{item.id}" data-qnt="{item.qnt}" data-size="{item.size}" >
+							<tr class="border-b border-gray-200" data-id="{item.id}" data-qnt="{item.qnt}" 
+                data-size="{item.size}" data-type="{item.type}">
 								<td class="px-5 py-5 bg-white text-sm">
 									<p class="text-gray-900 whitespace-no-wrap">{ item.title }</p>
 								</td>
@@ -185,15 +202,16 @@ if (browser) {
 							<button on:click="{clearCart}"
                                 class="text-sm text-red-400 transition duration-150 hover:bg-red-100 bg-white font-semibold py-2 px-4 rounded-l">
                                 Clear Cart
-                            </button>
+              </button>
 							&nbsp; &nbsp;
 
               <!-- Disable Checkout if storedItems is null -->
-							<button on:click="{checkout}"
+							<button on:click="{checkout}" id="checkout-btn"
                                 class:disabled-btn="{!storedItems}"
                                 class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r">
+                                <span class:animate-spin="{toCheckout}" class:hidden="{!toCheckout}" class="material-icons" style="vertical-align: bottom;">loop</span>
                                 Checkout
-                            </button>
+              </button>
 						</div>
 					</div>
 				</div>
