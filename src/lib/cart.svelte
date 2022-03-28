@@ -4,9 +4,13 @@
   import { fly, fade } from 'svelte/transition';
   import { cartItems } from "./stores.js";
   import { browser } from "$app/env";
+  import { getDeliveryCharges } from "$lib/config/controllers"
 
   let storedItems;
-  let delivery = 250;
+  let delivery = 0;
+  // fetch delivery charges
+  getDeliveryCharges().then(price => delivery = price)
+
   let toCheckout = false, showErrorModal, errorMessage, errorFix;
 
   // watch for change in totalPrice and update accordingly
@@ -64,7 +68,13 @@ const checkout = async () => {
   
   table.childNodes.forEach(obj => arr.push(obj.dataset))
 
-  console.log(arr)
+  if (delivery === 0) {
+    showErrorModal = true; toCheckout = false;
+    errorMessage = 'Something went wrong!'
+    errorFix = 'Try again in a bit.'
+    return;
+  }
+
   document.querySelector('#checkout-btn').disabled = true;
         const res = await fetch('/api/checkout', {
                 method: 'POST',

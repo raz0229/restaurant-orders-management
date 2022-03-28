@@ -51,6 +51,16 @@ export const getActiveHours = async () => {
   } 
 }
 
+export const getDeliveryCharges = async () => {
+  const ref = doc(db, "settings", "delivery-charges");
+  const snap = await getDoc(ref);
+
+  if (snap.exists()) {
+    return snap.data().price;
+  } 
+  return undefined;
+}
+
 export const prices = await getPrices();
 
 export const getMetadata = (id, arr, size, qnt) => {

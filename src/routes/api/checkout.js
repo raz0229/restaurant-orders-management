@@ -1,24 +1,29 @@
 // import db
 import { db } from "$lib/config/app";
-import { getDeals, getProductsPopulatedWithPrices, getMetadata, getActiveHours } from "$lib/config/controllers";
+import { getDeals, getProductsPopulatedWithPrices, getMetadata, getActiveHours, getDeliveryCharges } from "$lib/config/controllers";
 import { collection, addDoc } from "firebase/firestore"; 
 
-const postData = async (content) => {
+const postData = async (content, delivery) => {
 
-    let date = new Date().toDateString().substring(4,15)
+    let time = new Date().toString().substring(4,21)
     let oldest = Math.round(new Date().getTime() / 10000);
     let latest = oldest * (-1)
+    let total = 0;
 
-    // Add a new document in collection "reviews"
-    await addDoc(collection(db, "reviews"), {
-        title: title.trim().substring(0,20),
-        stars,
-        email: email.trim(),
-        comment: comment.trim().substring(0,201),
-        date,
-        oldest,
-        latest        
-    })
+    for (item of content) total += item.price;
+    console.log('Total: ', total + delivery)
+
+    // // Add a new document in collection "reviews"
+    // await addDoc(collection(db, "orders"), {
+    //     title, //name of person
+    //     phone,
+    //     address,
+    //     time,
+    //     oldest,
+    //     latest        
+    //     total: total + delivery,
+    //     content
+    // })
 
 }
 
@@ -48,6 +53,7 @@ export async function post({ body }) {
   
     try {
         const isActiveHours = await getActiveHours();
+        const deliveryCharges = await getDeliveryCharges();
 
         if (isActiveHours) {
             const products = await getProductsPopulatedWithPrices();
@@ -56,7 +62,7 @@ export async function post({ body }) {
             const content = await createContent(body, deals, products);
     
             console.log(content)
-            //await postData(body)
+            await postData(content, deliveryCharges)
     
         } else {
             return {
