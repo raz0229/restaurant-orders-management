@@ -18,6 +18,7 @@ const postData = async (content, delivery) => {
     //     title, //name of person
     //     phone,
     //     address,
+    //     notes,
     //     time,
     //     oldest,
     //     latest        

@@ -1,17 +1,19 @@
 <script>
   export let hideCart = true;
-  import ErrorModal from "$lib/errorModal.svelte"
+  import ErrorModal from "$lib/modals/errorModal.svelte"
+  import ProfileModal from "$lib/modals/profileModal.svelte"
   import { fly, fade } from 'svelte/transition';
   import { cartItems } from "./stores.js";
   import { browser } from "$app/env";
   import { getDeliveryCharges } from "$lib/config/controllers"
 
-  let storedItems;
+  let storedItems, checkoutArr;
   let delivery = 0;
+
   // fetch delivery charges
   getDeliveryCharges().then(price => delivery = price)
 
-  let toCheckout = false, showErrorModal, errorMessage, errorFix;
+  let toCheckout = false, showErrorModal, showProfileModal, errorMessage, errorFix;
 
   // watch for change in totalPrice and update accordingly
   $: totalPrice = (function() {
@@ -62,11 +64,11 @@ const clearCart = () => {
 }
 
 const checkout = async () => {
-  let arr = [];
+  checkoutArr = [];
   toCheckout = true;
   const table = document.querySelector('#table-cart');
   
-  table.childNodes.forEach(obj => arr.push(obj.dataset))
+  table.childNodes.forEach(obj => checkoutArr.push(obj.dataset))
 
   if (delivery === 0) {
     showErrorModal = true; toCheckout = false;
@@ -75,14 +77,19 @@ const checkout = async () => {
     return;
   }
 
+  showProfileModal = true;
   document.querySelector('#checkout-btn').disabled = true;
-        const res = await fetch('/api/checkout', {
+}
+
+const postData = async (event) => {
+  console.log('info dispatched', event.detail)
+  const res = await fetch('/api/checkout', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(Object.assign(arr))
+                body: JSON.stringify(Object.assign(checkoutArr))
         });
 
         // order placed successully
@@ -96,6 +103,7 @@ const checkout = async () => {
           errorMessage = 'Something went wrong!'
           errorFix = 'Try again after clearing the cart out.'
         }
+
 }
 
 if (browser) {
@@ -132,13 +140,16 @@ if (browser) {
               <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Proceed to Checkout</h2>
             </div>
             
-            {#if showErrorModal}
-              <ErrorModal
+            <ErrorModal
                 bind:showErrorModal
                 bind:errorMessage
                 bind:errorFix
               />
-            {/if}
+
+            <ProfileModal
+              on:info={postData}
+              bind:showProfileModal
+            />
 
             <!-- component -->
 <div class="lg:p-8 p-4 rounded-md w-full">

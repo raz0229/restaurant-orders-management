@@ -6,6 +6,7 @@
     import { fade } from "svelte/transition"
 </script>
 
+{#if showErrorModal}
 <!-- error modal -->
 <div in:fade class="absolute z-40 h-screen w-full flex flex-col items-center justify-center font-sans" style="background: rgb(31 31 32 / 60%);">
 	<div class="h-screen w-full absolute flex items-center justify-center bg-modal">
@@ -23,3 +24,4 @@
         </div>
     </div>
 </div>
+{/if}
