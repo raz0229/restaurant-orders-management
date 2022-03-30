@@ -82,18 +82,26 @@ const checkout = async () => {
 }
 
 const postData = async (event) => {
-  console.log('info dispatched', event.detail)
+  localStorage.setItem('info', JSON.stringify(event.detail))
+  let contentObj = event.detail;
+  contentObj.content = checkoutArr;
+
   const res = await fetch('/api/checkout', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(Object.assign(checkoutArr))
+                body: JSON.stringify(Object.assign(contentObj))
         });
 
         // order placed successully
-        if (res.status == 200) toCheckout = false;
+        if (res.status == 200) {
+          toCheckout = false;
+          clearCart();
+          document.querySelector('#checkout-btn').disabled = false; // enable button
+        }
+
         else if (res.status == 500) {
           showErrorModal = true;
           errorMessage = 'Inactive hours!'
@@ -149,6 +157,7 @@ if (browser) {
             <ProfileModal
               on:info={postData}
               bind:showProfileModal
+              bind:toCheckout
             />
 
             <!-- component -->

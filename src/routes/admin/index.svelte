@@ -1,5 +1,5 @@
 <script>
-  import { auth } from "$lib/app"
+  import { auth } from "$lib/config/app"
   import { signInWithEmailAndPassword } from "firebase/auth"
 
   let email, password, errorMessage = '';

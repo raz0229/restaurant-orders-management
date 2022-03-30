@@ -1,14 +1,35 @@
 <script>
     export let showProfileModal;
     export let title = '', phone = '', address = '', notes = '';
-    let profileErrorMessage = 'Short Note is optional';
-
+    
     import { fade } from "svelte/transition"
     import { createEventDispatcher } from 'svelte';
+    import { onMount } from "svelte"
+
+    let profileErrorMessage = 'Short Note is optional';
+    export let toCheckout;
+
+    onMount( () => {
+        if (JSON.parse(localStorage.getItem('info'))) {
+            const info = JSON.parse(localStorage.getItem('info'))
+            title = info.title
+            phone = info.phone
+            address = info.address
+            notes = info.notes
+        }
+    })
+
+    const closeModal = () => {
+        toCheckout = false;
+        document.querySelector('#checkout-btn').disabled = false;
+        showProfileModal = false;
+    }
 
     const dispatch = createEventDispatcher();
 
     export const handleModal = () => {
+
+        profileErrorMessage = '';
         
         if (title.trim().length == 0 || phone.trim().length == 0 || address.trim().length == 0) {
             profileErrorMessage = 'Required fields cannot be blank'
@@ -22,12 +43,15 @@
                     profileErrorMessage = '200 max characters allowed'
 
                 } else {
+
                     dispatch('info', {
                         title : title.trim(),
                         phone : phone.trim(),
                         address : address.trim(),
                         notes : notes.trim()
                     })
+
+                    showProfileModal = false;
                 }
             }
         }
@@ -68,8 +92,14 @@
 
             <div class="flex justify-center">
                 <button on:click="{handleModal}"
-                class="flex-no-shrink w-full text-white py-2 px-4 rounded bg-indigo-600 hover:bg-indigo-800">
+                class="flex-no-shrink m-1 w-full text-white py-2 px-4 rounded bg-indigo-600 hover:bg-indigo-800">
                 Submit</button>
+                <button on:click="{closeModal}"
+                class="p-1 m-1 border border-red-500 rounded bg-transparent hover:bg-red-500">
+                    <span class="text-red-500 text-semibold material-icons hover:text-white" style="vertical-align: bottom;">
+                        close
+                    </span>
+                </button>
             </div>
         </div>
     </div>

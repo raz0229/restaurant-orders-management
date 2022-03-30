@@ -3,7 +3,7 @@ import { db } from "$lib/config/app";
 import { getDeals, getProductsPopulatedWithPrices, getMetadata, getActiveHours, getDeliveryCharges } from "$lib/config/controllers";
 import { collection, addDoc } from "firebase/firestore"; 
 
-const postData = async (content, delivery) => {
+const postData = async (content, delivery, title, phone, address, notes) => {
 
     let time = new Date().toString().substring(4,21)
     let oldest = Math.round(new Date().getTime() / 10000);
@@ -11,20 +11,19 @@ const postData = async (content, delivery) => {
     let total = 0;
 
     for (item of content) total += item.price;
-    console.log('Total: ', total + delivery)
 
-    // // Add a new document in collection "reviews"
-    // await addDoc(collection(db, "orders"), {
-    //     title, //name of person
-    //     phone,
-    //     address,
-    //     notes,
-    //     time,
-    //     oldest,
-    //     latest        
-    //     total: total + delivery,
-    //     content
-    // })
+    // Add a new document in collection "orders"
+    await addDoc(collection(db, "orders"), {
+        title : title.trim().substring(0,24), //name of person
+        phone : phone.trim().substring(0,14),
+        address : address.trim().substring(0,100),
+        notes : notes.trim().substring(0,200),
+        time,
+        oldest,
+        latest,        
+        total: total + delivery,
+        content
+    })
 
 }
 
@@ -51,7 +50,7 @@ const createContent = ( arrayToManipulate, deals, products ) => {
 }
 
 export async function post({ body }) {
-  
+
     try {
         const isActiveHours = await getActiveHours();
         const deliveryCharges = await getDeliveryCharges();
@@ -60,10 +59,9 @@ export async function post({ body }) {
             const products = await getProductsPopulatedWithPrices();
             const deals = await getDeals();
 
-            const content = await createContent(body, deals, products);
+            const content = await createContent(body.content, deals, products);
     
-            console.log(content)
-            await postData(content, deliveryCharges)
+            await postData(content, deliveryCharges, body.title, body.phone, body.address, body.notes)
     
         } else {
             return {
