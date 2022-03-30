@@ -10,15 +10,26 @@
 
     export const handleModal = () => {
         
-        if (title.trim() == 0 || phone.trim() == 0 || address.trim() == 0 ) profileErrorMessage = 'Required fields cannot be blank'
-        
-        else {
-            dispatch('info', {
-                title,
-                phone,
-                address,
-                notes
-            })
+        if (title.trim().length == 0 || phone.trim().length == 0 || address.trim().length == 0) {
+            profileErrorMessage = 'Required fields cannot be blank'
+        } else {
+
+            if (phone.trim().length > 14 || phone.match(/^[0-9+]+$/) == null) {
+                profileErrorMessage = 'Enter a valid phone number'
+            } else {
+
+                if (notes.trim().length > 200 || address.trim().length > 200 ) {
+                    profileErrorMessage = '200 max characters allowed'
+
+                } else {
+                    dispatch('info', {
+                        title : title.trim(),
+                        phone : phone.trim(),
+                        address : address.trim(),
+                        notes : notes.trim()
+                    })
+                }
+            }
         }
     }
 
@@ -73,7 +84,7 @@
 
     .input:focus+.label,
     .input:active+.label {
-        font-size: .75rem;
+        font-size: .70rem;
         transition: all 0.2s ease-out;
         top: -0.1rem;
         color: #667eea;
@@ -81,7 +92,6 @@
 
     .label {
         transition: all 0.2s ease-out;
-        top: 0.4rem;
         pointer-events: none;
       	left: 0;
     }
