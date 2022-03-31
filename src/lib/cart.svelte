@@ -8,7 +8,7 @@
   import { getDeliveryCharges } from "$lib/config/controllers"
 
   let storedItems, checkoutArr;
-  let delivery = 0;
+  let delivery = 0, hideToast = true;
 
   // fetch delivery charges
   getDeliveryCharges().then(price => delivery = price)
@@ -95,22 +95,31 @@ const postData = async (event) => {
                 body: JSON.stringify(Object.assign(contentObj))
         });
 
-        // order placed successully
-        if (res.status == 200) {
-          toCheckout = false;
-          clearCart();
-          document.querySelector('#checkout-btn').disabled = false; // enable button
-        }
+        
 
-        else if (res.status == 500) {
+        if (res.status == 500) {
           showErrorModal = true;
           errorMessage = 'Inactive hours!'
           errorFix = 'Service is currently unavailable. Try again in active hours'
-        } else {
+        } 
+
+        else if (res.status == 400) {
           showErrorModal = true;
           errorMessage = 'Something went wrong!'
           errorFix = 'Try again after clearing the cart out.'
         }
+
+        else {
+          hideToast = false;    
+          setTimeout(() => {
+            hideToast = true; // wait explicitly for 5 seconds before toast disappears
+        }, 5000)
+        }
+
+        // order placed successully
+          toCheckout = false;
+          clearCart();
+          document.querySelector('#checkout-btn').disabled = false; // enable button
 
 }
 
@@ -123,6 +132,20 @@ if (browser) {
 </script>
 
 {#if !hideCart}
+
+<!-- TOAST NOTIFICATION -->
+{#if !hideToast}
+<div id="toast-success" in:fly="{{ y: 200, duration: 500 }}" out:fly="{{ y: 0, duration: 500 }}" class="fixed z-40 bottom-5 left-5 flex items-center p-4 mb-4 w-full max-w-xs text-white rounded-lg shadow bg-gray-800" role="alert">
+    <div class="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 rounded-lg text-green-200">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+    </div>
+    <div class="ml-3 text-sm font-normal">Order placed successully.</div>
+    <button on:click="{()=>hideToast = true}" type="button" class="ml-auto -mx-1.5 -my-1.5 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 inline-flex h-8 w-8 text-gray-500 hover:text-white dark:bg-gray-800 hover:bg-gray-700" data-collapse-toggle="toast-success" aria-label="Close">
+        <span class="sr-only">Close</span>
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+    </button>
+</div>
+{/if}
 
 <div class="fixed inset-0 z-30" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
     <div class="absolute inset-0">
@@ -248,7 +271,7 @@ if (browser) {
 
               <!-- Disable Checkout if storedItems is null -->
 							<button on:click="{checkout}" id="checkout-btn"
-                                class:disabled-btn="{!storedItems}"
+                                class:disabled-btn="{storedItems.length === 0}"
                                 class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r">
                                 <span class:animate-spin="{toCheckout}" class:hidden="{!toCheckout}" class="material-icons" style="vertical-align: bottom;">loop</span>
                                 Checkout

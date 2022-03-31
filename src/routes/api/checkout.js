@@ -51,6 +51,14 @@ const createContent = ( arrayToManipulate, deals, products ) => {
 
 export async function post({ body }) {
 
+    const contentArr = body.content
+
+    if (contentArr.length === 0) {
+        return {
+            status: 400
+        }
+    }
+
     try {
         const isActiveHours = await getActiveHours();
         const deliveryCharges = await getDeliveryCharges();
@@ -59,7 +67,7 @@ export async function post({ body }) {
             const products = await getProductsPopulatedWithPrices();
             const deals = await getDeals();
 
-            const content = await createContent(body.content, deals, products);
+            const content = await createContent(contentArr, deals, products);
     
             await postData(content, deliveryCharges, body.title, body.phone, body.address, body.notes)
     
