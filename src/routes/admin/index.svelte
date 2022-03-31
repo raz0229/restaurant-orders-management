@@ -1,8 +1,18 @@
 <script>
   import { auth } from "$lib/config/app"
-  import { signInWithEmailAndPassword } from "firebase/auth"
+  import { onAuthStateChanged, signInWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence } from "firebase/auth"
 
-  let email, password, errorMessage = '';
+  let email, password, remember = false, errorMessage = '';
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const uid = user.uid;
+    console.log('user is signed in: ', uid)
+  } else {
+
+    console.log('user is signed out')
+  }
+});
 
   const login = async () => {
 
@@ -14,7 +24,7 @@
       errorMessage = ''
       console.log(uc.user)
       loop.classList.add('hidden')
-
+      setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence)
     } catch (e) {
       errorMessage = 'Incorrect email or password'
       email = '';
@@ -57,7 +67,7 @@
         </div>
         <div class="mt-6 flex items-center justify-between">
           <div class="flex items-center">
-            <input id="remember_me" type="checkbox" class="border border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+            <input id="remember_me" bind:checked="{remember}" type="checkbox" class="border border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
             <label for="remember_me" class="ml-2 block text-sm leading-5 text-gray-900"> Remember me </label>
           </div>
           <a href="#" class="text-sm"> Forgot your password? </a>
