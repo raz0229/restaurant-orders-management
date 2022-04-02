@@ -1,5 +1,7 @@
-import { db, products } from "$lib/config/app";
+import { db, auth, products } from "$lib/config/app";
 import { collection, getDocs, query, doc, getDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth"
+
 
 const getPrices = async () => {
 
@@ -107,4 +109,17 @@ export const getProductsPopulatedWithPrices = async () => {
       
       resolve(products)
   });
+}
+
+export const isSignedIn = async () => {
+  return new Promise( async resolve => {
+    await onAuthStateChanged(auth, (user) => {
+      if (user) {
+        resolve({user})
+      } else {
+        resolve(null);
+      }
+  
+     });
+  })
 }

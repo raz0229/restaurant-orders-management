@@ -1,18 +1,16 @@
 <script>
+  import { isSignedIn } from "$lib/config/controllers"
   import { auth } from "$lib/config/app"
-  import { onAuthStateChanged, signInWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence } from "firebase/auth"
+  import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence } from "firebase/auth"
 
   let email, password, remember = false, errorMessage = '';
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    const uid = user.uid;
-    console.log('user is signed in: ', uid)
-  } else {
-
-    console.log('user is signed out')
+  const checkState = async () => {
+    const signedIn = await isSignedIn()
+    //if (signedIn) location.href = '/admin/dashboard'
   }
-});
+
+  checkState();
 
   const login = async () => {
 
@@ -24,7 +22,8 @@ onAuthStateChanged(auth, (user) => {
       errorMessage = ''
       console.log(uc.user)
       loop.classList.add('hidden')
-      setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence)
+      await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence)
+      location.href = '/admin/dashboard'
     } catch (e) {
       errorMessage = 'Incorrect email or password'
       email = '';

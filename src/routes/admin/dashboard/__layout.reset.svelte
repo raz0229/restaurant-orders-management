@@ -1,6 +1,14 @@
 <script>
+	import { auth } from '$lib/config/app';
+	import { signOut } from 'firebase/auth';
 	import '../../../styles/global.css'
-  </script>
+
+	const logout = () => {
+		signOut(auth).then(() => {
+  			location.href = '/admin'
+		})
+	}
+</script>
   
 	  <main class="hidden">
 			<slot></slot>
@@ -202,7 +210,7 @@
   
 		  </ul>
   
-		  <div class="mt-auto h-16 flex items-center w-full">
+		  <div  on:click="{ logout }" class="mt-auto h-16 flex items-center w-full">
 			  <!-- Action Section -->
 			  <button
 				  class="h-16 w-full mx-auto flex flex justify-center items-center
