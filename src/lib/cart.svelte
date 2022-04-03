@@ -5,13 +5,13 @@
   import { fly, fade } from 'svelte/transition';
   import { cartItems } from "./stores.js";
   import { browser } from "$app/env";
-  import { getDeliveryCharges } from "$lib/config/controllers"
+  import { getSettings } from "$lib/config/controllers"
 
   let storedItems, checkoutArr;
   let delivery = 0, hideToast = true;
 
   // fetch delivery charges
-  getDeliveryCharges().then(price => delivery = price)
+  getSettings("delivery-charges").then(price => delivery = price)
 
   let toCheckout = false, showErrorModal, showProfileModal, errorMessage, errorFix;
 

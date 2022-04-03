@@ -1,16 +1,24 @@
 <script context="module">
+  import { getSettings } from "$lib/config/controllers"
+
   export async function load({ fetch }) {
     const dealRes = await fetch('/api/deals')
     const res = await fetch('api/reviews')
 
     const { dealArray } = await dealRes.json()
     const { reviews } = await res.json()
+
+    // fetch length of max_deals and max_reviews
+    const max_deals = await getSettings("max-deals")
+    const max_reviews = await getSettings("max-reviews")
     
     if (res.ok) {
       return {
         props: {
           dealArray,
-          reviews
+          reviews,
+          max_deals,
+          max_reviews
         }
       }
     }
@@ -32,6 +40,7 @@
   
   export let dealArray;
   export let reviews;
+  export let max_deals, max_reviews;
 
   let hideCart;
   cart.subscribe(val => {
@@ -52,16 +61,16 @@
 <Deals 
   bind:dealArray
   bind:hideCart
-  MAX_DEALS=3
+  MAX_DEALS={max_deals}
   showButton=true
   />
 <!-- 
   (OPTIONAL)
-  MAX_REVIEWS can only be between 3 and deals.length 
+  MAX_REVIEWS can only be between 3 and reviews.length 
 -->
 <Testimonials
   bind:reviews
-  MAX_REVIEWS=6
+  MAX_REVIEWS={max_reviews}
   showButton=true
   />
 
