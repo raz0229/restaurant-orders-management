@@ -1,16 +1,19 @@
-<script>
+<script context="module">
   import { isSignedIn } from "$lib/config/controllers"
-  import { auth } from "$lib/config/app"
-  import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence } from "firebase/auth"
-
-  let email, password, remember = false, errorMessage = '';
 
   const checkState = async () => {
     const signedIn = await isSignedIn()
-    //if (signedIn) location.href = '/admin/dashboard'
+    if (signedIn) location.href = '/admin/dashboard'
   }
 
   checkState();
+</script>
+
+<script>
+  import { auth } from "$lib/config/app"
+  import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence } from "firebase/auth"
+  
+  let email, password, remember = false, errorMessage = '';
 
   const login = async () => {
 

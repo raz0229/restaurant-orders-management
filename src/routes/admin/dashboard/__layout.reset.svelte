@@ -2,18 +2,26 @@
 	import { auth } from '$lib/config/app';
 	import { signOut } from 'firebase/auth';
 	import '../../../styles/global.css'
+	import { isSignedIn } from "$lib/config/controllers"
+	import { browser } from "$app/env"
+
+	let user;
+  
+	const checkState = async () => {
+	  const signedIn = await isSignedIn()
+	  if (!signedIn) location.href = '/admin'
+	  else user = signedIn
+	}
 
 	const logout = () => {
 		signOut(auth).then(() => {
   			location.href = '/admin'
 		})
 	}
+
+	if (browser) checkState()
 </script>
-  
-	  <main class="hidden">
-			<slot></slot>
-	  </main>
-  
+
   <div class="container">
 	  <div id="side-bar">
 		  <aside
@@ -238,7 +246,14 @@
   
 	  </aside>
 	  </div>
-	  <div id="main-container"></div>
+	  <div id="main-container">
+		{#if user}
+		<main>
+	  		<slot></slot>
+		</main>
+		{/if}
+
+	  </div>
   </div>
   
   <style>
@@ -267,7 +282,6 @@
   }
   #main-container {
   
-	 background-color: #9C5B6B; 
 	 grid-row-start: 1;
 	 grid-column-start: 2;
   
