@@ -30,13 +30,19 @@ export async function get({ query }) {
         lastVisible = null
     }
     
-    await getDocuments(sort, update, lastVisible).then( order => {
-        orders = order;
-    })
-
-    return {
-        status: 200,
-        body: { orders }
+    try {
+        await getDocuments(sort, update, lastVisible).then( order => {
+            orders = order;
+        })
+        
+        return {
+            status: 200,
+            body: { orders }
+        }
+    } catch (e) {
+        return {
+            status: 503
+        }
     }
   
 }
