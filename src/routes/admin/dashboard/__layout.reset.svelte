@@ -3,6 +3,7 @@
 	import { signOut } from 'firebase/auth';
 	import '../../../styles/global.css'
 	import { isSignedIn } from "$lib/config/controllers"
+	import { fade } from 'svelte/transition';
 	import { browser } from "$app/env"
 
 	let user;
@@ -251,12 +252,21 @@
 		<main>
 	  		<slot></slot>
 		</main>
+		{:else}
+		<div in:fade="{{duration: 300}}" class="spinner padding-3 w-screen z-50">
+			<div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-indigo-500"></div>
+		</div>    
 		{/if}
 
 	  </div>
   </div>
   
   <style>
+  .spinner {
+	  position: absolute;
+	  left: 45%;
+	  top: 40%;
+  }
   .container {
 	 display: grid; 
 	 transition: all 0.3s ease;

@@ -15,7 +15,7 @@ const getDocuments = async (sr, update, doc) => {
     if (update) lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1]
     
     querySnapshot.forEach((doc) => {
-        if (doc.data()) arr.push(Object.assign(doc.data()));
+        if (doc.data()) arr.push(Object.assign(doc.data(), {id: doc.id}));
     });
     return arr;
 }
@@ -56,12 +56,12 @@ let collapsible = (id) => {
 
 {#each orders as order}
     <section class="accordion">
-      <!-- Since order.oldest is unique to each object, we shall use it as element ID-->
-      <input type="checkbox" name="collapse" id="id-{ order.oldest }" checked="{false}">
-      <div class="handle" on:click="{()=>collapsible(`id-${ order.oldest }`)}" >
+      <!-- Since order.id is unique to each object, we shall use it as element ID-->
+      <input type="checkbox" name="collapse" id="id-{ order.id }" checked="{false}">
+      <div class="handle" on:click="{()=>collapsible(`id-${ order.id }`)}" >
         <!-- If status == true -->
         
-        <label class:bg-checked="{ order.status }" for="id-{ order.oldest }" on:click="{()=>collapsible(`id-${ order.oldest }`)}">
+        <label class:bg-checked="{ order.status }" for="id-{ order.id }" on:click="{()=>collapsible(`id-${ order.id }`)}">
           <span class="material-icons va-b">
             expand_more
             </span>
@@ -88,7 +88,7 @@ let collapsible = (id) => {
             </span> &nbsp; { order.total } PKR</p>
             
         </div>
-      <div class="content text-gray-600" on:click="{()=>collapsible(`id-${ order.oldest }`)}">
+      <div class="content text-gray-600" on:click="{()=>collapsible(`id-${ order.id }`)}">
 
         {#each order.content as cnt}
         <div class="item">
