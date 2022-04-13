@@ -1,6 +1,6 @@
 // import db
 import { db } from "$lib/config/app";
-import { getDeals, getProductsPopulatedWithPrices, getMetadata, getActiveHours, getDeliveryCharges } from "$lib/config/controllers";
+import { getDeals, getProductsPopulatedWithPrices, getMetadata, getActiveHours, getSettings } from "$lib/config/controllers";
 import { collection, addDoc } from "firebase/firestore"; 
 
 const postData = async (content, delivery, title, phone, address, notes) => {
@@ -18,6 +18,7 @@ const postData = async (content, delivery, title, phone, address, notes) => {
         phone : phone.trim().substring(0,14),
         address : address.trim().substring(0,100),
         notes : notes.trim().substring(0,200),
+        status: false,
         time,
         oldest,
         latest,        
@@ -61,7 +62,7 @@ export async function post({ body }) {
 
     try {
         const isActiveHours = await getActiveHours();
-        const deliveryCharges = await getDeliveryCharges();
+        const deliveryCharges = await getSettings('delivery-charges');
 
         if (isActiveHours) {
             const products = await getProductsPopulatedWithPrices();

@@ -109,7 +109,7 @@
                     {#each products as item}
                     {#if item.id.substring(0,2) == "00"}
                     <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                        <div on:click="{()=>sendToCart(event, ['S', 'M', 'L'])}" class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
+                        <div on:click="{()=>sendToCart(event, item.sizes)}" class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
                             <button class="p-2 rounded-full bg-indigo-500 text-white mx-5 -mb-4 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-500">
                                 <span style="pointer-events: none;" class="material-icons">add_shopping_cart</span>
                             </button>
@@ -140,7 +140,7 @@
                     {#each products as item}
                     {#if item.id.substring(0,2) == "01"}
                     <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                        <div on:click="{()=>sendToCart(event, ['S', 'M', 'L'])}" class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
+                        <div on:click="{()=>sendToCart(event, item.sizes)}" class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
                             <button class="p-2 rounded-full bg-indigo-500 text-white mx-5 -mb-4 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-500">
                                 <span style="pointer-events: none;" class="material-icons">add_shopping_cart</span>
                             </button>
@@ -169,7 +169,7 @@
                     {#each products as item}
                     {#if item.id.substring(0,2) == "02"}
                     <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                        <div on:click="{()=>sendToCart(event, ['10', '15', '20'])}" class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
+                        <div on:click="{()=>sendToCart(event, item.sizes)}" class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
                             <button class="p-2 rounded-full bg-indigo-500 text-white mx-5 -mb-4 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-500">
                                 <span style="pointer-events: none;" class="material-icons">add_shopping_cart</span>
                             </button>

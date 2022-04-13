@@ -25,7 +25,7 @@
   <div class="container">
 	  <div id="side-bar">
 		  <aside
-		  class="flex flex-col items-center bg-white text-gray-700 shadow h-full">
+		  class="flex flex-col fixed items-center bg-white text-gray-700 shadow h-full">
 		  <!-- Side Nav Bar-->
   
 		  <div class="h-16 flex items-center w-full">

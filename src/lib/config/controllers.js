@@ -67,25 +67,28 @@ export const prices = await getPrices();
 
 export const getMetadata = (id, arr, size, qnt) => {
   let item = arr.find(x => x.id.toString() == id)
-  let price;
+  let price, title = item.title;
 
   if (item) {
       switch (size) {
           case 's':
               price = item.priceS * parseInt(qnt);
+              title = `${item.title} (${item.sizes[0]})`;
               break;
           case 'm':
               price = item.priceM * parseInt(qnt);
+              title = `${item.title} (${item.sizes[1]})`;
               break;
           case 'l':
               price = item.priceL * parseInt(qnt);
+              title = `${item.title} (${item.sizes[2]})`;
               break;
           default:
               price = item.price * parseInt(qnt);
               break;
       }
   
-      return [price, item.title, item.content ? item.content : []];
+      return [price, title, item.content ? item.content : []];
   }
 
   return -1;
