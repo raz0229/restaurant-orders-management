@@ -1,7 +1,7 @@
 <script>
   // import db
 import { db } from "$lib/config/app";
-import { collection, getDocs, query, orderBy, limit, startAfter } from "firebase/firestore";
+import { doc, onSnapshot, collection, updateDoc, getDocs, query, orderBy, limit, startAfter } from "firebase/firestore";
 
 let orders = [];
 let lastVisible = null;
@@ -41,6 +41,31 @@ let collapsible = (id) => {
   elem.checked = elem.checked ? false : true;
 }
 
+const unsubscribe = onSnapshot(collection(db, "orders"), () => {
+  // watch for changes and restore orders
+    getDocuments(sort, update, lastVisible).then( order => {
+      orders = order;
+    }).catch(e => {
+      console.log('exception: ', e.message)
+    })
+});
+
+const markChecked = async (id, e) => {
+
+  e.target.children[1].classList.add('hidden'); // hide check mark
+  e.target.children[0].classList.remove('hidden'); // unhide loading
+
+  const label = document.querySelector(`#lb-${ id }`) 
+  const status = label.dataset.status == 'true' ? false : true;
+  const ref = doc(db, "orders", id);
+  
+  await updateDoc(ref, {
+    status
+  })
+  
+  e.target.children[1].classList.remove('hidden'); // unhide check mark
+  e.target.children[0].classList.add('hidden'); // hide loading
+}
 </script>
 
 <div id="menu" class="mt-12 container mx-auto px-4 lg:pt-24 lg:pb-64">
@@ -61,7 +86,8 @@ let collapsible = (id) => {
       <div class="handle" on:click="{()=>collapsible(`id-${ order.id }`)}" >
         <!-- If status == true -->
         
-        <label class:bg-checked="{ order.status }" for="id-{ order.id }" on:click="{()=>collapsible(`id-${ order.id }`)}">
+        <label class:bg-checked="{ order.status }" id="lb-{ order.id }" data-status="{ order.status }" 
+          for="id-{ order.id }" on:click="{()=>collapsible(`id-${ order.id }`)}">
           <span class="material-icons va-b">
             expand_more
             </span>
@@ -69,7 +95,7 @@ let collapsible = (id) => {
           {#if !order.status}
             { order.title }
           {:else}
-            <em><strike>{ order.title }</strike></em>
+            <em><s><b>{ order.title }</b></s></em>
           {/if}
           
         </label>
@@ -86,6 +112,14 @@ let collapsible = (id) => {
           <span class="material-icons text-green-600 va-b">
             payments
             </span> &nbsp; { order.total } PKR</p>
+        
+        <!-- Show Notes if exist -->
+        {#if order.notes.trim().length !== 0}
+        <p class="bg-white text-gray-500 text-sm p-2">
+          <span class="material-icons text-gray-400 va-b">
+            receipt
+            </span> &nbsp; <em>{ order.notes }</em></p>
+        {/if}
             
         </div>
       <div class="content text-gray-600" on:click="{()=>collapsible(`id-${ order.id }`)}">
@@ -99,7 +133,7 @@ let collapsible = (id) => {
 
         {#if cnt.type == 'deal'}
           {#each cnt.content as item, i}
-          <div class="deal bg-gray-100 text-gray-500 p-4 ml-6 mt-2">
+          <div class="deal bg-gray-100 text-gray-500 p-3 ml-6">
             <p><strong>{ i+1 } .</strong> &nbsp; { item }</p>
           </div>
           {/each}
@@ -107,12 +141,17 @@ let collapsible = (id) => {
 
         {/each}
       </div>
+      
       <div class="relative flex justify-between p-2">
         <p class="text-gray-400 timestamps"><em>{ order.time }</em></p>
         <div class="absolute right-1 top-2 cursor-pointer">
-          <span class="p-1 text-green-500 hover:bg-green-200 rounded">
-            <span class="material-icons va-b">
-            done
+          <span on:click="{ ()=>markChecked(order.id, event) }" 
+            class="p-1 text-green-500 hover:bg-green-200 rounded">
+            <span class="hidden animate-spin pointer-events-none material-icons va-b">
+              autorenew
+              </span>
+            <span class="pointer-events-none material-icons va-b">
+             done
             </span></span>
           <span class="text-red-700 hover:bg-red-200 p-1 rounded">
             <span class="material-icons va-b">
@@ -162,7 +201,6 @@ let collapsible = (id) => {
 }
 
 .deal {
-  border-top: dotted 2px gray;
   border-left: solid 6px slateblue;
 }
   /*
