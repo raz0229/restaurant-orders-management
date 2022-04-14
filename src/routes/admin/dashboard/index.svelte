@@ -1,10 +1,11 @@
 <script>
   // import db
 import { db } from "$lib/config/app";
-import { doc, onSnapshot, collection, updateDoc, getDocs, query, orderBy, limit, startAfter } from "firebase/firestore";
+import { doc, onSnapshot, collection, updateDoc, deleteDoc, getDocs, query, orderBy, limit, startAfter } from "firebase/firestore";
 
 let orders = [];
 let lastVisible = null;
+let confirmDelete = false;
 
 const getDocuments = async (sr, update, doc) => { 
     let arr = [];
@@ -66,6 +67,14 @@ const markChecked = async (id, e) => {
   e.target.children[1].classList.remove('hidden'); // unhide check mark
   e.target.children[0].classList.add('hidden'); // hide loading
 }
+
+const deleteOrder = async (id, e) => {
+  e.target.children[1].classList.add('hidden'); // hide check mark
+  e.target.children[0].classList.remove('hidden'); // unhide loading
+
+  await deleteDoc(doc(db, "orders", id));
+}
+
 </script>
 
 <div id="menu" class="mt-12 container mx-auto px-4 lg:pt-24 lg:pb-64">
@@ -80,7 +89,7 @@ const markChecked = async (id, e) => {
   <div class="mt-12">
 
 {#each orders as order}
-    <section class="accordion">
+    <section class="accordion p-3">
       <!-- Since order.id is unique to each object, we shall use it as element ID-->
       <input type="checkbox" name="collapse" id="id-{ order.id }" checked="{false}">
       <div class="handle" on:click="{()=>collapsible(`id-${ order.id }`)}" >
@@ -153,8 +162,12 @@ const markChecked = async (id, e) => {
             <span class="pointer-events-none material-icons va-b">
              done
             </span></span>
-          <span class="text-red-700 hover:bg-red-200 p-1 rounded">
-            <span class="material-icons va-b">
+          <span on:click="{ ()=>deleteOrder(order.id, event) }" 
+            class="text-red-700 hover:bg-red-200 p-1 rounded">
+            <span class="hidden animate-spin pointer-events-none material-icons va-b">
+              autorenew
+              </span>
+            <span class="pointer-events-none material-icons va-b">
               delete
               </span>
           </span>
@@ -232,6 +245,7 @@ const markChecked = async (id, e) => {
 
 .accordion {
   margin-bottom: 1em;
+  border-top: dashed 3px #bbbaba;
 }
 
 .accordion > input[type="checkbox"]:checked ~ .content {
