@@ -6,13 +6,15 @@ import { fly, fade } from "svelte/transition"
 
 let orders = [];
 let lastVisible = null;
-let confirmDelete = false, pendingDelete = '';
+let confirmDelete = false, pendingDelete = '', filterValue = 'all';
 
-const getDocuments = async (sr, update, doc) => { 
+const getDocuments = async (sr, update, doc, filter=null) => { 
     let arr = [];
     const ref = collection(db, 'orders')
-    //const q = query(ref, where('status', '==', false), orderBy(sr), startAfter(doc || null), limit(20));  // default limit is 20 orders
-    const q = query(ref, orderBy(sr), startAfter(doc || null), limit(20));  // default limit is 20 orders
+    //const 
+    let q = query(ref, orderBy(sr), startAfter(doc || null), limit(20));  // default limit is 20 orders with no filter
+    
+    if (filter !== null) q = query(ref, filter, orderBy(sr), startAfter(doc || null), limit(20));
 
     const querySnapshot = await getDocs(q);
     if (update) lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1]
@@ -70,6 +72,27 @@ const markChecked = async (id, e) => {
   e.target.children[0].classList.add('hidden'); // hide loading
 }
 
+const filterOrders = () => {
+  let filter;
+
+  switch (filterValue) {
+    case 'checked':
+      filter = where('status', '==', true);
+      break;
+    case 'unchecked':
+      filter = where('status', '==', false);
+      break;
+    default:
+      filter = null;
+  }
+
+  getDocuments(sort, update, lastVisible, filter).then( order => {
+      orders = order;
+    }).catch(e => {
+      console.log('exception: ', e.message)
+    })
+}
+
 const deleteOrder = (id, e) => {
   e.target.children[1].classList.add('hidden'); // hide check mark
   e.target.children[0].classList.remove('hidden'); // unhide loading
@@ -116,10 +139,11 @@ const closeModal = () => {
 <div class="p-4" style="text-align: end;">
 <div class="relative inline-flex">
   <svg class="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero"/></svg>
-  <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none">
-    <option value="latest">Show All</option>
-    <option value="oldest">Checked</option>
-    <option value="title">Unchecked</option>
+  <select bind:value="{filterValue}" on:change="{filterOrders}" 
+    class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none">
+    <option value="all">Show All</option>
+    <option value="checked">Checked</option>
+    <option value="unchecked">Unchecked</option>
   </select>
 </div>
 </div>
