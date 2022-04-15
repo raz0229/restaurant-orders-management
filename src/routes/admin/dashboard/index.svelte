@@ -1,15 +1,17 @@
 <script>
   // import db
 import { db } from "$lib/config/app";
-import { doc, onSnapshot, collection, updateDoc, deleteDoc, getDocs, query, orderBy, limit, startAfter } from "firebase/firestore";
+import { doc, onSnapshot, collection, where, updateDoc, deleteDoc, getDocs, query, orderBy, limit, startAfter } from "firebase/firestore";
+import { fly, fade } from "svelte/transition"
 
 let orders = [];
 let lastVisible = null;
-let confirmDelete = false;
+let confirmDelete = false, pendingDelete = '';
 
 const getDocuments = async (sr, update, doc) => { 
     let arr = [];
     const ref = collection(db, 'orders')
+    //const q = query(ref, where('status', '==', false), orderBy(sr), startAfter(doc || null), limit(20));  // default limit is 20 orders
     const q = query(ref, orderBy(sr), startAfter(doc || null), limit(20));  // default limit is 20 orders
 
     const querySnapshot = await getDocs(q);
@@ -68,11 +70,34 @@ const markChecked = async (id, e) => {
   e.target.children[0].classList.add('hidden'); // hide loading
 }
 
-const deleteOrder = async (id, e) => {
+const deleteOrder = (id, e) => {
   e.target.children[1].classList.add('hidden'); // hide check mark
   e.target.children[0].classList.remove('hidden'); // unhide loading
 
+  const label = document.querySelector(`#lb-${ id }`) 
+  const status = label.dataset.status == 'true' ? true : false;
+
+  if (status) deleteSingleDoc(id); // delete order immediately if marked as Checked
+  else {
+    pendingDelete = id;
+    confirmDelete = true;
+  }
+
+  e.target.children[0].classList.add('hidden'); // unhide check mark
+  e.target.children[1].classList.remove('hidden'); // hide loading
+}
+
+const deleteSingleDoc = async (id) => {
   await deleteDoc(doc(db, "orders", id));
+}
+
+const handleModal = () => {
+  deleteSingleDoc(pendingDelete)
+  confirmDelete = false;
+}
+
+const closeModal = () => {
+  confirmDelete = false;
 }
 
 </script>
@@ -88,8 +113,53 @@ const deleteOrder = async (id, e) => {
   </div>
   <div class="mt-12">
 
+<div class="p-4" style="text-align: end;">
+<div class="relative inline-flex">
+  <svg class="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero"/></svg>
+  <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none">
+    <option value="latest">Show All</option>
+    <option value="oldest">Checked</option>
+    <option value="title">Unchecked</option>
+  </select>
+</div>
+</div>
+
+{#if orders.length === 0}
+  <div class="items-center text-gray-500">
+    <p><em>There are no orders to display</em></p>
+  </div>
+{/if}
+
+
+<!-- Delete Modal -->
+{#if confirmDelete}
+<div in:fade out:fade class="z-30 flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-modal">
+  <div class="bg-white rounded-lg lg:w-1/2 sm:w-80 m-2">
+    <div class="flex flex-col items-start p-4">
+      <div class="flex items-center w-full">
+        <div class="text-gray-800 font-medium text-lg">Delete Order?</div>
+		      <svg on:click="{closeModal}" class="ml-auto fill-current text-gray-700 w-6 h-6 cursor-pointer" viewBox="0 0 18 18">
+			      <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"/>
+     	    </svg>
+      </div>
+      <hr>
+      <div class="mt-2 mb-2 text-gray-600">The order you have decided to delete is marked as 'Unchecked'. Are you sure you want to continue?</div>
+      <hr>
+      <div class="ml-auto">
+        <button on:click="{handleModal}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+          Delete
+        </button>
+        <button on:click="{closeModal}" class="bg-transparent hover:bg-gray-300 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{/if}
+
 {#each orders as order}
-    <section class="accordion p-3">
+    <section out:fly="{{ y: -200, duration: 2000 }}" in:fly="{{ y: -200, duration: 1000 }}" class="accordion p-3">
       <!-- Since order.id is unique to each object, we shall use it as element ID-->
       <input type="checkbox" name="collapse" id="id-{ order.id }" checked="{false}">
       <div class="handle" on:click="{()=>collapsible(`id-${ order.id }`)}" >
@@ -176,24 +246,6 @@ const deleteOrder = async (id, e) => {
     </section>
 {/each}
 
-
-  <!-- <div class="grid grid-cols-1 sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-4">
-
-     -->
-    <!-- {#each orders as order, i}
-    <div class="col-span-2 sm:col-span-1 xl:col-span-1">
-      {i} &bullet;
-    </div>
-    <div class="col-span-2 sm:col-span-4 xl:col-span-4">
-      <h3 class="font-semibold text-black">{order.title}</h3>
-      <p>
-      { order.address }
-      </p>
-    </div>
-    <div class="col-span-2 sm:col-span-1 xl:col-span-1 italic ">{order.total} PKR</div>
-    {/each} -->
-<!--     
-  </div> -->
   </div>
 </div>
 
@@ -215,6 +267,10 @@ const deleteOrder = async (id, e) => {
 
 .deal {
   border-left: solid 6px slateblue;
+}
+
+.bg-modal {
+  background-color: rgba(0, 0, 0, 0.6);
 }
   /*
  CSS for the main interaction
