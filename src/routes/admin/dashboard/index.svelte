@@ -5,12 +5,24 @@ import { doc, onSnapshot, collection, where, updateDoc, deleteDoc, getDocs, quer
 import { fly, fade } from "svelte/transition"
 
 let orders = [];
-let lastVisible = null;
-let confirmDelete = false, pendingDelete = '', filterValue = 'all';
+let confirmDelete = false, pendingDelete = '', filterValue = 'all', loadFilter = false;
+let sort, update, lastVisible = null;
 
-const getDocuments = async (sr, update, doc, filter=null) => { 
-    let arr = [];
+const getDocuments = async (sr, update, doc) => { 
+    let arr = [], filter;
     const ref = collection(db, 'orders')
+
+    switch (filterValue) {
+    case 'checked':
+      filter = where('status', '==', true);
+      break;
+    case 'unchecked':
+      filter = where('status', '==', false);
+      break;
+    default:
+      filter = null;
+  }
+
     //const 
     let q = query(ref, orderBy(sr), startAfter(doc || null), limit(20));  // default limit is 20 orders with no filter
     
@@ -25,21 +37,21 @@ const getDocuments = async (sr, update, doc, filter=null) => {
     return arr;
 }
 
-let sort = 'latest'; // sort by default is by latest 
+// let sort = 'latest'; // sort by default is by latest 
 
-    let update;     // if true, next limit of data will be sent back
-    if (false) update = true;
-    else {
-        update = false
-        lastVisible = null
-    }
+//     let update;     // if true, next limit of data will be sent back
+//     if (false) update = true;
+//     else {
+//         update = false
+//         lastVisible = null
+//     }
     
-    getDocuments(sort, update, lastVisible).then( order => {
-      orders = order;
-      console.log('orderrs: ', orders)
-    }).catch(e => {
-      console.log('exception: ', e.message)
-    })
+//     getDocuments(sort, update, lastVisible).then( order => {
+//       orders = order;
+//       console.log('orderrs: ', orders)
+//     }).catch(e => {
+//       console.log('exception: ', e.message)
+//     })
         
 let collapsible = (id) => {
   let elem = document.querySelector(`#${id.trim()}`);
@@ -47,9 +59,18 @@ let collapsible = (id) => {
 }
 
 const unsubscribe = onSnapshot(collection(db, "orders"), () => {
+  
+  sort = 'latest'; // sort by default is by latest 
+  
+    if (false) update = true;
+    else {
+        update = false
+        lastVisible = null
+    }
+    
   // watch for changes and restore orders
     getDocuments(sort, update, lastVisible).then( order => {
-      orders = order;
+      orders = order.slice();
     }).catch(e => {
       console.log('exception: ', e.message)
     })
@@ -73,21 +94,11 @@ const markChecked = async (id, e) => {
 }
 
 const filterOrders = () => {
-  let filter;
+  loadFilter = true;
 
-  switch (filterValue) {
-    case 'checked':
-      filter = where('status', '==', true);
-      break;
-    case 'unchecked':
-      filter = where('status', '==', false);
-      break;
-    default:
-      filter = null;
-  }
-
-  getDocuments(sort, update, lastVisible, filter).then( order => {
-      orders = order;
+  getDocuments(sort, update, lastVisible).then( order => {
+      orders = order.slice();
+      loadFilter = false;
     }).catch(e => {
       console.log('exception: ', e.message)
     })
@@ -149,11 +160,110 @@ const closeModal = () => {
 </div>
 
 {#if orders.length === 0}
-  <div class="items-center text-gray-500">
+  <div class="m-2 1items-center text-gray-500">
     <p><em>There are no orders to display</em></p>
+  </div>
+
+{:else}
+
+
+{#if loadFilter}
+  <div class="m-4 text-gray-500" style="text-align: -webkit-center;">
+    <img class="w-1/6" src="../buffer.svg" alt="">
   </div>
 {/if}
 
+{#each orders as order}
+<section out:fly="{{ y: -200, duration: 2000 }}" in:fly="{{ y: -200, duration: 1000 }}" class="accordion p-3">
+  <!-- Since order.id is unique to each object, we shall use it as element ID-->
+  <input type="checkbox" name="collapse" id="id-{ order.id }" checked="{false}">
+  <div class="handle" on:click="{()=>collapsible(`id-${ order.id }`)}" >
+    <!-- If status == true -->
+    
+    <h3 class:bg-checked="{ order.status }" id="lb-{ order.id }" data-status="{ order.status }" 
+       > 
+      <!-- for="id-{ order.id }" on:click="{()=>collapsible(`id-${ order.id }`)}" -->
+      <span class="material-icons va-b">
+        expand_more
+        </span>
+        &nbsp;
+      {#if !order.status}
+        { order.title }
+      {:else}
+        <em><s><b>{ order.title }</b></s></em>
+      {/if}
+      
+      </h3>
+
+    <p class="bg-gray-100 text-gray-500 text-sm p-2">
+      <span class="material-icons text-red-800 va-b">
+        home
+        </span> &nbsp; { order.address }</p>
+    <p class="bg-white text-gray-500 text-sm p-2">
+      <span class="material-icons text-blue-400 va-b">
+        phone
+        </span> &nbsp; { order.phone }</p>
+    <p class="bg-gray-100 text-gray-500 text-sm p-2">
+      <span class="material-icons text-green-600 va-b">
+        payments
+        </span> &nbsp; { order.total } PKR</p>
+    
+    <!-- Show Notes if exist -->
+    {#if order.notes.trim().length !== 0}
+    <p class="bg-white text-gray-500 text-sm p-2">
+      <span class="material-icons text-gray-400 va-b">
+        receipt
+        </span> &nbsp; <em>{ order.notes }</em></p>
+    {/if}
+        
+    </div>
+  <div class="content text-gray-600" on:click="{()=>collapsible(`id-${ order.id }`)}">
+
+    {#each order.content as cnt}
+    <div class="item">
+      <p><strong>Item:</strong> &nbsp; { cnt.title }</p>
+      <p><strong>Quantity:</strong> &nbsp; { cnt.qnt }</p>
+      <p><strong>Price:</strong> &nbsp; { cnt.price }</p>
+    </div>
+
+    {#if cnt.type == 'deal'}
+      {#each cnt.content as item, i}
+      <div class="deal bg-gray-100 text-gray-500 p-3 ml-6">
+        <p><strong>{ i+1 } .</strong> &nbsp; { item }</p>
+      </div>
+      {/each}
+    {/if}
+
+    {/each}
+  </div>
+  
+  <div class="relative flex justify-between p-2">
+    <p class="text-gray-400 timestamps"><em>{ order.time }</em></p>
+    <div class="absolute right-1 top-2 cursor-pointer">
+      <span on:click="{ ()=>markChecked(order.id, event) }" 
+        class="p-1 text-green-500 hover:bg-green-200 rounded">
+        <span class="hidden animate-spin pointer-events-none material-icons va-b">
+          autorenew
+          </span>
+        <span class="pointer-events-none material-icons va-b">
+         done
+        </span></span>
+      <span on:click="{ ()=>deleteOrder(order.id, event) }" 
+        class="text-red-700 hover:bg-red-200 p-1 rounded">
+        <span class="hidden animate-spin pointer-events-none material-icons va-b">
+          autorenew
+          </span>
+        <span class="pointer-events-none material-icons va-b">
+          delete
+          </span>
+      </span>
+    </div>
+  </div>
+</section>
+{/each}
+
+
+{/if}
 
 <!-- Delete Modal -->
 {#if confirmDelete}
@@ -182,93 +292,6 @@ const closeModal = () => {
 </div>
 {/if}
 
-{#each orders as order}
-    <section out:fly="{{ y: -200, duration: 2000 }}" in:fly="{{ y: -200, duration: 1000 }}" class="accordion p-3">
-      <!-- Since order.id is unique to each object, we shall use it as element ID-->
-      <input type="checkbox" name="collapse" id="id-{ order.id }" checked="{false}">
-      <div class="handle" on:click="{()=>collapsible(`id-${ order.id }`)}" >
-        <!-- If status == true -->
-        
-        <label class:bg-checked="{ order.status }" id="lb-{ order.id }" data-status="{ order.status }" 
-          for="id-{ order.id }" on:click="{()=>collapsible(`id-${ order.id }`)}">
-          <span class="material-icons va-b">
-            expand_more
-            </span>
-            &nbsp;
-          {#if !order.status}
-            { order.title }
-          {:else}
-            <em><s><b>{ order.title }</b></s></em>
-          {/if}
-          
-        </label>
-
-        <p class="bg-gray-100 text-gray-500 text-sm p-2">
-          <span class="material-icons text-red-800 va-b">
-            home
-            </span> &nbsp; { order.address }</p>
-        <p class="bg-white text-gray-500 text-sm p-2">
-          <span class="material-icons text-blue-400 va-b">
-            phone
-            </span> &nbsp; { order.phone }</p>
-        <p class="bg-gray-100 text-gray-500 text-sm p-2">
-          <span class="material-icons text-green-600 va-b">
-            payments
-            </span> &nbsp; { order.total } PKR</p>
-        
-        <!-- Show Notes if exist -->
-        {#if order.notes.trim().length !== 0}
-        <p class="bg-white text-gray-500 text-sm p-2">
-          <span class="material-icons text-gray-400 va-b">
-            receipt
-            </span> &nbsp; <em>{ order.notes }</em></p>
-        {/if}
-            
-        </div>
-      <div class="content text-gray-600" on:click="{()=>collapsible(`id-${ order.id }`)}">
-
-        {#each order.content as cnt}
-        <div class="item">
-          <p><strong>Item:</strong> &nbsp; { cnt.title }</p>
-          <p><strong>Quantity:</strong> &nbsp; { cnt.qnt }</p>
-          <p><strong>Price:</strong> &nbsp; { cnt.price }</p>
-        </div>
-
-        {#if cnt.type == 'deal'}
-          {#each cnt.content as item, i}
-          <div class="deal bg-gray-100 text-gray-500 p-3 ml-6">
-            <p><strong>{ i+1 } .</strong> &nbsp; { item }</p>
-          </div>
-          {/each}
-        {/if}
-
-        {/each}
-      </div>
-      
-      <div class="relative flex justify-between p-2">
-        <p class="text-gray-400 timestamps"><em>{ order.time }</em></p>
-        <div class="absolute right-1 top-2 cursor-pointer">
-          <span on:click="{ ()=>markChecked(order.id, event) }" 
-            class="p-1 text-green-500 hover:bg-green-200 rounded">
-            <span class="hidden animate-spin pointer-events-none material-icons va-b">
-              autorenew
-              </span>
-            <span class="pointer-events-none material-icons va-b">
-             done
-            </span></span>
-          <span on:click="{ ()=>deleteOrder(order.id, event) }" 
-            class="text-red-700 hover:bg-red-200 p-1 rounded">
-            <span class="hidden animate-spin pointer-events-none material-icons va-b">
-              autorenew
-              </span>
-            <span class="pointer-events-none material-icons va-b">
-              delete
-              </span>
-          </span>
-        </div>
-      </div>
-    </section>
-{/each}
 
   </div>
 </div>
@@ -315,7 +338,7 @@ const closeModal = () => {
   overflow: visible;
 }
 
-.accordion label {
+.accordion h3 {
   display: block;
 }
 
@@ -340,7 +363,7 @@ const closeModal = () => {
   line-height: 1.2em;
 }
 
-.accordion label {
+.accordion h3 {
   color: #fff;
   cursor: pointer;
   font-weight: normal;
@@ -353,7 +376,7 @@ const closeModal = () => {
   background: #801515 !important;
 }
 
-.accordion .handle label:before {
+.accordion .handle h3:before {
   font-family: 'fontawesome';
   content: "\f054";
   display: inline-block;
@@ -363,7 +386,7 @@ const closeModal = () => {
   vertical-align: middle;
 }
 
-.accordion > input[type="checkbox"]:checked ~ .handle label:before {
+.accordion > input[type="checkbox"]:checked ~ .handle h3:before {
   content: "\f078";
 }
 
