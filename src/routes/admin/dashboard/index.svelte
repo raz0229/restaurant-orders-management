@@ -5,12 +5,14 @@ import { doc, onSnapshot, collection, where, updateDoc, deleteDoc, getDocs, quer
 import { fly, fade } from "svelte/transition"
 
 let orders = [];
-let confirmDelete = false, pendingDelete = '', filterValue = 'all', loadFilter = false;
+let confirmDelete = false, pendingDelete = '', filterValue = 'all', loadFilter = false, toggleLatest = false;
 let sort, update, lastVisible = null;
 
 const getDocuments = async (sr, update, doc) => { 
     let arr = [], filter;
     const ref = collection(db, 'orders')
+
+    sr = toggleLatest ? 'oldest' : 'latest'; // sort by default is by latest 
 
     switch (filterValue) {
     case 'checked':
@@ -60,7 +62,6 @@ let collapsible = (id) => {
 
 const unsubscribe = onSnapshot(collection(db, "orders"), () => {
   
-  sort = 'latest'; // sort by default is by latest 
   
     if (false) update = true;
     else {
@@ -69,7 +70,7 @@ const unsubscribe = onSnapshot(collection(db, "orders"), () => {
     }
     
   // watch for changes and restore orders
-    getDocuments(sort, update, lastVisible).then( order => {
+    getDocuments(update, lastVisible).then( order => {
       orders = order.slice();
     }).catch(e => {
       console.log('exception: ', e.message)
@@ -96,7 +97,7 @@ const markChecked = async (id, e) => {
 const filterOrders = () => {
   loadFilter = true;
 
-  getDocuments(sort, update, lastVisible).then( order => {
+  getDocuments(update, lastVisible).then( order => {
       orders = order.slice();
       loadFilter = false;
     }).catch(e => {
@@ -147,7 +148,17 @@ const closeModal = () => {
   </div>
   <div class="mt-12">
 
-<div class="p-4" style="text-align: end;">
+<div class="p-4 flex justify-between">
+
+  <div class="relative w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+    <span class="w-full">
+      <input bind:checked="{toggleLatest}" on:change="{filterOrders}" type="checkbox" name="toggle" id="toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+      <label for="toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+    </span>
+    <p class="latest-content pointer-events-none text-xs text-gray-600">Oldest</p>
+  </div>
+
+
 <div class="relative inline-flex">
   <svg class="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero"/></svg>
   <select bind:value="{filterValue}" on:change="{filterOrders}" 
@@ -157,6 +168,7 @@ const closeModal = () => {
     <option value="unchecked">Unchecked</option>
   </select>
 </div>
+
 </div>
 
 {#if orders.length === 0}
@@ -319,6 +331,17 @@ const closeModal = () => {
 .bg-modal {
   background-color: rgba(0, 0, 0, 0.6);
 }
+.toggle-label {
+    transition: background-color 0.3s ease;
+  }
+
+  .toggle-checkbox:checked {
+    right: 0;
+    border-color: #6882d3;
+  }
+  .toggle-checkbox:checked + .toggle-label {
+    background-color: #6883d3;
+  }
   /*
  CSS for the main interaction
 */
