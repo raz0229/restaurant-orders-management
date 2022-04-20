@@ -6,13 +6,13 @@ import { fly, fade } from "svelte/transition"
 
 let orders = [];
 let confirmDelete = false, pendingDelete = '', filterValue = 'all', loadFilter = false, toggleLatest = false;
-let sort, update, lastVisible = null;
+let lastVisible = null, overwrite = false;
 
-const getDocuments = async (sr, update, doc) => { 
+const getDocuments = async (update) => { 
     let arr = [], filter;
     const ref = collection(db, 'orders')
 
-    sr = toggleLatest ? 'oldest' : 'latest'; // sort by default is by latest 
+    let sr = toggleLatest ? 'oldest' : 'latest'; // sort by default is by latest 
 
     switch (filterValue) {
     case 'checked':
@@ -24,11 +24,10 @@ const getDocuments = async (sr, update, doc) => {
     default:
       filter = null;
   }
-
     //const 
-    let q = query(ref, orderBy(sr), startAfter(doc || null), limit(20));  // default limit is 20 orders with no filter
+    let q = query(ref, orderBy(sr), startAfter(lastVisible || null), limit(1));  // default limit is 20 orders with no filter
     
-    if (filter !== null) q = query(ref, filter, orderBy(sr), startAfter(doc || null), limit(20));
+    if (filter !== null) q = query(ref, filter, orderBy(sr), startAfter(lastVisible || null), limit(1));
 
     const querySnapshot = await getDocs(q);
     if (update) lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1]
@@ -62,15 +61,8 @@ let collapsible = (id) => {
 
 const unsubscribe = onSnapshot(collection(db, "orders"), () => {
   
-  
-    if (false) update = true;
-    else {
-        update = false
-        lastVisible = null
-    }
-    
   // watch for changes and restore orders
-    getDocuments(update, lastVisible).then( order => {
+    getDocuments(false).then( order => {
       orders = order.slice();
     }).catch(e => {
       console.log('exception: ', e.message)
@@ -96,10 +88,31 @@ const markChecked = async (id, e) => {
 
 const filterOrders = () => {
   loadFilter = true;
-
-  getDocuments(update, lastVisible).then( order => {
+  lastVisible = null;
+  overwrite = false;
+  getDocuments(false).then( order => {
+    if (order.length !== 0) document.querySelector('#loadMore').disabled = false;
       orders = order.slice();
       loadFilter = false;
+    }).catch(e => {
+      console.log('exception: ', e.message)
+    })
+}
+
+const loadMore = () => {
+  loadFilter = true;
+
+  getDocuments(true).then( order => {
+      loadFilter = false;
+
+      if (order.length === 0) document.querySelector('#loadMore').disabled = true;
+
+      if (overwrite) orders = orders.concat(order.slice());
+      else {
+          overwrite = true; // prevents overwriting/duplication of data
+          loadMore(); // required for first time
+      }
+
     }).catch(e => {
       console.log('exception: ', e.message)
     })
@@ -180,8 +193,10 @@ const closeModal = () => {
 
 
 {#if loadFilter}
-  <div class="m-4 text-gray-500" style="text-align: -webkit-center;">
-    <img class="w-1/6" src="../buffer.svg" alt="">
+<div in:fade out:fade class="z-30 flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-modal">
+    <div class="absolute m-4 text-gray-100" style="text-align: -webkit-center;">
+      <img class="w-2/4" src="../buffer.svg" alt="">
+    </div>
   </div>
 {/if}
 
@@ -275,6 +290,12 @@ const closeModal = () => {
 {/each}
 
 
+<div class="text-center">
+  <button on:click="{loadMore}" id="loadMore" class="text-xl mt-12 bg-indigo-600 border border-transparent rounded-md py-3 px-8 text-white hover:bg-indigo-700">
+      Load more
+  </button>
+</div>
+
 {/if}
 
 <!-- Delete Modal -->
@@ -342,6 +363,10 @@ const closeModal = () => {
   .toggle-checkbox:checked + .toggle-label {
     background-color: #6883d3;
   }
+#loadMore:disabled {
+  background-color: #c9c9c9;
+  pointer-events: fill;
+}
   /*
  CSS for the main interaction
 */
