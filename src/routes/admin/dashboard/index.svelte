@@ -1,11 +1,11 @@
 <script>
   // import db
 import { db } from "$lib/config/app";
-import { doc, onSnapshot, collection, where, updateDoc, deleteDoc, getDocs, query, orderBy, limit, startAfter } from "firebase/firestore";
+import { doc, onSnapshot, collection, where, updateDoc, deleteDoc, getDocs, query, orderBy, limit, startAfter, startAt, endAt } from "firebase/firestore";
 import { fly, fade } from "svelte/transition"
 
-let orders = [];
-let confirmDelete = false, pendingDelete = '', filterValue = 'all', loadFilter = false, toggleLatest = false;
+let fetchLimit = 20, orders = [], searchKey = '';
+let confirmDelete = false, pendingDelete = '', filterValue = 'all', searchValue = 'title', loadFilter = false, toggleLatest = false;
 let lastVisible = null, overwrite = false;
 
 const getDocuments = async (update) => { 
@@ -24,10 +24,11 @@ const getDocuments = async (update) => {
     default:
       filter = null;
   }
-    //const 
-    let q = query(ref, orderBy(sr), startAfter(lastVisible || null), limit(1));  // default limit is 20 orders with no filter
+    //start working here
+    searchKey = 'raja Abdullah'.toLowerCase();
+    let q = query(ref, orderBy(sr), where(searchValue, '==', searchKey), startAfter(lastVisible || null), limit(fetchLimit));  // default limit is 20 orders with no filter
     
-    if (filter !== null) q = query(ref, filter, orderBy(sr), startAfter(lastVisible || null), limit(1));
+    if (filter !== null) q = query(ref, filter, orderBy(sr), startAfter(lastVisible || null), limit(fetchLimit));
 
     const querySnapshot = await getDocs(q);
     if (update) lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1]
@@ -68,6 +69,16 @@ const unsubscribe = onSnapshot(collection(db, "orders"), () => {
       console.log('exception: ', e.message)
     })
 });
+
+const capitalize = (mySentence) => {
+  const words = mySentence.split(" ");
+
+  for (let i = 0; i < words.length; i++) {
+    words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+  }
+
+  return words.join(" ");
+}
 
 const markChecked = async (id, e) => {
 
@@ -157,6 +168,27 @@ const closeModal = () => {
       <p class="text-lg leading-relaxed mt-4 mb-4 text-gray-500">
         All the orders placed by your clients appear here in real-time. You can mark the order as 'taken' or delete the order if you wish 
       </p>
+
+<!-- Search bar component -->
+<div class="pt-2 inline-block relative mx-auto text-gray-600">
+  <input bind:value="{ searchKey }" class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none focus:border-blue-400"
+    type="search" name="search" placeholder="Search">
+  <button on:click="{()=>alert('Submitted')}" type="submit" class="absolute focus:outline-none right-4 top-0 mt-5 mr-4">
+    <svg class="text-gray-600 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+      viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve"
+      width="512px" height="512px">
+      <path
+        d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+    </svg>
+  </button>
+  <select bind:value="{searchValue}" class="absolute right-1 top-1 mt-4 mr-1 focus:outline-none" style="background: none; content-visibility: hidden;">
+    <svg class="w-2 h-2 m-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero"/></svg>
+    <option value="title">By Name</option>
+    <option value="phone">By Phone</option>
+  </select>
+</div>
+
     </div>
   </div>
   <div class="mt-12">
@@ -215,9 +247,9 @@ const closeModal = () => {
         </span>
         &nbsp;
       {#if !order.status}
-        { order.title }
+        { capitalize(order.title) }
       {:else}
-        <em><s><b>{ order.title }</b></s></em>
+        <em><s><b>{ capitalize(order.title) }</b></s></em>
       {/if}
       
       </h3>

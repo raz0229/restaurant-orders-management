@@ -14,7 +14,7 @@ const postData = async (content, delivery, title, phone, address, notes) => {
 
     // Add a new document in collection "orders"
     await addDoc(collection(db, "orders"), {
-        title : title.trim().substring(0,24), //name of person
+        title : title.trim().substring(0,24).toLowerCase(), //name of person
         phone : phone.trim().substring(0,14),
         address : address.trim().substring(0,100),
         notes : notes.trim().substring(0,200),
