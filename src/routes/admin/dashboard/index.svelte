@@ -24,11 +24,12 @@ const getDocuments = async (update) => {
     default:
       filter = null;
   }
-    //start working here
-    searchKey = 'raja Abdullah'.toLowerCase();
-    let q = query(ref, orderBy(sr), where(searchValue, '==', searchKey), startAfter(lastVisible || null), limit(fetchLimit));  // default limit is 20 orders with no filter
+    let q = query(ref, orderBy(sr), startAfter(lastVisible || null), limit(fetchLimit));  // default limit is 20 orders with no filter
     
     if (filter !== null) q = query(ref, filter, orderBy(sr), startAfter(lastVisible || null), limit(fetchLimit));
+    
+    if (searchKey.trim().length !== 0) q = query(ref, orderBy(sr), where(searchValue, '==', searchKey.trim().toLowerCase()), startAfter(lastVisible || null), limit(fetchLimit));  // default limit is 20 orders with no filter
+
 
     const querySnapshot = await getDocs(q);
     if (update) lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1]
@@ -63,11 +64,12 @@ let collapsible = (id) => {
 const unsubscribe = onSnapshot(collection(db, "orders"), () => {
   
   // watch for changes and restore orders
-    getDocuments(false).then( order => {
-      orders = order.slice();
-    }).catch(e => {
-      console.log('exception: ', e.message)
-    })
+  filterOrders(); // save search state
+    // getDocuments(false).then( order => {
+    //   orders = order.slice();
+    // }).catch(e => {
+    //   console.log('exception: ', e.message)
+    // })
 });
 
 const capitalize = (mySentence) => {
@@ -88,7 +90,7 @@ const markChecked = async (id, e) => {
   const label = document.querySelector(`#lb-${ id }`) 
   const status = label.dataset.status == 'true' ? false : true;
   const ref = doc(db, "orders", id);
-  
+
   await updateDoc(ref, {
     status
   })
@@ -98,19 +100,31 @@ const markChecked = async (id, e) => {
 }
 
 const filterOrders = () => {
+  
   loadFilter = true;
   lastVisible = null;
   overwrite = false;
+
+  const loadButton = document.querySelector('#loadMore');
+  const selectMenu = document.querySelector('#selectMenu');
+
+  selectMenu.disabled = false;
+
   getDocuments(false).then( order => {
-    if (order.length !== 0) document.querySelector('#loadMore').disabled = false;
+      
+      if (order.length !== 0 && loadButton) loadButton.disabled = false;
+      
       orders = order.slice();
       loadFilter = false;
+      if (searchKey.trim().length > 0) selectMenu.disabled = true;
+
     }).catch(e => {
       console.log('exception: ', e.message)
     })
 }
 
 const loadMore = () => {
+
   loadFilter = true;
 
   getDocuments(true).then( order => {
@@ -169,12 +183,19 @@ const closeModal = () => {
         All the orders placed by your clients appear here in real-time. You can mark the order as 'taken' or delete the order if you wish 
       </p>
 
+  <!-- Range slider -->
+      <main>
+        <input type="range" class="slider focus:outline-none" min="3" max="30" bind:value="{fetchLimit}" step="3" />
+        <p class="text-sm leading-relaxed mb-4 text-gray-500"><b>Orders Per Page: &nbsp;</b>{ fetchLimit }</p>
+      </main>
+
+
 <!-- Search bar component -->
 <div class="pt-2 inline-block relative mx-auto text-gray-600">
   <input bind:value="{ searchKey }" class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none focus:border-blue-400"
-    type="search" name="search" placeholder="Search">
-  <button on:click="{()=>alert('Submitted')}" type="submit" class="absolute focus:outline-none right-4 top-0 mt-5 mr-4">
-    <svg class="text-gray-600 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+    type="search" name="search" placeholder="Search Orders">
+  <button on:click="{filterOrders}" type="submit" class="absolute focus:outline-none right-4 top-0 mt-5 mr-4">
+    <svg class="text-gray-600 animate-pulse h-4 w-4 fill-current text-blue-600" xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
       viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve"
       width="512px" height="512px">
@@ -182,7 +203,8 @@ const closeModal = () => {
         d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
     </svg>
   </button>
-  <select bind:value="{searchValue}" class="absolute right-1 top-1 mt-4 mr-1 focus:outline-none" style="background: none; content-visibility: hidden;">
+  <select bind:value="{searchValue}"
+    class="absolute right-1 top-1 mt-4 mr-1 focus:outline-none" style="background: none; content-visibility: hidden;">
     <svg class="w-2 h-2 m-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero"/></svg>
     <option value="title">By Name</option>
     <option value="phone">By Phone</option>
@@ -206,7 +228,7 @@ const closeModal = () => {
 
 <div class="relative inline-flex">
   <svg class="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero"/></svg>
-  <select bind:value="{filterValue}" on:change="{filterOrders}" 
+  <select bind:value="{filterValue}" id="selectMenu" on:change="{filterOrders}" 
     class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none">
     <option value="all">Show All</option>
     <option value="checked">Checked</option>
@@ -399,6 +421,14 @@ const closeModal = () => {
   background-color: #c9c9c9;
   pointer-events: fill;
 }
+.slider {
+  width: 50%;
+  margin-top: 2rem;
+}
+input[type="range"] {
+		color: #677bf0;
+		--track-color: rgba(255, 255, 255, 0.1);
+	}
   /*
  CSS for the main interaction
 */
