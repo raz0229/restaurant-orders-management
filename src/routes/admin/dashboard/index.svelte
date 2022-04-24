@@ -186,7 +186,7 @@ const closeModal = () => {
   <!-- Range slider -->
       <main>
         <input type="range" class="slider focus:outline-none" min="3" max="30" bind:value="{fetchLimit}" step="3" />
-        <p class="text-sm leading-relaxed mb-4 text-gray-500"><b>Orders Per Page: &nbsp;</b>{ fetchLimit }</p>
+        <p class="text-sm leading-relaxed mb-4 text-gray-500"><b>Orders Per Search: &nbsp;</b>{ fetchLimit }</p>
       </main>
 
 

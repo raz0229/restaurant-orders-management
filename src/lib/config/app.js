@@ -151,7 +151,8 @@ export const products = [
         id: "03-00",
         title: "Zinger Burger",
         price: 0,
-        img: "/menu/zinger-burger.jpg"
+        img: "/menu/zinger-burger.jpg",
+        sizes: ['S', 'M', 'L']
       },
       {
         id: "03-01",

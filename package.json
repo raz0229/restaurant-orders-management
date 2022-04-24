@@ -20,6 +20,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@sanity/client": "^3.3.0",
     "firebase": "^9.6.9",
     "firebase-admin": "^10.0.2"
   }

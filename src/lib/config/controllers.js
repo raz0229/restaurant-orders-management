@@ -1,7 +1,35 @@
 import { db, auth, products } from "$lib/config/app";
 import { collection, getDocs, query, doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth"
+import sanityClient from '@sanity/client'
 
+const client = sanityClient({
+  projectId: 'm0mpwiez',
+  dataset: 'production',
+  apiVersion: '2021-03-24', // use current UTC date - see "specifying API version"!
+  token: '', // auth token, or leave blank for unauthenticated usage
+  useCdn: true, // `false` if you want to ensure fresh data
+})
+
+const query1 = `*[_type == "product"]
+{
+  _id,
+  title,
+  prices,
+  "img": image.asset->url
+}`;
+
+const query2 = `*[_type == "group"]
+{
+  title,
+  sizes,
+  priority,
+  products[]->{
+    title,
+    slug,
+    prices
+  }
+}`;
 
 const getPrices = async () => {
 
@@ -96,6 +124,17 @@ export const getMetadata = (id, arr, size, qnt) => {
 
 
 export const getProductsPopulatedWithPrices = async () => {
+
+
+client.fetch(query2).then((products) => {
+  console.log('Products: ')
+  products.forEach((product) => {
+   // console.log(product)
+    //console.log(product._id, product.title, product.prices, `${product.img}?h=250`, '\n')
+     console.log(product.title, product.priority , product.sizes)
+     console.log(product.products)
+  })
+})
 
   const prices = await getPrices();
   

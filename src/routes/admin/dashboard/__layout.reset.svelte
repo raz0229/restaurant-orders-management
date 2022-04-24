@@ -43,7 +43,7 @@
 			  <!-- Items Section -->
 			  <li class="hover:bg-gray-100">
 				  <a
-					  href="."
+					  href="/admin/dashboard"
 					  class="h-16 px-6 flex flex justify-center items-center w-full
 					  focus:text-orange-500">
 					  <svg
@@ -65,14 +65,14 @@
 							  0-1.79 1.11z"></path>
 					  </svg>
 					  <span class="sc-list text-lg pl-2">
-						  Dashboard
+						  Orders
 					  </span>
 				  </a>
 			  </li>
   
 			  <li class="hover:bg-gray-100">
 				  <a
-					  href="."
+					  href="/admin/products"
 					  class="h-16 px-6 flex flex justify-center items-center w-full
 					  focus:text-orange-500">
 					  <svg
@@ -90,7 +90,7 @@
 							  d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
 					  </svg>
 					  <span class="sc-list text-lg pl-2">
-						  Something
+						  Products
 					  </span>
 				  </a>
 			  </li>
