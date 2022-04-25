@@ -107,95 +107,6 @@
                 </div>
             {/if}
 
-<!--Regular Pizzas-->
-
-<!-- 
-                <h3 class="text-gray-600 text-2xl font-medium">Regular Pizzas</h3>
-                <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
-                    
-                    {#each products as item}
-                    {#if item.id.substring(0,2) == "00"}
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                        <div on:click="{()=>sendToCart(event, item.sizes)}" class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
-                            <button class="p-2 rounded-full bg-indigo-500 text-white mx-5 -mb-4 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-500">
-                                <span style="pointer-events: none;" class="material-icons">add_shopping_cart</span>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3 size-check" data-size="l" data-title="{item.title}"
-                            data-id="{item.id}" data-price-s="{item.priceS}" data-price-m="{item.priceM}" data-price-l="{item.priceL}">
-                            <h3 class="text-gray-700 uppercase">{item.title}</h3>
-                            <span class="text-gray-500 mt-2">{item.priceL} PKR</span>
-                            <div class="size">
-                                <span class="sizes" on:click="{()=>sizeSet('s', event)}">S</span>
-                                <span class="sizes" on:click="{()=>sizeSet('m', event)}">M</span>
-                                <span class="sizes" on:click="{()=>sizeSet('l', event)}">L</span>
-                            </div>
-                        </div>
-                    </div>
-                    {/if}
-                    {/each}
-
-                </div> -->
-
-
-
-<!--Cafe's Special Pizzas-->
-
-<!-- 
-                <h3 class="mt-14 text-gray-600 text-2xl font-medium">Cafe's Special Pizzas</h3>
-                <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
-                    {#each products as item}
-                    {#if item.id.substring(0,2) == "01"}
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                        <div on:click="{()=>sendToCart(event, item.sizes)}" class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
-                            <button class="p-2 rounded-full bg-indigo-500 text-white mx-5 -mb-4 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-500">
-                                <span style="pointer-events: none;" class="material-icons">add_shopping_cart</span>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3 size-check" data-size="l" data-title="{item.title}"
-                        data-id="{item.id}" data-price-s="{item.priceS}" data-price-m="{item.priceM}" data-price-l="{item.priceL}">
-                            <h3 class="text-gray-700 uppercase">{item.title}</h3>
-                            <span class="text-gray-500 mt-2">{item.priceL} PKR</span>
-                            <div class="size">
-                                <span class="sizes" on:click="{()=>sizeSet('s', event)}">S</span>
-                                <span class="sizes" on:click="{()=>sizeSet('m', event)}">M</span>
-                                <span class="sizes" on:click="{()=>sizeSet('l', event)}">L</span>
-                            </div>
-                        </div>
-                    </div>
-                    {/if}
-                    {/each}
-                </div>
- -->
-
-
-<!--Cafe's treats (Hotwings, nuggets)-->
-                
-                <!-- <h3 class="mt-14 text-gray-600 text-2xl font-medium">Cafe's Treats</h3>
-                <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
-                    {#each products as item}
-                    {#if item.id.substring(0,2) == "02"}
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                        <div on:click="{()=>sendToCart(event, item.sizes)}" class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
-                            <button class="p-2 rounded-full bg-indigo-500 text-white mx-5 -mb-4 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-500">
-                                <span style="pointer-events: none;" class="material-icons">add_shopping_cart</span>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3 size-check" data-size="l" data-title="{item.title}"
-                        data-id="{item.id}" data-price-s="{item.priceS}" data-price-m="{item.priceM}" data-price-l="{item.priceL}">
-                            <h3 class="text-gray-700 uppercase">{item.title}</h3>
-                            <span class="text-gray-500 mt-2">{item.priceL} PKR</span>
-                            <div class="size">
-                                <span class="sizes" on:click="{()=>sizeSet('s', event)}">10</span>
-                                <span class="sizes" on:click="{()=>sizeSet('m', event)}">15</span>
-                                <span class="sizes" on:click="{()=>sizeSet('l', event)}">20</span>
-                            </div>
-                        </div>
-                    </div>
-                    {/if}
-                    {/each}
-
-                </div> -->
         
         {#each groups as group}
         <h3 class="mt-14 text-gray-600 text-2xl font-medium">{ group.title }</h3>
@@ -211,7 +122,7 @@
 
                         {#if item.prices.length === 1}
                         <div class="px-5 py-3 size-check" data-title="{item.title}"
-                        data-id="{item.id}" data-price="{item.prices[0]}" data-size="st">
+                        data-id="{item._id}" data-price="{item.prices[0]}" data-size="st">
                             <h3 class="text-gray-700 uppercase">{item.title}</h3>
                             <span class="text-gray-500 mt-2">{item.prices[0]} PKR</span>
                             <div class="size">
@@ -222,7 +133,7 @@
                         </div>
                         {:else if item.prices.length === 2}
                         <div class="px-5 py-3 size-check" data-size="m" data-title="{item.title}"
-                        data-id="{item.id}" data-price-s="{item.prices[0]}" data-price-m="{item.prices[1]}">
+                        data-id="{item._id}" data-price-s="{item.prices[0]}" data-price-m="{item.prices[1]}">
                             <h3 class="text-gray-700 uppercase">{item.title}</h3>
                             <span class="text-gray-500 mt-2">{item.prices[1]} PKR</span>
                             <div class="size">
@@ -233,7 +144,7 @@
                         </div>
                         {:else}
                         <div class="px-5 py-3 size-check" data-size="l" data-title="{item.title}"
-                        data-id="{item.id}" data-price-s="{item.prices[0]}" data-price-m="{item.prices[1]}" data-price-l="{item.prices[2]}">
+                        data-id="{item._id}" data-price-s="{item.prices[0]}" data-price-m="{item.prices[1]}" data-price-l="{item.prices[2]}">
                             <h3 class="text-gray-700 uppercase">{item.title}</h3>
                             <span class="text-gray-500 mt-2">{item.prices[2]} PKR</span>
                             <div class="size">
@@ -250,34 +161,6 @@
 
                 </div>
         {/each}
-
-<!--EXTRAS (Hamburger, Cold drinks and french fries)-->
-
-<!-- 
-                <h3 class="mt-14 text-gray-600 text-2xl font-medium">Extras</h3>
-                <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
-                    {#each products as item}
-                    {#if item.id.substring(0,2) == "03"}
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                        <div on:click="{()=>sendToCart(event)}" class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
-                            <button class="p-2 rounded-full bg-indigo-500 text-white mx-5 -mb-4 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-500">
-                                <span class="material-icons" style="pointer-events: none;">add_shopping_cart</span>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3 size-check" data-title="{item.title}"
-                        data-id="{item.id}" data-price="{item.price}" data-size="st">
-                            <h3 class="text-gray-700 uppercase">{item.title}</h3>
-                            <span class="text-gray-500 mt-2">{item.price} PKR</span>
-                            <div class="size">
-                                <span class="sizes static">S</span>
-                                <span class="sizes static">M</span>
-                                <span class="sizes static">L</span>
-                            </div>
-                        </div>
-                    </div>
-                    {/if}
-                    {/each}
-                </div> -->
 
 
                 <!-- Hidden data members to make the CSS work for some strange reason -->
