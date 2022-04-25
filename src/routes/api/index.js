@@ -10,12 +10,12 @@ export async function get() {
   */
 
     // populate array with fetched prices
-    const products = await getProductsPopulatedWithPrices();
+    const groups = await getProductsPopulatedWithPrices();
 
     return {
         status: 200,
         body: { 
-          products 
+          groups 
         } 
     }
     

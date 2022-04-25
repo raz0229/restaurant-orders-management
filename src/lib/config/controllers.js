@@ -1,33 +1,17 @@
-import { db, auth, products } from "$lib/config/app";
+import { db, auth, client, products } from "$lib/config/app";
 import { collection, getDocs, query, doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth"
-import sanityClient from '@sanity/client'
 
-const client = sanityClient({
-  projectId: 'm0mpwiez',
-  dataset: 'production',
-  apiVersion: '2021-03-24', // use current UTC date - see "specifying API version"!
-  token: '', // auth token, or leave blank for unauthenticated usage
-  useCdn: true, // `false` if you want to ensure fresh data
-})
-
-const query1 = `*[_type == "product"]
-{
-  _id,
-  title,
-  prices,
-  "img": image.asset->url
-}`;
-
-const query2 = `*[_type == "group"]
+const groupQuery = `*[_type == "group"]
 {
   title,
   sizes,
   priority,
   products[]->{
+    _id,
     title,
-    slug,
-    prices
+    prices,
+    "img" : image.asset->url
   }
 }`;
 
@@ -61,11 +45,15 @@ const getPrices = async () => {
 export const getDeals = async () => { 
   let arr = [];
   const ref = collection(db, 'deals')
-  const querySnapshot = await getDocs(query(ref));
-  querySnapshot.forEach((doc) => {
+  try {
+    const querySnapshot = await getDocs(query(ref));
+    querySnapshot.forEach((doc) => {
       arr.push(Object.assign(doc.data()));
-  });
-  return arr;
+    });
+    return arr;
+  } catch (e) {
+    return arr;
+  }
 }
 
 export const getActiveHours = async () => {
@@ -126,31 +114,37 @@ export const getMetadata = (id, arr, size, qnt) => {
 export const getProductsPopulatedWithPrices = async () => {
 
 
-client.fetch(query2).then((products) => {
-  console.log('Products: ')
-  products.forEach((product) => {
-   // console.log(product)
-    //console.log(product._id, product.title, product.prices, `${product.img}?h=250`, '\n')
-     console.log(product.title, product.priority , product.sizes)
-     console.log(product.products)
+// client.fetch(groupQuery).then((products) => {
+//   console.log('Products: ')
+//   products.forEach((product) => {
+//    console.log(product.title, product.priority , product.sizes)
+//      product.products.forEach(x => {
+//         console.log(x._id, x.title, x.prices)
+//         console.log(`${x.img}?h=250`, '\n')
+//      })
+     
+//   })
+// })
+  const groups = await client.fetch(groupQuery)
+  return new Promise( resolve => {
+    resolve(groups)
   })
-})
 
-  const prices = await getPrices();
+  // const prices = await getPrices();
   
-  return new Promise(resolve => {
-      // populate array with fetched prices
-      products.filter(obj => {
-          if (obj.price !== undefined ) obj.price = prices.get(obj.id).price;
-          else {
-            obj.priceS = prices.get(obj.id).priceS;
-            obj.priceM = prices.get(obj.id).priceM;
-            obj.priceL = prices.get(obj.id).priceL;
-          }
-        })
+  // return new Promise(resolve => {
+  //     // populate array with fetched prices
+  //     products.filter(obj => {
+  //         if (obj.price !== undefined ) obj.price = prices.get(obj.id).price;
+  //         else {
+  //           obj.priceS = prices.get(obj.id).priceS;
+  //           obj.priceM = prices.get(obj.id).priceM;
+  //           obj.priceL = prices.get(obj.id).priceL;
+  //         }
+  //       })
       
-      resolve(products)
-  });
+  //     resolve(products)
+  // });
 }
 
 export const isSignedIn = async () => {

@@ -4,12 +4,12 @@
     const dealRes = await fetch('/api/deals')
 
     const { dealArray } = await dealRes.json()
-    const { products } = await res.json()
+    const { groups } = await res.json()
     
     if (res.ok) {
       return {
         props: {
-          products,
+          groups,
           dealArray
         }
       }
@@ -29,7 +29,7 @@
     import { cart } from '$lib/stores';
     
     export let dealArray;
-    export let products;
+    export let groups;
 
   let hideCart;
   let loadMore = false;
@@ -66,5 +66,5 @@ const scrollHandler = () => {
 />
 
 {#if loadMore}
-<Products bind:products/>
+<Products bind:groups/>
 {/if}

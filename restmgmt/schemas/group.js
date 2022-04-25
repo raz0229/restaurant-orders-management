@@ -21,10 +21,14 @@ export default {
       validation: Rule => Rule.min(0)
     },
     {
-        title: 'Sizes',
+        title: 'Available Sizes',
         name: 'sizes',
         type: 'array',
-        of: [{type: 'string'}]
+        of: [{type: 'string'}],
+        description: 'Different prices for different sizes (S, M, L)',
+        validation: Rule => Rule.custom(arr => {
+          return arr.filter(x=>x.trim().length > 2).length === 0 ? true : 'No more than 2 characters allowed for an element';
+        })
     },
     {
       title: 'Products',
