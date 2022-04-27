@@ -1,12 +1,12 @@
 <script>
-
+    const html = document.querySelector('html')
 </script>
 
 
-<div class="w-full mt-9 bg-white dark:bg-gray-800">
+<div class="w-full mt-9 bg-white dark:bg-dark-bg">
     <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12">
         <div class="text-center pb-12">
-            <h1 class="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-gray-800 dark:text-white">
+            <h1 class="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-gray-800 dark:text-light-header">
                 Where to find us?        
             </h1>
             <div id="map">
@@ -25,6 +25,9 @@
   /* The width is the width of the web page */
 }
 iframe {
-    border-radius:10px; /*filter: invert(90%)*/
+    border-radius:10px; 
+}
+.filter-map {
+    filter: invert(90%)
 }
 </style>

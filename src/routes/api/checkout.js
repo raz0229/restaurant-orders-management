@@ -1,6 +1,6 @@
 // import db
 import { db } from "$lib/config/app";
-import { getDeals, getProductsPopulatedWithPrices, getMetadata, getActiveHours, getSettings } from "$lib/config/controllers";
+import { getDeals, getAllProducts, getMetadata, getActiveHours, getSettings } from "$lib/config/controllers";
 import { collection, addDoc } from "firebase/firestore"; 
 
 const postData = async (content, delivery, title, phone, address, notes) => {
@@ -30,6 +30,7 @@ const postData = async (content, delivery, title, phone, address, notes) => {
 
 const createContent = ( arrayToManipulate, deals, products ) => {
     return new Promise((resolve, reject) => {
+        
         for (item of arrayToManipulate) {
 
             let metadata;
@@ -65,7 +66,7 @@ export async function post({ body }) {
         const deliveryCharges = await getSettings('delivery-charges');
 
         if (isActiveHours) {
-            const products = await getProductsPopulatedWithPrices();
+            const products = await getAllProducts();
             const deals = await getDeals();
 
             const content = await createContent(contentArr, deals, products);

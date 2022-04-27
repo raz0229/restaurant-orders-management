@@ -88,22 +88,21 @@ export const getMetadata = (id, arr, size, qnt) => {
   if (item) {
       switch (size) {
           case 's':
-              price = item.priceS * parseInt(qnt);
+              price = item.prices[0] * parseInt(qnt);
               title = `${item.title} (${item.sizes[0]})`;
               break;
           case 'm':
-              price = item.priceM * parseInt(qnt);
+              price = item.prices[1] * parseInt(qnt);
               title = `${item.title} (${item.sizes[1]})`;
               break;
           case 'l':
-              price = item.priceL * parseInt(qnt);
+              price = item.prices[2] * parseInt(qnt);
               title = `${item.title} (${item.sizes[2]})`;
               break;
           default:
-              price = item.price * parseInt(qnt);
+              price = item.price * parseInt(qnt) || item.prices[0] * parseInt(qnt);
               break;
       }
-  
       return [price, title, item.content ? item.content : []];
   }
 
@@ -145,6 +144,24 @@ export const getProductsPopulatedWithPrices = async () => {
       
   //     resolve(products)
   // });
+}
+
+export const getAllProducts = async () => {
+  const groups = await client.fetch(groupQuery)
+  return new Promise( resolve => {
+    let arr = [];
+    groups.forEach( group => {
+      group.products.forEach( product => {
+        arr.push(Object.assign({
+          id: product._id,
+          prices: product.prices,
+          title: product.title,
+          sizes: group.sizes
+        }));
+      })
+    });
+    resolve(arr)
+  })
 }
 
 export const isSignedIn = async () => {

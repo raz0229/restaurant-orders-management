@@ -79,22 +79,22 @@ const showNotificationOnBell = () => {
 <!-- Generating images via canvas -->
 <canvas id="canvas" class="hidden" width="400" height="250"></canvas>
 
-<div class="w-full mt-9 bg-white dark:bg-gray-800">
+<div class="w-full mt-9 bg-transparent">
     <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12">
         <div class="text-center pb-12">
-            <h2 class="text-base font-bold text-indigo-600">
+            <h2 class="text-base font-bold text-indigo-600 dark:text-light-p">
                 Hottest deals that are updated daily
             </h2>
-            <h1 class="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-gray-800 dark:text-white">
+            <h1 class="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-gray-800 dark:text-light-header">
                 Check our latest for the best price            
             </h1>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
            {#each dealArray as da, i}
-            <div class="relative w-full bg-gray-900 rounded-lg shadow-lg overflow-hidden flex flex-col justify-center items-center">
+            <div class="relative w-full bg-gray-800 dark:bg-std-black-bg rounded-lg shadow-lg overflow-hidden flex flex-col justify-center items-center">
                 <div class="ribbon font-bold text-white whitespace-no-wrap px-4">
-                    <div class="label">{da.discount}% OFF</div>
+                    <div class="label bg-red-ribbon dark:bg-dark-red-ribbon">{da.discount}% OFF</div>
                 </div>
                 <div class="zoom">
                     <img class="canva object-center object-cover h-auto w-full" id="canvasimg{i}" src="" alt="photo">
@@ -104,14 +104,14 @@ const showNotificationOnBell = () => {
                         <p class="text-xl text-white font-bold mb-2">{da.title}</p>
                         <ul class="list-disc">
                             {#each da.content as dc} 
-                            <li class="text-base text-gray-400 font-normal">{dc}</li>
+                            <li class="text-base text-gray-400 dark:text-dark-p font-normal">{dc}</li>
                             {/each}
                         </ul>
                     </div>
                     <div class="relative py-8 sm:py-6">
                         <p class="text-3xl text-white font-bold">{da.price}</p>
-                        <span class="text-base text-gray-400 font-normal">PKR</span>
-                        <button on:click={ ()=>showNotificationOnCart(da.id, da.title, da.price) } class="adddealbutton absolute bottom-0 rounded-full bg-indigo-500 text-white drop-shadow-xl hover:bg-indigo-700">
+                        <span class="text-base text-gray-400 dark:text-dark-p font-normal">PKR</span>
+                        <button on:click={ ()=>showNotificationOnCart(da.id, da.title, da.price) } class="adddealbutton absolute bottom-0 rounded-full bg-indigo-500 dark:bg-dark-indigo text-white drop-shadow-xl hover:bg-indigo-700">
                             <span class="material-icons">
                                 add_shopping_cart
                                 </span>
@@ -127,7 +127,7 @@ const showNotificationOnBell = () => {
         
         {#if showButton}
         <div class="text-center">
-            <button  on:click="{()=>location.href='/deals'}" class="text-xl mt-12 bg-indigo-600 border border-transparent rounded-md py-3 px-8 text-white hover:bg-indigo-700">
+            <button  on:click="{()=>location.href='/deals'}" class="text-xl mt-12 bg-indigo-600 dark:bg-dark-indigo-button border border-transparent rounded-md py-3 px-8 text-white hover:bg-indigo-700">
                 Load all deals
             </button>
         </div>
@@ -178,7 +178,6 @@ padding: 10px 0;
 font-size: 15px;
 text-align: center;
 color: #fff;
-background-color: #e85e68;
 -webkit-box-shadow: 0px 0px 4px rgba(0,0,0,0.3);
 -moz-box-shadow: 0px 0px 4px rgba(0,0,0,0.3);
 -ms-box-shadow: 0px 0px 4px rgba(0,0,0,0.3);

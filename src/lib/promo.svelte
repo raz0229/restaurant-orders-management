@@ -1,11 +1,10 @@
 
-<!-- This example requires Tailwind CSS v2.0+ -->
-<div class="relative bg-white mt-9 overflow-hidden">
+<div class="relative bg-white dark:bg-dark-bg mt-9 overflow-hidden">
     <div class="pt-16 pb-80 sm:pt-24 sm:pb-40 lg:pt-40 lg:pb-48">
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 sm:static">
         <div class="sm:max-w-lg">
-          <h1 class="text-4xl font font-extrabold tracking-tight text-gray-900 sm:text-6xl">The best Pizza place in town!</h1>
-          <p class="mt-4 text-xl text-gray-500">Discover a wide range of flavors for your next meal or a perfect snack, prepared with perfection and love. Explore our deals or make your own combo right now!</p>
+          <h1 class="text-4xl font font-extrabold tracking-tight text-gray-900 sm:text-6xl dark:text-dark-blue">The best Pizza place in town!</h1>
+          <p class="mt-4 text-xl text-gray-500 dark:text-dark-p">Discover a wide range of flavors for your next meal or a perfect snack, prepared with perfection and love. Explore our deals or make your own combo right now!</p>
         </div>
         <div>
           <div class="mt-10">
@@ -44,9 +43,13 @@
               </div>
             </div>
   
-            <a href="/deals" class="inline-block text-center bg-indigo-600 border border-transparent rounded-md py-3 px-8 font-medium text-white hover:bg-indigo-700">Explore our Menu</a>
+            <a href="/deals" class="inline-block text-center bg-indigo-600 dark:bg-dark-indigo-button border border-transparent rounded-md py-3 px-8 font-medium text-white hover:bg-indigo-700">Explore our Menu</a>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <style>
+    
+  </style>
