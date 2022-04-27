@@ -15,7 +15,9 @@ module.exports = {
         'dark-body-bg': '#1f1f1f',
         'std-black-bg': '#2e2e2e',
         'red-ribbon': '#e85e68',
-        'dark-red-ribbon': '#bc2f38'
+        'dark-red-ribbon': '#bc2f38',
+        'review-title': '#b3bccb',
+        'stars-yellow': '#e6d699'
       }
     },
   },

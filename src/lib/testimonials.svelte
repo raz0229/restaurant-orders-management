@@ -53,10 +53,10 @@
         <path d="M46.3856 20.7692C45.309 19.6925 44.0013 19.154 42.4626 19.154H36.0011C35.2322 19.154 34.5776 18.8849 34.04 18.3463C33.5012 17.8078 33.2323 17.154 33.2323 16.3845V15.4619C33.2323 13.4233 33.9536 11.6831 35.3954 10.2406C36.8372 8.79859 38.5777 8.0773 40.6171 8.0773H42.4627C42.9627 8.0773 43.3955 7.89453 43.7608 7.52929C44.1258 7.16384 44.3092 6.73131 44.3092 6.23128V2.53864C44.3092 2.03872 44.1259 1.60578 43.7608 1.24034C43.3956 0.875398 42.9628 0.692322 42.4627 0.692322H40.6171C38.6158 0.692322 36.7079 1.08212 34.8899 1.86059C33.0729 2.63958 31.5015 3.69257 30.1744 5.01967C28.8473 6.34616 27.7941 7.91817 27.0155 9.7357C26.2368 11.553 25.8468 13.4618 25.8468 15.4618V35.769C25.8468 37.3083 26.3855 38.6152 27.4622 39.6926C28.5389 40.7693 29.8466 41.3076 31.3852 41.3076H42.462C44.0006 41.3076 45.3082 40.7693 46.3849 39.6926C47.4623 38.6152 47.9999 37.3083 47.9999 35.769V24.6926C48 23.1535 47.4623 21.8466 46.3856 20.7692Z" fill="#2865E9"/>
     </svg>
 
-    <h1 class="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-gray-900 pb-2">
+    <h1 class="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-gray-900 dark:text-light-header pb-2">
         Find customers opnion on us
     </h1>
-    <p class="text-gray-400 font-normal text-base">Happy reviews by our happy customers. So, sit back, relax and watch your favorite TV show while we work on your order. You can post your own review here on our site through the Reviews page.</p>
+    <p class="text-gray-400 dark:text-dark-p font-normal text-base">Happy reviews by our happy customers. So, sit back, relax and watch your favorite TV show while we work on your order. You can post your own review here on our site through the Reviews page.</p>
 </div>
 
 
@@ -78,13 +78,13 @@
     <div in:fade out:fade class="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
        
         {#each reviews as rev}
-        <div class="bg-white rounded-lg p-6">
+        <div class="bg-white dark:bg-dark-bg rounded-lg p-6">
             <div class="flex items-center space-x-6 mb-4">
-                <span class="material-icons h-28 w-28 pl-4 object-cover object-center text-8xl">
+                <span class="material-icons h-28 w-28 pl-4 dark:text-review-title object-cover object-center text-8xl">
                     account_circle
                     </span>
                 <div>
-                    <p class="text-xl text-gray-700 font-normal">{rev.title}</p>
+                    <p class="text-xl text-gray-700 dark:text-review-title font-normal">{rev.title}</p>
                     <p  on:click="{()=>location.href=`mailto:${rev.email}`}"
                         class="rev-email text-sm text-indigo-400 fonr-normal mb-1"><em>{rev.email}</em></p>
                     <p class="text-base text-gray-400 font-normal">
@@ -93,7 +93,7 @@
                 </div>
             </div>
             <div>
-                <p class="text-gray-500 leading-loose font-normal text-base">{ rev.comment }</p>
+                <p class="text-gray-500 dark:text-review-title leading-loose font-normal text-base">{ rev.comment }</p>
                 <p class="text-sm text-gray-400 font-normal">{rev.date}</p>
             </div>
         </div>
@@ -104,7 +104,7 @@
 
     {#if showButton}
     <div class="text-center">
-        <button on:click="{()=>location.href='/reviews'}" class="text-xl mt-12 bg-indigo-600 border border-transparent rounded-md py-3 px-8 text-white hover:bg-indigo-700">
+        <button on:click="{()=>location.href='/reviews'}" class="text-xl mt-12 bg-indigo-600 dark:bg-dark-indigo-button border border-transparent rounded-md py-3 px-8 text-white hover:bg-indigo-700">
             Load all reviews
         </button>
     </div>

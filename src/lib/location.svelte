@@ -1,5 +1,17 @@
 <script>
-    const html = document.querySelector('html')
+    import { browser } from "$app/env"
+    import { onMount } from "svelte";
+
+    if (browser) {
+        const html = document.querySelector('html')
+        
+        onMount(() => {
+            const map = document.querySelector('#map');
+
+            if (html.classList.contains('dark')) map.style.filter = 'invert(90%)'
+            else map.style.filter = 'none'
+        })
+    }
 </script>
 
 
@@ -10,7 +22,7 @@
                 Where to find us?        
             </h1>
             <div id="map">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d13791.074020199378!2d72.8191272!3d30.21515395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2s!4v1646666169958!5m2!1sen!2s" width="100%" height="400" allowfullscreen="false" loading="lazy"></iframe>
+                <iframe class="frame" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d13791.074020199378!2d72.8191272!3d30.21515395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2s!4v1646666169958!5m2!1sen!2s" width="100%" height="400" allowfullscreen="false" loading="lazy"></iframe>
             </div>
         </div>
     </section>
@@ -26,8 +38,5 @@
 }
 iframe {
     border-radius:10px; 
-}
-.filter-map {
-    filter: invert(90%)
 }
 </style>
