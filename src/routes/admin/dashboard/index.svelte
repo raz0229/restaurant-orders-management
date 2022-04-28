@@ -40,21 +40,6 @@ const getDocuments = async (update) => {
     return arr;
 }
 
-// let sort = 'latest'; // sort by default is by latest 
-
-//     let update;     // if true, next limit of data will be sent back
-//     if (false) update = true;
-//     else {
-//         update = false
-//         lastVisible = null
-//     }
-    
-//     getDocuments(sort, update, lastVisible).then( order => {
-//       orders = order;
-//       console.log('orderrs: ', orders)
-//     }).catch(e => {
-//       console.log('exception: ', e.message)
-//     })
         
 let collapsible = (id) => {
   let elem = document.querySelector(`#${id.trim()}`);
@@ -174,6 +159,14 @@ const closeModal = () => {
 }
 
 </script>
+
+<button on:click="{unsubscribe}" 
+  class="broadcast absolute right-4 top-2 p-2 rounded-full border-2 border-red-300 bg-transparent hover:bg-red-200 text-center text-gray-600">
+  <span class="motion-safe:animate-[pulse_2s_ease_infinite] text-md text-red-500 material-icons va-b">
+    adjust
+    </span>&nbsp;
+  <span class="content text-md" style="font-weight: bold;"></span>
+</button>
 
 <div id="menu" class="mt-12 container mx-auto px-4 lg:pt-24 lg:pb-64">
   <div class="flex flex-wrap text-center justify-center">
@@ -451,6 +444,18 @@ input[type="range"] {
 .accordion h3 {
   display: block;
 }
+
+.broadcast {
+  transition: all ease-in 0.3s;
+}
+.broadcast .content::after {
+  content: 'LIVE';
+}
+.broadcast:hover .content::after {
+  content: 'Stop Live';
+  font-weight: 500;
+}
+
 
 /*
  Styling

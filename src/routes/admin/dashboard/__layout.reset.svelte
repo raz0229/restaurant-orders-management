@@ -20,7 +20,14 @@
 		})
 	}
 
-	if (browser) checkState()
+	const removeDarkMode = () => {
+		document.querySelector('html').classList.remove('dark');
+	}
+
+	if (browser) {
+		removeDarkMode()
+		checkState()
+	}
 </script>
 
   <div class="container">

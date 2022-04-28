@@ -20,6 +20,9 @@ module.exports = {
         'stars-yellow': '#e6d699'
       }
     },
+    animation: {
+      'ping-slow': 'ping 2s linear infinite',
+    }
   },
   plugins: [
   //  require('tailwindcss/aspect-ratio')
