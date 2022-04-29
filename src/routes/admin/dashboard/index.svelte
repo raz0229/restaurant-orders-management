@@ -6,7 +6,7 @@ import { fly, fade } from "svelte/transition"
 
 let fetchLimit = 20, orders = [], searchKey = '';
 let confirmDelete = false, pendingDelete = '', filterValue = 'all', searchValue = 'title', loadFilter = false, toggleLatest = false;
-let lastVisible = null, overwrite = false;
+let lastVisible = null, overwrite = false, unsubbed = false;
 
 const getDocuments = async (update) => { 
     let arr = [], filter;
@@ -56,6 +56,11 @@ const unsubscribe = onSnapshot(collection(db, "orders"), () => {
     //   console.log('exception: ', e.message)
     // })
 });
+
+const unsub = () => {
+  unsubbed = true;
+  unsubscribe();
+}
 
 const capitalize = (mySentence) => {
   const words = mySentence.split(" ");
@@ -160,12 +165,19 @@ const closeModal = () => {
 
 </script>
 
-<button on:click="{unsubscribe}" 
-  class="broadcast absolute right-4 top-2 p-2 rounded-full border-2 border-red-300 bg-transparent hover:bg-red-200 text-center text-gray-600">
+<button on:click="{unsub}" 
+  style="backdrop-filter: blur(5px)" class="broadcast fixed z-40 right-4 top-2 p-2 rounded-full border-2 border-red-300 bg-transparent hover:bg-red-200 text-center text-gray-600">
+  {#if !unsubbed}
   <span class="motion-safe:animate-[pulse_2s_ease_infinite] text-md text-red-500 material-icons va-b">
     adjust
     </span>&nbsp;
   <span class="content text-md" style="font-weight: bold;"></span>
+  {:else}
+  <span class="motion-safe:animate-[pulse_2s_ease_infinite] text-md text-gray-500 material-icons va-b">
+    refresh
+    </span>&nbsp;
+  <span class="text-md" style="font-weight: bold;" on:click="{()=>location.reload()}" >RELOAD</span>
+  {/if}
 </button>
 
 <div id="menu" class="mt-12 container mx-auto px-4 lg:pt-24 lg:pb-64">
@@ -451,8 +463,9 @@ input[type="range"] {
 .broadcast .content::after {
   content: 'LIVE';
 }
-.broadcast:hover .content::after {
+.broadcast:hover .content::after, .broadcast:focus .content::after {
   content: 'Stop Live';
+  outline: none;
   font-weight: 500;
 }
 
