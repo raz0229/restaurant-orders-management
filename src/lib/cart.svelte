@@ -166,9 +166,9 @@ if (browser) {
             </button>
           </div>
   
-          <div class="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
+          <div class="flex h-full flex-col overflow-y-scroll bg-white dark:bg-dark-bg py-6 shadow-xl">
             <div class="px-4 sm:px-6 pt-14">
-              <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Proceed to Checkout</h2>
+              <h2 class="text-lg font-medium text-gray-900 dark:text-dark-blue" id="slide-over-title">Proceed to Checkout</h2>
             </div>
             
             <ErrorModal
@@ -194,39 +194,39 @@ if (browser) {
 						<thead>
 							<tr>
 								<th
-									class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+									class="px-5 py-3 border-b-2 border-gray-200 dark:border-dark-border bg-gray-100 dark:bg-list-item-bg text-left text-xs font-semibold text-gray-600 dark:text-list-item uppercase tracking-wider">
 									Items
 								</th>
 								<th
-									class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+									class="px-5 py-3 border-b-2 border-gray-200 dark:border-dark-border bg-gray-100 dark:bg-list-item-bg text-left text-xs font-semibold text-gray-600 dark:text-list-item uppercase tracking-wider">
 									Quantity
 								</th>
 								<th
-									class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+									class="px-5 py-3 border-b-2 border-gray-200 dark:border-dark-border bg-gray-100 dark:bg-list-item-bg text-left text-xs font-semibold text-gray-600 dark:text-list-item uppercase tracking-wider">
 									Price (PKR)
 								</th>
 							</tr>
 						</thead>
 						<tbody id="table-cart">
               {#each storedItems as item, i}
-							<tr class="border-b border-gray-200" data-id="{item.id}" data-qnt="{item.qnt}" 
+							<tr class="border-b border-gray-200 dark:border-dark-border" data-id="{item.id}" data-qnt="{item.qnt}" 
                 data-size="{item.size}" data-type="{item.type}">
-								<td class="px-5 py-5 bg-white text-sm">
-									<p class="text-gray-900 whitespace-no-wrap">{ item.title }</p>
+								<td class="px-5 py-5 bg-white dark:bg-dark-bg text-sm">
+									<p class="text-gray-900 dark:text-dark-blue whitespace-no-wrap">{ item.title }</p>
 								</td>
-								<td class="flex align-center px-5 py-5 bg-white text-sm">
-                  <button on:click="{ ()=>updateQnt('inc', i) }" class="text-white round bg-blue-400 disabled:bg-gray-200 hover:bg-blue-500"><span class="text-sm material-icons">
+								<td class="flex align-center px-5 py-5 bg-white dark:bg-dark-bg text-sm">
+                  <button on:click="{ ()=>updateQnt('inc', i) }" class="text-white round bg-blue-400 dark:bg-dark-blue-400 disabled:bg-gray-200 hover:bg-blue-500 dark:hover:bg-blue-800"><span class="text-sm material-icons">
                     add
                     </span></button>
                   
-									<p class="text-gray-900 px-2 whitespace-no-wrap">
+									<p class="text-gray-900 dark:text-dark-blue px-2 whitespace-no-wrap">
 									{item.qnt}
                   </p>
-                  <button on:click="{ ()=>updateQnt('dec', i) }" class="text-white round bg-blue-400 hover:bg-blue-500"><span class="text-sm material-icons">
+                  <button on:click="{ ()=>updateQnt('dec', i) }" class="text-white round bg-blue-400 dark:bg-dark-blue-400 disabled:bg-gray-200 hover:bg-blue-500 dark:hover:bg-blue-800"><span class="text-sm material-icons">
                     remove
                     </span></button>
 								</td>
-								<td class="px-5 py-5 bg-white text-sm">
+								<td class="px-5 py-5 bg-white dark:bg-dark-bg text-sm dark:text-list-item-price">
 									<span
                       class="relative inline-block px-3 py-1 font-semibold leading-tight">
                           <span aria-hidden
@@ -242,15 +242,15 @@ if (browser) {
           <p class="text-red-500 px-6 text-xl mb-4 text-center whitespace-no-wrap"><em>Your Cart is empty!</em></p>
           {/if}
 					<div
-						class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
+						class="px-5 py-5 bg-white dark:bg-dark-bg border-t dark:border-dark-border flex flex-col xs:flex-row items-center xs:justify-between          ">
 						<span class="text-xs xs:text-sm text-gray-900" style="text-align: center;">
-                          <div class="relative px-3 py-1 mb-2 font-semibold text-sm text-yellow-600 leading-tight">
+                          <div class="relative px-3 py-1 mb-2 font-semibold text-sm text-yellow-600 dark:text-light-yellow leading-tight">
                             Delivery Charges: <span class="font-normal">{delivery} PKR</span>
                           </div>
-                            <span class="text-lg">Total Bill: </span><span
-                            class="relative inline-block px-3 py-1 font-semibold text-lg text-green-900 leading-tight">
+                            <span class="text-lg dark:text-dark-blue">Total Bill: </span><span
+                            class="relative inline-block px-3 py-1 font-semibold text-lg text-green-900 dark:text-light-grn leading-tight">
                               <span aria-hidden
-                                  class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                                  class="absolute inset-0 bg-green-200 dark:bg-dark-green-bg opacity-50 rounded-full"></span>
                         
                               <!-- Set total price to 0 instead of NaN when cart is cleared -->
                                 <span class="relative">
@@ -264,7 +264,7 @@ if (browser) {
                             </span>
 						<div class="inline-flex mt-8 xs:mt-0">
 							<button on:click="{clearCart}"
-                                class="text-sm text-red-400 transition duration-150 hover:bg-red-100 bg-white font-semibold py-2 px-4 rounded-l">
+                                class="text-sm text-red-400 dark:text-light-red transition duration-150 hover:bg-red-100 dark:hover:bg-red-900 bg-white dark:bg-dark-bg font-semibold py-2 px-4 rounded-l">
                                 Clear Cart
               </button>
 							&nbsp; &nbsp;
@@ -272,7 +272,7 @@ if (browser) {
               <!-- Disable Checkout if storedItems is null -->
 							<button on:click="{checkout}" id="checkout-btn"
                                 class:disabled-btn="{storedItems.length === 0}"
-                                class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r">
+                                class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 dark:hover:bg-indigo-800 bg-indigo-600 dark:bg-dark-indigo-button font-semibold py-2 px-4 rounded-r">
                                 <span class:animate-spin="{toCheckout}" class:hidden="{!toCheckout}" class="material-icons" style="vertical-align: bottom;">loop</span>
                                 Checkout
               </button>
