@@ -32,14 +32,14 @@
 </script>
 {#if !showButton}
     <div class="text-center">
-        <button on:click="{()=>showModal=true}" class="text-xl mt-24 mb-10 bg-indigo-600 border border-transparent rounded-md py-3 px-8 text-white hover:bg-indigo-700">
+        <button on:click="{()=>showModal=true}" class="text-xl mt-24 mb-10 bg-indigo-600 dark:bg-dark-indigo-button border border-transparent rounded-md py-3 px-8 text-white hover:bg-indigo-700">
             <span class="material-icons" style="vertical-align: text-bottom;">
                 create
             </span> Write a Review
         </button>
     </div>
     <div class="py-4">
-        <div class="w-full border-t border-gray-300"></div>
+        <div class="w-full border-t border-gray-300 dark:border-dark-border-gray"></div>
     </div>
 {/if}
 
@@ -62,9 +62,10 @@
 
 {#if !showButton}
 <div>
-    <span class="text-gray-600">Sort By:</span>
+    <span class="text-gray-600 dark:text-list-item">Sort By:</span>
     <span class="rounded-sm">
-        <select class="bg-gray-200 p-1 rounded-md" bind:value="{selection}" on:change="{updateRevs}">
+        <select class="bg-gray-200 dark:bg-dark-border dark:text-list-item p-1 rounded-md" 
+            bind:value="{selection}" on:change="{updateRevs}">
             <option value="title">Name</option>
             <option value="latest">Latest First</option>
             <option value="oldest">Oldest</option>

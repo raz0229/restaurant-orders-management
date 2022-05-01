@@ -79,16 +79,16 @@
     
 </script>
 
-<div class="bg-white">
+<div class="bg-white dark:bg-dark-bg">
     <main class="my-8">
         <div class="relative container mx-auto px-6">
             
             <div class="mt-16">
                 <div class="text-center pb-12">
-                    <h2 class="text-base font-bold text-indigo-600">
+                    <h2 class="text-base font-bold text-indigo-600 dark:text-light-p">
                         Add individual items into cart
                     </h2>
-                    <h1 class="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-gray-800 dark:text-white">
+                    <h1 class="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-gray-800 dark:text-light-header">
                         Variety of flavors for everybody             
                     </h1>
                 </div>
@@ -109,13 +109,16 @@
 
         
         {#each groups as group}
-        <h3 class="mt-14 text-gray-600 text-2xl font-medium">{ group.title }</h3>
+        <h3 class="mt-14 text-gray-600 dark:text-list-item text-2xl font-medium">
+            <span class="material-icons">
+                star_border
+                </span>&nbsp;{ group.title }</h3>
                 <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
                     {#each group.products as item}
                     
                     <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
                         <div on:click="{()=>sendToCart(event, group.sizes)}" class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
-                            <button class="p-2 rounded-full bg-indigo-500 text-white mx-5 -mb-4 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-500">
+                            <button class="p-2 rounded-full bg-indigo-500 dark:bg-dark-indigo text-white mx-5 -mb-4 hover:bg-indigo-700 hover:dark:bg-indigo-800 focus:outline-none focus:bg-indigo-500">
                                 <span style="pointer-events: none;" class="material-icons">add_shopping_cart</span>
                             </button>
                         </div>
@@ -123,8 +126,8 @@
                         {#if item.prices.length === 1}
                         <div class="px-5 py-3 size-check" data-title="{item.title}"
                         data-id="{item._id}" data-price="{item.prices[0]}" data-size="st">
-                            <h3 class="text-gray-700 uppercase">{item.title}</h3>
-                            <span class="text-gray-500 mt-2">{item.prices[0]} PKR</span>
+                            <h3 class="text-gray-700 dark:text-review-title uppercase">{item.title}</h3>
+                            <span class="text-gray-500 dark:text-dark-p mt-2">{item.prices[0]} PKR</span>
                             <div class="size">
                                 <span class="sizes static">S</span>
                                 <span class="sizes static">M</span>
@@ -134,8 +137,8 @@
                         {:else if item.prices.length === 2}
                         <div class="px-5 py-3 size-check" data-size="m" data-title="{item.title}"
                         data-id="{item._id}" data-price-s="{item.prices[0]}" data-price-m="{item.prices[1]}">
-                            <h3 class="text-gray-700 uppercase">{item.title}</h3>
-                            <span class="text-gray-500 mt-2">{item.prices[1]} PKR</span>
+                            <h3 class="text-gray-700 dark:text-review-title uppercase">{item.title}</h3>
+                            <span class="text-gray-500 dark:text-dark-p mt-2">{item.prices[1]} PKR</span>
                             <div class="size">
                                 <span class="sizes" on:click="{()=>sizeSet('s', event)}">{ validateSize(group.sizes[0], 'S') }</span>
                                 <span class="sizes" on:click="{()=>sizeSet('m', event)}">{ validateSize(group.sizes[1], 'M') }</span>
@@ -145,8 +148,8 @@
                         {:else}
                         <div class="px-5 py-3 size-check" data-size="l" data-title="{item.title}"
                         data-id="{item._id}" data-price-s="{item.prices[0]}" data-price-m="{item.prices[1]}" data-price-l="{item.prices[2]}">
-                            <h3 class="text-gray-700 uppercase">{item.title}</h3>
-                            <span class="text-gray-500 mt-2">{item.prices[2]} PKR</span>
+                            <h3 class="text-gray-700 dark:text-review-title uppercase">{item.title}</h3>
+                            <span class="text-gray-500 dark:text-dark-p mt-2">{item.prices[2]} PKR</span>
                             <div class="size">
                                 <span class="sizes" on:click="{()=>sizeSet('s', event)}">{ validateSize(group.sizes[0], 'S') }</span>
                                 <span class="sizes" on:click="{()=>sizeSet('m', event)}">{ validateSize(group.sizes[1], 'M') }</span>
@@ -215,16 +218,28 @@ div.size .sizes {
     bottom: -0.3rem;
     transition: all 0.3s ease;
 }
+.dark div.size .sizes {
+    color: #999ae6;
+    border: solid 2px #2c2eaf;
+}
 div.size .static {
     cursor: not-allowed;
     color: #b9b9b9;
     border: solid 2px #b9b9b9;
 }
+.dark div.size .static {
+    cursor: not-allowed;
+    color: #b9b9b9;
+    border: solid 2px #5e5e5e;
+}
 div.size .sizes:hover:not(.static:hover) {
     background-color: rgb(99 102 241);
     color: #f7f7f7;
 }
-
+.dark div.size .sizes:hover:not(.static:hover) {
+    background-color: #2c2eaf;
+    color: #f7f7f7;
+}
 div.size .sizes:first-child {
     right: 5.4rem;
 }
@@ -235,17 +250,18 @@ div.size .sizes:nth-child(3) {
     right: 1rem;
 }
 
-.size-check[data-size='s'] .sizes:first-child {
-    background-color: rgb(99 102 241);
-    color: #f7f7f7;
-}
-.size-check[data-size='m'] .sizes:nth-child(2) {
-    background-color: rgb(99 102 241);
-    color: #f7f7f7;
-}
+.size-check[data-size='s'] .sizes:first-child,
+.size-check[data-size='m'] .sizes:nth-child(2),
 .size-check[data-size='l'] .sizes:nth-child(3) {
     background-color: rgb(99 102 241);
     color: #f7f7f7;
 }
 
+.dark .size-check[data-size='s'] .sizes:first-child,
+.dark .size-check[data-size='m'] .sizes:nth-child(2),
+.dark .size-check[data-size='l'] .sizes:nth-child(3) {
+    background-color: #2c2eaf;
+    color: #f7f7f7;
+}
+ 
 </style>

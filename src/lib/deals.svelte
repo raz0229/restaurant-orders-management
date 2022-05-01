@@ -79,7 +79,7 @@ const showNotificationOnBell = () => {
 <!-- Generating images via canvas -->
 <canvas id="canvas" class="hidden" width="400" height="250"></canvas>
 
-<div class="w-full mt-9 bg-transparent">
+<div class="w-full mt-9 dark:bg-dark-bg">
     <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12">
         <div class="text-center pb-12">
             <h2 class="text-base font-bold text-indigo-600 dark:text-light-p">
@@ -92,7 +92,7 @@ const showNotificationOnBell = () => {
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
            {#each dealArray as da, i}
-            <div class="relative w-full bg-gray-800 dark:bg-std-black-bg rounded-lg shadow-lg overflow-hidden flex flex-col justify-center items-center">
+            <div class="relative w-full bg-gray-800 dark:bg-dark-card rounded-lg shadow-lg overflow-hidden flex flex-col justify-center items-center">
                 <div class="ribbon font-bold text-white whitespace-no-wrap px-4">
                     <div class="label bg-red-ribbon dark:bg-dark-red-ribbon">{da.discount}% OFF</div>
                 </div>

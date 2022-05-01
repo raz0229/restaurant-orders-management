@@ -14,6 +14,7 @@ module.exports = {
         'light-grn': '#99e6b8',
         'light-yellow': '#e6cd99',
         'light-red': '#e69999',
+        'light-inidgo': '#999ae6',
         'dark-indigo-button': '#5e58d5',
         'dark-indigo': '#2c2eaf',
         'dark-green-bg': '#196634',
@@ -26,7 +27,9 @@ module.exports = {
         'list-item': '#b6bec8',
         'list-item-bg': '#242424',
         'list-item-price': '#bfbfbf',
-        'dark-border': '#303030'
+        'dark-border': '#303030',
+        'dark-card': '#1f2937',
+        'dark-border-gray': '#3a414a'
       }
     },
     animation: {
