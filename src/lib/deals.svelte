@@ -17,8 +17,6 @@ let storedItems;
 //else MAX_DEALS = dealArray.length // default behavior
 
 
-onMount(() => {
-
 if (browser) {
 
     cartItems.subscribe( arr => {
@@ -47,8 +45,6 @@ if (browser) {
          images.push(image);
     });
 }
-
-})
 
 // send items to cart
 const showNotificationOnCart = (id, title, price) => {

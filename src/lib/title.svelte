@@ -1,33 +1,38 @@
 <script>
-  import { cart } from './stores.js';
+  import { cart, theme } from './stores.js';
   import { fly } from 'svelte/transition';
-  import Darkmode from 'darkmode-js';
-  
+  import { browser } from '$app/env';
+
   export let title = "Your Business"
-  let isMobile = false;
+  let isMobile = false, mode;
+
+  theme.subscribe( value => {
+      mode = value;
+  })
+
+  if (browser) {
+    if (mode == 'dark') document.querySelector('html').classList.add('dark');
+  }
 
   const showCart = () => {
     cart.update(x => !x)
   }
 
   const toggleDarkMode = () => {
-    const options = {
-  bottom: '64px', // default: '32px'
-  right: 'unset', // default: '32px'
-  left: '32px', // default: 'unset'
-  time: '0.5s', // default: '0.3s'
-  mixColor: '#fff', // default: '#fff'
-  backgroundColor: '#fff',  // default: '#fff'
-  buttonColorDark: '#100f2c',  // default: '#100f2c'
-  buttonColorLight: '#fff', // default: '#fff'
-  saveInCookies: false, // default: true,
-  label: '🌓', // default: ''
-  autoMatchOsTheme: true // default: true
-}
- 
-    const darkmode =  new Darkmode(options);
-    darkmode.toggle();
+    if (mode == 'dark') {
+      console.log('mode was dark')
+      theme.set('light');
+      document.querySelector('html').classList.remove('dark');
+      document.querySelector('html').classList.add('light');
+    }
+    else {
+      theme.set('dark');
+      document.querySelector('html').classList.remove('light');
+      document.querySelector('html').classList.add('dark');
+    }
+    localStorage.setItem('mode', mode);
   }
+  
 
 </script>
 
@@ -86,10 +91,15 @@
           <span class="sr-only">Toggle Dark Mode</span>
           <!-- Heroicon name: outline/bell -->
           <span id="notificationBell" class="hidden motion-safe:animate-bounce absolute rounded-full p-1.5 bg-red-500"></span>
-          <span class="h-6 w-6 material-icons" style="vertical-align: bottom;">
-            dark_mode
+          {#if mode == 'light'}
+            <span class="h-6 w-6 material-icons" style="vertical-align: bottom;">
+              dark_mode
             </span>
-          
+          {:else}
+            <span class="h-6 w-6 material-icons" style="vertical-align: bottom;">
+              light_mode
+            </span>
+          {/if}
         </button>
 
         <div class="ml-3 relative">
