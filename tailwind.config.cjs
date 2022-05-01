@@ -29,7 +29,10 @@ module.exports = {
         'list-item-price': '#bfbfbf',
         'dark-border': '#303030',
         'dark-card': '#1f2937',
-        'dark-border-gray': '#3a414a'
+        'dark-border-gray': '#3a414a',
+        'semi-gray': '#30303080',
+        'char-count': '#b8bdc6',
+        'input-border': '#616161'
       }
     },
     animation: {
