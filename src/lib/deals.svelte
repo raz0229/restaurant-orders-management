@@ -1,6 +1,5 @@
 <script>
 import { browser } from "$app/env";
-import { onMount } from "svelte";
 import Canva from "./deals";
 import { cartItems } from "./stores"
 
@@ -18,12 +17,15 @@ let storedItems;
 
 
 if (browser) {
-
     cartItems.subscribe( arr => {
         storedItems = arr ? JSON.parse(arr) : [];
     })
 
-    canvas = document.querySelector('#canvas')
+    canvas = document.createElement('canvas');
+    canvas.setAttribute('id', 'canvas');
+    canvas.setAttribute('width', 400);
+    canvas.setAttribute('height', 250);
+    // canvas = document.querySelector('#canvas')
 
     let imageURL = ["deal-template.jpg","hotwings.png", "pizza.png", "drink.png", "nuggets.png", "zinger.png", "fries.png", "mpizza.png", "spizza.png", "sdrink.png"]; // list of image URLs
     const images = []; /// array to hold images.
@@ -38,7 +40,7 @@ if (browser) {
                  // start rendering all deals
                  for (let i in dealArray) {
                     new Canva(canvas, document.querySelector(`#canvasimg${i}`), dealArray[i].deal).loadDeal(images);
-                 }
+                }
                 console.log('loaded all deals')
              }
          }
@@ -73,7 +75,7 @@ const showNotificationOnBell = () => {
 </script>
 
 <!-- Generating images via canvas -->
-<canvas id="canvas" class="hidden" width="400" height="250"></canvas>
+<!-- <canvas id="canvas" class="hidden" width="400" height="250"></canvas> -->
 
 <div class="w-full mt-9 dark:bg-dark-bg">
     <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12">

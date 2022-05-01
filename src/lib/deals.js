@@ -16,6 +16,7 @@ export default class Canva {
 // function called once all images have loaded.
 loadDeal (images) {
     let context = this.canvas.getContext('2d');
+    
     let deal = this.deal;
 
     context.drawImage(images[0],0,0); // draw background
