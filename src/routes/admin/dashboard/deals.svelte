@@ -27,8 +27,10 @@
 
 <script>
     import Canva from "$lib/deals";
+    import EditDeal from "$lib/modals/editDeal.svelte";
 
     export let products, dealArray;
+    let showEditModal = true;
     console.log(dealArray, products)
 
     let canvas = document.createElement('canvas');
@@ -62,8 +64,12 @@
 
 <!-- Generating images via canvas -->
 <!-- <canvas id="canvas" class="hidden" width="400" height="250"></canvas> -->
+<EditDeal
+    bind:showEditModal
+    />
 
 <div id="menu" class="mt-12 container mx-auto px-4 lg:pt-24 lg:pb-64">
+
     <div class="flex flex-wrap text-center justify-center">
       <div class="w-full lg:w-6/12 px-4">
         <h2 class="text-4xl font-semibold text-black">Deals</h2>
@@ -106,9 +112,7 @@
          </div>
          {/each}
 
-
      </div>
-
 
 </div>
 
