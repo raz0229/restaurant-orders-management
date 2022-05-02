@@ -30,7 +30,7 @@
     import EditDeal from "$lib/modals/editDeal.svelte";
 
     export let products, dealArray;
-    let showEditModal = true;
+    let showEditModal = false;
     console.log(dealArray, products)
 
     let canvas = document.createElement('canvas');
@@ -78,6 +78,14 @@
         </p>
       </div>
     </div>
+
+    <div class="text-center">
+        <button  on:click="{()=>showEditModal = !showEditModal}" class="text-xl mt-12 mb-6 bg-indigo-600 dark:bg-dark-indigo-button border border-transparent rounded-md py-3 px-8 text-white hover:bg-indigo-700">
+            <span class="material-icons" style="vertical-align: middle;">
+                add_circle_outline
+                </span>&nbsp;Create a Deal
+        </button>
+    </div>    
 
     <div class="grid grid-cols-1 mt-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
