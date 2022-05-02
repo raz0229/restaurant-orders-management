@@ -79,7 +79,7 @@
   
 			  <li class="hover:bg-gray-100">
 				  <a
-					  href="/admin/products"
+					  href="/admin/dashboard/products"
 					  class="h-16 px-6 flex flex justify-center items-center w-full
 					  focus:text-orange-500">
 					  <svg
@@ -104,7 +104,7 @@
   
 			  <li class="hover:bg-gray-100">
 				  <a
-					  href="."
+					  href="/admin/dashboard/deals"
 					  class="h-16 px-6 flex flex justify-center items-center w-full
 					  focus:text-orange-500">
   
@@ -125,7 +125,7 @@
 							  0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
 					  </svg>
 					  <span class="sc-list text-lg pl-2">
-						  Something
+						  Deals
 					  </span>
 				  </a>
 			  </li>
