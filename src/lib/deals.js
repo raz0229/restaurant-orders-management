@@ -62,4 +62,46 @@ loadDeal (images) {
 }
 
 
+    // returns all items
+    static getProperties() {
+        return [
+            {
+                name: 'Large Pizza',
+                val: 'pizza'
+            },
+            {
+                name: 'Medium Pizza',
+                val: 'mpizza'
+            },
+            {
+                name: 'Small Pizza',
+                val: 'spizza'
+            },
+            {
+                name: 'Soda Can',
+                val: 'sdrink'
+            },
+            {
+                name: 'Cold Drink',
+                val: 'drink'
+            },
+            {
+                name: 'Nuggets',
+                val: 'nuggets'
+            },
+            {
+                name: 'Hotwings',
+                val: 'hotwings'
+            },
+            {
+                name: 'Burger',
+                val: 'zinger'
+            },
+            {
+                name: 'Fries',
+                val: 'fries'
+            },
+        ]
+    }
+
 }

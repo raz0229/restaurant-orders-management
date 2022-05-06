@@ -59,7 +59,6 @@
          images.push(image);
     });
 
-
 </script>
 
 <!-- Generating images via canvas -->

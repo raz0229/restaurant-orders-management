@@ -2,21 +2,35 @@
     export let showEditModal = false;
 
     import { fade } from "svelte/transition"
+    import Canva from "$lib/deals";
 
-    let deal_name, item_name, item_price, item_qnt;
-    let productList = [];
+    let deal_name, item_name, item_price, item_qnt, item_type;
+    export let productList = [];
+    const properties = Canva.getProperties()
 
     const productManager = () => {
-        if (!productList.find(item=>item.title == item_name.trim().toLowerCase())) {
-            productList.push({
+        if (!productList.find(item => item.title == item_name.trim().toLowerCase() && item.type == item_type)) {
+            productList = [...productList, {
                 title: item_name.trim().toLowerCase(),
                 price: item_price,
-                qnt: item_qnt
-            })
+                qnt: item_qnt,
+                type: item_type
+            }]
             item_name = ''; item_price = ''; item_qnt = '';
         }
         console.log(productList)
     }
+    
+    const capitalize = (mySentence) => {
+        const words = mySentence.split(" ");
+
+        for (let i = 0; i < words.length; i++) {
+            words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+        }
+
+        return words.join(" ");
+    }
+
 </script>
 
 {#if showEditModal}
@@ -60,10 +74,11 @@
                                                 <label class="text-gray-600 dark:text-dark-p dark:placeholder:text-input-border">Type: </label>
                                             </div>
                                             <div class="mb-2 space-y-2 w-full text-xs">
-                                                <select name="type" id="type" class="p-2 bg-gray-100">
-                                                    <option value="sm">Small Pizza</option>
-                                                    <option value="md">Medium Pizza</option>
-                                                    <option value="lg">Large Pizza</option>
+                                                <select name="type" id="type" bind:value="{item_type}" 
+                                                    class="p-2 bg-gray-100">
+                                                    {#each properties as prop}
+                                                        <option value="{prop.val}">{prop.name}</option>
+                                                    {/each}
                                                 </select>
                                             </div>
                                         </div>
@@ -75,13 +90,18 @@
                                 <div class="w-full flex flex-col mb-3">
                                     <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">Price Calculator</label>
                                     <div class="text-gray-500 text-md mr-6" style="text-align: end;" >
-                                        <p>500</p>
-                                        <p>1200</p>
-                                        <p>50</p>
-                                        <p>500</p>
-                                        <p>1200</p>
-                                        <p>50</p>
-                                        <p>100</p>
+                                        
+                                        {#each productList as product}
+                                        <div class="md:flex flex mt-2 md:space-x-4 w-full text-xs">    
+                                            <div class="flex-3 mb-1 space-y-2 w-full text-xs" style="text-align: start;">
+                                                <p>{product.qnt} {capitalize(product.title)}(s)</p>    
+                                            </div>
+                                            <div class="flex-1 mb-1 space-y-2 w-full text-xs">
+                                                <p>{product.price}</p>
+                                            </div>
+                                        </div>
+                                        {/each}
+
                                         <div class="md:flex flex-row mt-2 md:space-x-4 w-full text-xs">
                                             <div class="mb-1 space-y-2 w-full text-xs" style="text-align: start;">
                                                 <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">Extras: </label>
