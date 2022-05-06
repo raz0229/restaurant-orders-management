@@ -11,6 +11,9 @@ export default {
         title: 'Title',
         type: 'string',
         description: 'Name of the product',
+        validation: Rule => Rule.custom( title => {
+          return !title.trim().includes(',') ? true : 'Cannot use comma in title';
+        })
     },
     {
       name: 'slug',

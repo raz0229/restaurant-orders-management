@@ -154,6 +154,7 @@ export const getAllProducts = async () => {
       group.products.forEach( product => {
         arr.push(Object.assign({
           id: product._id,
+          img: product.img,
           prices: product.prices,
           title: product.title,
           sizes: group.sizes

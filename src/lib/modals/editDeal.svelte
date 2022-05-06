@@ -2,12 +2,27 @@
     export let showEditModal = false;
 
     import { fade } from "svelte/transition"
+
+    let deal_name, item_name, item_price, item_qnt;
+    let productList = [];
+
+    const productManager = () => {
+        if (!productList.find(item=>item.title == item_name.trim().toLowerCase())) {
+            productList.push({
+                title: item_name.trim().toLowerCase(),
+                price: item_price,
+                qnt: item_qnt
+            })
+            item_name = ''; item_price = ''; item_qnt = '';
+        }
+        console.log(productList)
+    }
 </script>
 
 {#if showEditModal}
-<div  in:fade out:fade class="fixed top-0 z-40 min-h-screen flex items-center w-full justify-center bg-gray-200/50 dark:bg-semi-gray py-12 px-4 sm:px-6 lg:px-8 items-center">
-    <div class="absolute bg-black opacity-60 inset-0 z-0"></div>
-    <div class="mt-12 max-w-md w-full space-y-8 p-10 bg-white dark:bg-dark-bg rounded-xl shadow-lg z-10">
+<div  in:fade out:fade class="fixed top-0 z-20 min-h-screen flex items-center w-full justify-center bg-gray-200/50 dark:bg-semi-gray py-12 px-4 sm:px-6 lg:px-8 items-center">
+    <div class="absolute bg-black opacity-60 inset-0 z-30"></div>
+    <div class="modal-body mt-12 max-w-md w-full space-y-8 p-10 bg-white dark:bg-dark-bg rounded-xl shadow-lg z-40">
     <div class="grid  gap-8 grid-cols-1">
     <div class="flex flex-col">
             <div class="flex flex-col sm:flex-row items-center">
@@ -21,15 +36,41 @@
                             <div class="mb-3 space-y-2 w-full text-xs">
                                 <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">Deal's Name</label>
                                 <input placeholder="Name of deal" type="text" class="appearance-none block w-full bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-lg h-10 px-4" required="required" name="integration[shop_name]" id="integration_shop_name">
-                                <p class="text-red text-xs hidden">Please fill out this field.</p>
+                                
                             </div>
                         </div>
                         
                             <div class="md:flex md:flex-row md:space-x-4 w-full text-xs">
-                                <div class="flex-auto w-full mb-1 text-xs space-y-2">
-                                    <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">Add Products</label>
-                                    <textarea id="text-box" required="required" name="message" class="w-full min-h-[200px] max-h-[300px] h-28 appearance-none block w-full bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-lg  py-4 px-4" placeholder="Select available products from dropdown or write custom ones" spellcheck="false"></textarea>
-                                    <p class="text-xs text-gray-400 dark:text-char-count text-left my-3">You inserted 0 items</p>
+                                <div class="relative flex-auto w-full mb-1 text-xs space-y-2">
+                                    <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">Add Product</label>
+                                    <form on:submit|preventDefault="{productManager}">
+                                        <input
+                                        id="text-box" bind:value="{item_name}" required="required" name="name" 
+                                        class="w-full appearance-none block bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-lg p-3" placeholder="Item's Name">
+                                        <div class="md:flex flex-row mt-2 md:space-x-4 w-full text-xs">
+                                            <input bind:value="{item_price}"
+                                                required="required" name="price" type="number" min="0"
+                                                class="w-full appearance-none block mb-2 bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-lg  py-2 px-2" placeholder="Price">
+                                            <input bind:value="{item_qnt}"
+                                                required="required" name="qnt" type="number" min="1" max="9"
+                                                class="w-full appearance-none block mb-2 bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-lg  py-2 px-2" placeholder="Quantity">                                
+                                        </div>
+                                        <div class="md:flex flex-row mt-2 mb-2 md:space-x-4 w-full text-xs">
+                                            <div class="space-y-2 p-1 w-full text-sm">
+                                                <label class="text-gray-600 dark:text-dark-p dark:placeholder:text-input-border">Type: </label>
+                                            </div>
+                                            <div class="mb-2 space-y-2 w-full text-xs">
+                                                <select name="type" id="type" class="p-2 bg-gray-100">
+                                                    <option value="sm">Small Pizza</option>
+                                                    <option value="md">Medium Pizza</option>
+                                                    <option value="lg">Large Pizza</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <button type="submit" 
+                                        class="rounded-none bg-indigo-600 hover:bg-indigo-800 disabled:bg-gray-300 text-white p-2 w-full">Add Product</button>
+                                   
+                                    </form>
                                 </div>
                                 <div class="w-full flex flex-col mb-3">
                                     <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">Price Calculator</label>
@@ -82,3 +123,22 @@
             </div>
         </div>
 {/if}
+
+<style>
+    input, textarea {
+        outline: none;
+    }
+    input:focus, textarea:focus {
+        border: solid 1px rgb(95, 183, 255);
+    }
+    form > input {
+        margin: 0.6rem 0;
+    }
+
+    @media only screen and (max-width: 770px) {
+        .modal-body {
+            height: 550px;
+            overflow: scroll;
+        }
+    }
+</style>
