@@ -8,6 +8,30 @@
     export let productList = [];
     const properties = Canva.getProperties()
 
+    const updatePreview = () => {
+        const canvas = document.querySelector('#preview')
+
+        let imageURL = ["deal-template.jpg","hotwings.png", "pizza.png", "drink.png", "nuggets.png", "zinger.png", "fries.png", "mpizza.png", "spizza.png", "sdrink.png"]; // list of image URLs
+        const images = []; /// array to hold images.
+        const deal = getCurrentDeal()
+        console.log(deal)
+        let imageCount = 0; // number of loaded images;
+
+        imageURL.forEach(src => { 
+             const image = new Image();
+            image.src = `../../${src}`;
+            image.onload = ()=>{ 
+                imageCount++;
+                if(imageCount === imageURL.length){ // have all loaded?
+                 // start rendering
+                    new Canva(canvas, document.querySelector(`#canvaspreview`), deal).loadDeal(images);
+                    
+                }
+            }
+            images.push(image);
+        });
+        }
+
     const productManager = () => {
         if (!productList.find(item => item.title == item_name.trim().toLowerCase() && item.type == item_type)) {
             productList = [...productList, {
@@ -19,6 +43,7 @@
             item_name = ''; item_price = ''; item_qnt = '';
         }
         console.log(productList)
+        updatePreview();
     }
     
     const capitalize = (mySentence) => {
@@ -31,12 +56,21 @@
         return words.join(" ");
     }
 
+    const getCurrentDeal = () => {
+        let deal = productList.reduce(
+            (obj, item) => Object.assign(obj, { [item.type]: item.qnt }), {});
+        return deal;
+    }
+
 </script>
 
 {#if showEditModal}
+
+<canvas id="preview" class="hidden" width="400" height="250"></canvas>
+
 <div  in:fade out:fade class="fixed top-0 z-20 min-h-screen flex items-center w-full justify-center bg-gray-200/50 dark:bg-semi-gray py-12 px-4 sm:px-6 lg:px-8 items-center">
     <div class="absolute bg-black opacity-60 inset-0 z-30"></div>
-    <div class="modal-body mt-12 max-w-md w-full space-y-8 p-10 bg-white dark:bg-dark-bg rounded-xl shadow-lg z-40">
+    <div class="modal-body mt-6 max-w-md w-full space-y-8 p-10 bg-white dark:bg-dark-bg rounded-xl shadow-lg z-40">
     <div class="grid  gap-8 grid-cols-1">
     <div class="flex flex-col">
             <div class="flex flex-col sm:flex-row items-center">
@@ -45,7 +79,14 @@
             </div>
             <div class="mt-5">
                 <div class="form">
-                    
+                    <div class="md:flex flex-row md:space-x-4 w-full text-xs">
+                        <div class="mb-3 space-y-2 w-full text-xs">
+                            <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">Preview</label>
+                            <!-- PREVIEW -->
+                            <img class="canva rounded border border-gray-200 object-center object-cover h-auto w-full" id="canvaspreview" src="../../fallback.png" alt="PREVIEW HERE">
+                        </div>
+                    </div>
+
                         <div class="md:flex flex-row md:space-x-4 w-full text-xs">
                             <div class="mb-3 space-y-2 w-full text-xs">
                                 <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">Deal's Name</label>
@@ -153,6 +194,11 @@
     }
     form > input {
         margin: 0.6rem 0;
+    }
+
+    .modal-body {
+        max-height: 650px;
+        overflow: scroll;
     }
 
     @media only screen and (max-width: 770px) {
