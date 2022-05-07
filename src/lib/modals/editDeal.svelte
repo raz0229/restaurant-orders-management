@@ -4,9 +4,23 @@
     import { fade } from "svelte/transition"
     import Canva from "$lib/deals";
 
-    let deal_name, item_name, item_price, item_qnt, item_type;
+    let deal_name, item_name, item_price, item_qnt, item_type, errorMessage = '';
     export let productList = [];
+    let extras = 0, discount = 0;
+
     const properties = Canva.getProperties()
+
+    $: total = (() => {
+        let pp = 0;
+    
+        if (productList.length != 0) {
+            productList.forEach(e => {
+            pp += (e.price + extras) - discount
+        })
+    }
+
+    return pp;
+    })();
 
     const updatePreview = () => {
         const canvas = document.querySelector('#preview')
@@ -14,7 +28,7 @@
         let imageURL = ["deal-template.jpg","hotwings.png", "pizza.png", "drink.png", "nuggets.png", "zinger.png", "fries.png", "mpizza.png", "spizza.png", "sdrink.png"]; // list of image URLs
         const images = []; /// array to hold images.
         const deal = getCurrentDeal()
-        console.log(deal)
+        
         let imageCount = 0; // number of loaded images;
 
         imageURL.forEach(src => { 
@@ -42,7 +56,6 @@
             }]
             item_name = ''; item_price = ''; item_qnt = '';
         }
-        console.log(productList)
         updatePreview();
     }
     
@@ -60,6 +73,18 @@
         let deal = productList.reduce(
             (obj, item) => Object.assign(obj, { [item.type]: item.qnt }), {});
         return deal;
+    }
+
+    const submitHandler = () => {
+        console.log('prssed')
+        
+    }
+
+    const clearDeal = () => {
+        errorMessage = '';
+        deal_name = '';
+        productList = [];
+        showEditModal = false;
     }
 
 </script>
@@ -90,7 +115,7 @@
                         <div class="md:flex flex-row md:space-x-4 w-full text-xs">
                             <div class="mb-3 space-y-2 w-full text-xs">
                                 <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">Deal's Name</label>
-                                <input placeholder="Name of deal" type="text" class="appearance-none block w-full bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-lg h-10 px-4" required="required" name="integration[shop_name]" id="integration_shop_name">
+                                <input placeholder="Name of deal" type="text" bind:value="{deal_name}" class="appearance-none block w-full bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-lg h-10 px-4" required="required" name="integration[shop_name]" id="integration_shop_name">
                                 
                             </div>
                         </div>
@@ -148,7 +173,7 @@
                                                 <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">Extras: </label>
                                             </div>
                                             <div class="mb-1 space-y-2 w-full text-xs">
-                                                <input placeholder="PKR" type="number" class="appearance-none block w-full bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-md h-6 px-2">
+                                                <input bind:value="{extras}" placeholder="PKR" type="number" class="appearance-none block w-full bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-md h-6 px-2">
                                             </div>
                                         </div>
                                         <div class="md:flex flex-row md:space-x-4 w-full text-xs">
@@ -156,7 +181,7 @@
                                                 <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">Discount: </label>
                                             </div>
                                             <div class="mb-3 space-y-2 w-full text-xs">
-                                                <input placeholder="PKR" type="number" class="appearance-none block w-full bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-md h-6 px-2">
+                                                <input bind:value="{discount}" placeholder="PKR" type="number" class="appearance-none block w-full bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-md h-6 px-2">
                                             </div>
                                         </div>
                                         <div class="md:flex flex-row pt-2 border-t border-gray-400 md:space-x-4 w-full text-xs">
@@ -164,7 +189,7 @@
                                                 <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">Total: </label>
                                             </div>
                                             <div class="mb-3 space-y-2 w-full text-xs">
-                                                <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">3300 PKR</label>
+                                                <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">{total} PKR</label>
                                             </div>
                                         </div>
                                     </div>
@@ -172,10 +197,10 @@
                                 
                                 </div>
                                 
-                                <p class="text-xs text-red-500 dark:text-red-300 text-right my-3">{ 1+2 }</p>
+                                <p class="text-xs text-red-500 dark:text-red-300 text-right my-3">{ errorMessage }</p>
                                 <div class="mt-5 text-right md:space-x-3 md:block flex flex-col-reverse">
-                                    <button on:click="{()=>showEditModal=false}" id="cancel-btn" class="mb-2 md:mb-0 bg-transparent px-5 py-2 text-sm shadow-sm font-medium tracking-wider border dark:border-input-border text-gray-600 dark:text-list-item rounded-full hover:shadow-lg hover:bg-gray-100 dark:hover:bg-gray-600"> Cancel </button>
-                                    <button id="submit-btn" disabled class="disabled:bg-gray-300 dark:disabled:bg-dark-border-gray mb-2 md:mb-0 bg-indigo-500 dark:bg-dark-indigo px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg disabled:shadow-sm hover:bg-indigo-600 dark:hover:bg-indigo-800">Submit</button>
+                                    <button on:click="{clearDeal}" id="cancel-btn" class="mb-2 md:mb-0 bg-transparent px-5 py-2 text-sm shadow-sm font-medium tracking-wider border dark:border-input-border text-gray-600 dark:text-list-item rounded-full hover:shadow-lg hover:bg-gray-100 dark:hover:bg-gray-600"> Cancel </button>
+                                    <button on:click="{submitHandler}" id="submit-btn" class="disabled:bg-gray-300 dark:disabled:bg-dark-border-gray mb-2 md:mb-0 bg-indigo-500 dark:bg-dark-indigo px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg disabled:shadow-sm hover:bg-indigo-600 dark:hover:bg-indigo-800">Submit</button>
                                 </div>
                             </div>
                         </div>
