@@ -3,8 +3,10 @@
 
     import { fade } from "svelte/transition"
     import Canva from "$lib/deals";
+    import { db } from "$lib/config/app";
+    import { collection, addDoc } from "firebase/firestore"; 
 
-    let deal_name, item_name, item_price, item_qnt, item_type, errorMessage = '';
+    let deal_name = '', item_name, item_price, item_qnt, item_type, priority = 0, errorMessage = '';
     export let productList = [];
     let extras = 0, discount = 0;
 
@@ -15,11 +17,11 @@
     
         if (productList.length != 0) {
             productList.forEach(e => {
-            pp += (e.price + extras) - discount
+            pp += e.price;
         })
     }
 
-    return pp;
+    return (pp + extras) - discount; 
     })();
 
     const updatePreview = () => {
@@ -58,7 +60,8 @@
         }
         updatePreview();
     }
-    
+
+
     const capitalize = (mySentence) => {
         const words = mySentence.split(" ");
 
@@ -69,15 +72,45 @@
         return words.join(" ");
     }
 
+    const postData = async () => {
+     // Add a new document with a generated id.
+        await addDoc(collection(db, "deals"), {
+            id: priority || 0,
+            title: capitalize(deal_name.trim().toLowerCase()),
+            price: total,
+            discount: Math.round((discount/total) * 100) || 0,
+            deal: getCurrentDeal(),
+            content: getCurrentContent()
+
+        });
+
+    }
+
     const getCurrentDeal = () => {
         let deal = productList.reduce(
-            (obj, item) => Object.assign(obj, { [item.type]: item.qnt }), {});
+            (obj, item) => Object.assign(obj, { [item.type]: item.qnt > 0 ? item.qnt : 1 }), {});
         return deal;
     }
 
-    const submitHandler = () => {
-        console.log('prssed')
-        
+    const getCurrentContent = () => {
+        let arr = [];
+        productList.forEach(product => arr.push(`${ capitalize(product.title.trim().toLowerCase()) } (${ product.qnt })`));
+        return arr;
+    }
+
+    const submitHandler = async () => {
+        if (!deal_name.trim().length == 0 && !productList.length == 0) {
+            document.querySelector('#loop').classList.remove('hidden');
+            errorMessage = '';
+            await postData();
+            location.href = '/admin/dashboard/deals'
+        } else if (productList.length == 0) {
+            errorMessage = 'Please add at least 1 Product'
+        } else if (total < 0) {
+            errorMessage = 'Price cannot be negative'
+        } else {
+            errorMessage = 'Please fill the required info'
+        }
     }
 
     const clearDeal = () => {
@@ -118,6 +151,11 @@
                                 <input placeholder="Name of deal" type="text" bind:value="{deal_name}" class="appearance-none block w-full bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-lg h-10 px-4" required="required" name="integration[shop_name]" id="integration_shop_name">
                                 
                             </div>
+                            <div class="mb-3 space-y-2 w-full text-xs">
+                                <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">Priority</label>
+                                <input placeholder="0 is max" type="number" bind:value="{priority}" class="appearance-none block w-full bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-lg h-10 px-4" required="required" name="integration[shop_name]" id="integration_shop_name">
+                                
+                            </div>
                         </div>
                         
                             <div class="md:flex md:flex-row md:space-x-4 w-full text-xs">
@@ -125,14 +163,14 @@
                                     <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">Add Product</label>
                                     <form on:submit|preventDefault="{productManager}">
                                         <input
-                                        id="text-box" bind:value="{item_name}" required="required" name="name" 
+                                        id="text-box" bind:value="{item_name}" required="required" name="item" 
                                         class="w-full appearance-none block bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-lg p-3" placeholder="Item's Name">
                                         <div class="md:flex flex-row mt-2 md:space-x-4 w-full text-xs">
                                             <input bind:value="{item_price}"
                                                 required="required" name="price" type="number" min="0"
                                                 class="w-full appearance-none block mb-2 bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-lg  py-2 px-2" placeholder="Price">
                                             <input bind:value="{item_qnt}"
-                                                required="required" name="qnt" type="number" min="1" max="9"
+                                                name="qnt" type="number"
                                                 class="w-full appearance-none block mb-2 bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-lg  py-2 px-2" placeholder="Quantity">                                
                                         </div>
                                         <div class="md:flex flex-row mt-2 mb-2 md:space-x-4 w-full text-xs">
@@ -160,7 +198,7 @@
                                         {#each productList as product}
                                         <div class="md:flex flex mt-2 md:space-x-4 w-full text-xs">    
                                             <div class="flex-3 mb-1 space-y-2 w-full text-xs" style="text-align: start;">
-                                                <p>{product.qnt} {capitalize(product.title)}(s)</p>    
+                                                <p>{capitalize(product.title)} ({product.qnt})</p>    
                                             </div>
                                             <div class="flex-1 mb-1 space-y-2 w-full text-xs">
                                                 <p>{product.price}</p>
@@ -200,7 +238,8 @@
                                 <p class="text-xs text-red-500 dark:text-red-300 text-right my-3">{ errorMessage }</p>
                                 <div class="mt-5 text-right md:space-x-3 md:block flex flex-col-reverse">
                                     <button on:click="{clearDeal}" id="cancel-btn" class="mb-2 md:mb-0 bg-transparent px-5 py-2 text-sm shadow-sm font-medium tracking-wider border dark:border-input-border text-gray-600 dark:text-list-item rounded-full hover:shadow-lg hover:bg-gray-100 dark:hover:bg-gray-600"> Cancel </button>
-                                    <button on:click="{submitHandler}" id="submit-btn" class="disabled:bg-gray-300 dark:disabled:bg-dark-border-gray mb-2 md:mb-0 bg-indigo-500 dark:bg-dark-indigo px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg disabled:shadow-sm hover:bg-indigo-600 dark:hover:bg-indigo-800">Submit</button>
+                                    <button on:click="{submitHandler}" id="submit-btn" class="disabled:bg-gray-300 dark:disabled:bg-dark-border-gray mb-2 md:mb-0 bg-indigo-500 dark:bg-dark-indigo px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg disabled:shadow-sm hover:bg-indigo-600 dark:hover:bg-indigo-800">
+                                        <span id="loop" class="hidden animate-spin material-icons" style="vertical-align: bottom;">loop</span>&nbsp;Submit</button>
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-import { db, auth, client, products } from "$lib/config/app";
+import { db, auth, client } from "$lib/config/app";
 import { collection, getDocs, query, doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth"
 

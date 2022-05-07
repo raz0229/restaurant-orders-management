@@ -96,9 +96,12 @@
              <div class="zoom">
                  <img class="canva object-center object-cover h-auto w-full" id="canvasimg{i}" src="" alt="photo">
              </div>
+             
              <div class="flex justify-between w-64">
+                 
                  <div class="py-8 sm:py-6">
-                     <p class="text-xl text-white font-bold mb-2">{da.title}</p>
+                    <p class="text-xs text-white bg-red-800 rounded w-16 text-center"><strong>Priority:</strong>&nbsp{ da.id }</p>
+                     <p class="text-xl text-white font-bold mb-2">{da.title}</p>  
                      <ul class="list-disc">
                          {#each da.content as dc} 
                          <li class="text-base text-gray-400 dark:text-dark-p font-normal">{dc}</li>

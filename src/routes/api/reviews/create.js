@@ -1,5 +1,5 @@
 // import db
-import { db } from "$lib/app";
+import { db } from "$lib/config/app";
 import { collection, addDoc } from "firebase/firestore"; 
 
 const postData = async (title, stars, email, comment) => {
