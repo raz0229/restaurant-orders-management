@@ -6,7 +6,7 @@
     import { db } from "$lib/config/app";
     import { collection, addDoc } from "firebase/firestore"; 
 
-    export let deal_name = '', priority = 0;
+    export let deal_name = '', priority = 0, deal_id, total, temp_total;
     export let productList = [];
     let extras = 0, discount = 0, errorMessage = '', item_name, item_price, item_qnt, item_type;
 
@@ -17,11 +17,14 @@
     
         if (productList.length != 0) {
             productList.forEach(e => {
-            pp += e.price;
-        })
+                pp += e.price;
+            })
     }
+    
+    if (!pp) pp = temp_total;
 
-    return (pp + extras) - discount; 
+    const calc = (pp + (extras ? extras : 0)) - discount;
+    return calc > 0 ? calc : 0; 
     })();
 
     const updatePreview = () => {
@@ -99,14 +102,15 @@
     }
 
     const submitHandler = async () => {
-        if (!deal_name.trim().length == 0 && !productList.length == 0) {
+        // wish I knew Typescript
+        if (!deal_name.trim().length == 0 && !productList.length == 0 && !(discount < 0 || extras < 0)) {
             document.querySelector('#loop').classList.remove('hidden');
             errorMessage = '';
             await postData();
             location.href = '/admin/dashboard/deals'
         } else if (productList.length == 0) {
             errorMessage = 'Please add at least 1 Product'
-        } else if (total < 0) {
+        } else if (total < 0 || discount < 0 || extras < 0) {
             errorMessage = 'Price cannot be negative'
         } else {
             errorMessage = 'Please fill the required info'
@@ -116,8 +120,11 @@
     const clearDeal = () => {
         errorMessage = '';
         deal_name = '';
-        productList = [];
         showEditModal = false;
+        extras = 0;
+        discount = 0;
+        total = 0;
+        productList = [];
     }
 
 </script>
@@ -198,11 +205,17 @@
                                         {#each productList as product}
                                         <div class="md:flex flex mt-2 md:space-x-4 w-full text-xs">    
                                             <div class="flex-3 mb-1 space-y-2 w-full text-xs" style="text-align: start;">
-                                                <p>{capitalize(product.title)} ({product.qnt})</p>    
+                                                {#if product.title}
+                                                    <p>{capitalize(product.title)} {product.qnt ? `(${product.qnt})` : ''}</p>
+                                                {:else}
+                                                    <p>{ capitalize(product) }</p>
+                                                {/if}    
                                             </div>
+                                            {#if product.price}
                                             <div class="flex-1 mb-1 space-y-2 w-full text-xs">
                                                 <p>{product.price}</p>
                                             </div>
+                                            {/if}
                                         </div>
                                         {/each}
 

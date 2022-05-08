@@ -28,10 +28,10 @@
 <script>
     import Canva from "$lib/deals";
     import EditDeal from "$lib/modals/editDeal.svelte";
-import { doc } from "firebase/firestore";
 
     export let products, dealArray;
     let showEditModal = false;
+    let deal_name, priority, discount, deal_id, productList, total, temp_total;
     console.log(dealArray, products)
 
     let canvas = document.createElement('canvas');
@@ -60,8 +60,14 @@ import { doc } from "firebase/firestore";
          images.push(image);
     });
 
-    const editDeal = (id) => {
-        console.log(id)
+    const editDeal = (id, title, prior, content, tot) => {
+        deal_id = id;
+        deal_name = title;
+        priority = prior;
+        productList = content;
+        total = tot
+        temp_total = tot
+        showEditModal = true;
     }
 
 </script>
@@ -70,6 +76,12 @@ import { doc } from "firebase/firestore";
 <!-- <canvas id="canvas" class="hidden" width="400" height="250"></canvas> -->
 <EditDeal
     bind:showEditModal
+    bind:deal_id
+    bind:deal_name
+    bind:priority
+    bind:productList
+    bind:total
+    bind:temp_total
     />
 
 <div id="menu" class="mt-12 container mx-auto px-4 lg:pt-24 lg:pb-64">
@@ -117,7 +129,7 @@ import { doc } from "firebase/firestore";
                  <div class="relative py-8 sm:py-6">
                      <p class="text-3xl text-white font-bold">{da.price}</p>
                      <span class="text-base text-gray-400 dark:text-dark-p font-normal">PKR</span>
-                     <button on:click={ ()=>editDeal(da.doc_id) } class="adddealbutton absolute bottom-0 rounded-full bg-indigo-500 dark:bg-dark-indigo text-white drop-shadow-xl hover:bg-indigo-700">
+                     <button on:click={ ()=>editDeal(da.doc_id, da.title, da.id, da.content, da.price) } class="adddealbutton absolute bottom-0 rounded-full bg-indigo-500 dark:bg-dark-indigo text-white drop-shadow-xl hover:bg-indigo-700">
                          <span class="material-icons">
                              edit
                              </span>
