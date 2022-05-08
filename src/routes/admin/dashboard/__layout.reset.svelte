@@ -35,7 +35,7 @@
 </script>
 
 <input id="hamburger" type="checkbox" bind:checked="{ isMobile }"
-	class="fixed z-40 left-4 top-2 p-2 rounded-full border-2 border-red-300 bg-transparent hover:bg-red-200 text-center text-gray-600">
+	class="fixed z-40 left-4 top-2 p-2 rounded-full border-indigo-600 hover:bg-indigo-200 text-center text-indigo-600">
 
   <div class="container">
 	  <div id="side-bar">
@@ -297,7 +297,6 @@
   #hamburger {
 	-webkit-appearance: none;
   	appearance: none;
-	border: none;
   	background-image: url('../../hamburger.svg');
 	width: 25px;
 	  height: 30px;
