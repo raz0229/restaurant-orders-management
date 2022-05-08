@@ -535,11 +535,11 @@ input[type="range"] {
 .accordion p:last-child {
   margin-bottom: 0;
 }
-
+/* 
 @media only screen and (max-width: 920px) {
 	  div#menu {
-			padding-left: 5rem;
+			padding-left: 1rem;
 	  }
 	  
-  }
+  } */
 </style>

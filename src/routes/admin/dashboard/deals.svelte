@@ -196,10 +196,4 @@ right: 0;
 }
 
 
-    @media only screen and (max-width: 920px) {
-	  div#menu {
-			padding-left: 5rem;
-	  }
-	  
-  }
 </style>

@@ -6,7 +6,7 @@
 	import { fade } from 'svelte/transition';
 	import { browser } from "$app/env"
 
-	let user;
+	let user, isMobile = true;
   
 	const checkState = async () => {
 	  const signedIn = await isSignedIn()
@@ -24,26 +24,31 @@
 		document.querySelector('html').classList.remove('dark');
 	}
 
+	const toggleSideMenu = () => {
+		isMobile = !isMobile;
+	}
+
 	if (browser) {
 		removeDarkMode()
 		checkState()
 	}
 </script>
 
+<input id="hamburger" type="checkbox" bind:checked="{ isMobile }"
+	class="fixed z-40 left-4 top-2 p-2 rounded-full border-2 border-red-300 bg-transparent hover:bg-red-200 text-center text-gray-600">
+
   <div class="container">
 	  <div id="side-bar">
-		  <aside
+		  <aside in:fade out:fade
 		  class="flex flex-col fixed items-center bg-white text-gray-700 shadow h-full">
 		  <!-- Side Nav Bar-->
   
-		  <div class="h-16 flex items-center w-full">
+		  <div on:click="{ toggleSideMenu }" 
+		  	class="h-16 flex items-center w-full text-indigo-600" style="cursor: pointer;">
 			  <!-- Logo Section -->
-			  <a class="h-6 w-6 mx-auto" href="http://svelte.dev/">
-				  <img
-					  class="h-6 w-6 mx-auto"
-					  src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Svelte_Logo.svg/512px-Svelte_Logo.svg.png"
-					  alt="svelte logo" />
-			  </a>
+			  <span class="h-6 w-6 mx-auto text-indigo-600 material-icons">
+				arrow_back
+				</span>
 		  </div>
   
 		  <ul class="un-list w-full">
@@ -287,7 +292,17 @@
 	 max-width: 100%;
 	 
   }
-	
+
+
+  #hamburger {
+	-webkit-appearance: none;
+  	appearance: none;
+	border: none;
+  	background-image: url('../../hamburger.svg');
+	width: 25px;
+	  height: 30px;
+  }
+
   #side-bar {
   
 	 grid-row-start: 1;
@@ -307,12 +322,22 @@
 	 
   }
 
+  aside {
+	  z-index: 99;
+  }
+
   @media only screen and (max-width: 920px) {
-	  .container {
-			grid-template-columns: 0fr 1fr 1fr 1fr 1fr 1fr;
-	  }
-	  .sc-list {
+
+	.container {
+		grid-template-columns: 0fr 1fr 1fr 1fr 1fr 1fr;
+	}
+	 
+	  #hamburger:checked + .container #side-bar {
 		  display: none;
+	  }
+	  #hamburger:checked + .container #main-container {
+		  grid-column-start: 1;
+		  grid-column-end: 7;
 	  }
   }
 
