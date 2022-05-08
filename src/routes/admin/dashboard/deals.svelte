@@ -28,6 +28,7 @@
 <script>
     import Canva from "$lib/deals";
     import EditDeal from "$lib/modals/editDeal.svelte";
+import { doc } from "firebase/firestore";
 
     export let products, dealArray;
     let showEditModal = false;
@@ -59,6 +60,10 @@
          images.push(image);
     });
 
+    const editDeal = (id) => {
+        console.log(id)
+    }
+
 </script>
 
 <!-- Generating images via canvas -->
@@ -89,7 +94,8 @@
     <div class="grid grid-cols-1 mt-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
         {#each dealArray as da, i}
-         <div class="relative w-full bg-gray-800 dark:bg-dark-card rounded-lg shadow-lg overflow-hidden flex flex-col justify-center items-center">
+         <div
+            class="relative w-full bg-gray-800 dark:bg-dark-card rounded-lg shadow-lg overflow-hidden flex flex-col justify-center items-center">
              <div class="ribbon font-bold text-white whitespace-no-wrap px-4">
                  <div class="label bg-red-ribbon dark:bg-dark-red-ribbon">{da.discount}% OFF</div>
              </div>
@@ -111,7 +117,7 @@
                  <div class="relative py-8 sm:py-6">
                      <p class="text-3xl text-white font-bold">{da.price}</p>
                      <span class="text-base text-gray-400 dark:text-dark-p font-normal">PKR</span>
-                     <button on:click={ ()=>console.log(da.id, da.title, da.price) } class="adddealbutton absolute bottom-0 rounded-full bg-indigo-500 dark:bg-dark-indigo text-white drop-shadow-xl hover:bg-indigo-700">
+                     <button on:click={ ()=>editDeal(da.doc_id) } class="adddealbutton absolute bottom-0 rounded-full bg-indigo-500 dark:bg-dark-indigo text-white drop-shadow-xl hover:bg-indigo-700">
                          <span class="material-icons">
                              edit
                              </span>

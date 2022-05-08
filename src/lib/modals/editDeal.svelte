@@ -6,9 +6,9 @@
     import { db } from "$lib/config/app";
     import { collection, addDoc } from "firebase/firestore"; 
 
-    let deal_name = '', item_name, item_price, item_qnt, item_type, priority = 0, errorMessage = '';
+    export let deal_name = '', priority = 0;
     export let productList = [];
-    let extras = 0, discount = 0;
+    let extras = 0, discount = 0, errorMessage = '', item_name, item_price, item_qnt, item_type;
 
     const properties = Canva.getProperties()
 

@@ -9,7 +9,7 @@ const getDocuments = async (sr) => {
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-        arr.push(Object.assign(doc.data()));
+        arr.push(Object.assign(doc.data(), {doc_id: doc.id}));
     });
     return arr;
 }
