@@ -26,11 +26,14 @@
 </script>
 
 <script>
+    import { db } from "$lib/config/app";
+    import { doc, deleteDoc } from "firebase/firestore";
     import Canva from "$lib/deals";
     import EditDeal from "$lib/modals/editDeal.svelte";
+    import { fade } from "svelte/transition";
 
     export let products, dealArray;
-    let showEditModal = false;
+    let showEditModal = false, confirmDelete = false, pendingDelete;
     let deal_name, priority, discount, deal_id, productList, total, temp_total;
     console.log(dealArray, products)
 
@@ -70,7 +73,54 @@
         showEditModal = true;
     }
 
+    const deleteDeal = async (id, confirmed) => {
+        pendingDelete = id;
+        confirmDelete = true;
+
+        if (confirmed) {
+            // delte doc
+            document.querySelector('#delete-spinner').classList.remove('hidden')
+            await deleteDoc(doc(db, "deals", pendingDelete));
+            location.href = '/admin/dashboard/deals'
+        }
+    }
+
+    const closeModal = () => {
+        confirmDelete = false;
+    }
+
 </script>
+
+<!-- Delete Modal -->
+{#if confirmDelete}
+<div in:fade out:fade class="z-30 flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-modal">
+  <div class="bg-white rounded-lg lg:w-1/2 sm:w-80 m-2">
+    <div class="flex flex-col items-start p-4">
+      <div class="flex items-center w-full">
+        <div class="text-gray-800 font-medium text-lg">Delete Deal?</div>
+		      <svg on:click="{closeModal}" class="ml-auto fill-current text-gray-700 w-6 h-6 cursor-pointer" viewBox="0 0 18 18">
+			      <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"/>
+     	    </svg>
+      </div>
+      <hr>
+      <div class="mt-2 mb-2 text-gray-600">You are about to delete this deal from your Deals page. Are you sure you want to continue?</div>
+      <hr>
+      <div class="ml-auto">
+        <button on:click="{()=>deleteDeal(pendingDelete, true)}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+            <span id="delete-spinner" class="animate-spin material-icons hidden" style="vertical-align: bottom;">
+                loop
+            </span>
+            Delete
+        </button>
+        <button on:click="{closeModal}" class="bg-transparent hover:bg-gray-300 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{/if}
+
 
 <!-- Generating images via canvas -->
 <!-- <canvas id="canvas" class="hidden" width="400" height="250"></canvas> -->
@@ -110,6 +160,12 @@
             class="relative w-full bg-gray-800 dark:bg-dark-card rounded-lg shadow-lg overflow-hidden flex flex-col justify-center items-center">
              <div class="ribbon font-bold text-white whitespace-no-wrap px-4">
                  <div class="label bg-red-ribbon dark:bg-dark-red-ribbon">{da.discount}% OFF</div>
+             </div>
+             <div on:click="{()=>deleteDeal(da.doc_id, false)}"
+                class="absolute shadow-lg z-20 left-2 top-2 cursor-pointer bg-red-600 text-white p-2 rounded hover:bg-red-700">
+                <span class="material-icons" style="vertical-align: bottom;">
+                    delete_outline
+                    </span>
              </div>
              <div class="zoom">
                  <img class="canva object-center object-cover h-auto w-full" id="canvasimg{i}" src="" alt="photo">
@@ -212,6 +268,8 @@ left: 0;
 .label:after {
 right: 0;
 }
-
+.bg-modal {
+  background-color: rgba(0, 0, 0, 0.6);
+}
 
 </style>

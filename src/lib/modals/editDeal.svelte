@@ -145,7 +145,7 @@
 
 <canvas id="preview" class="hidden" width="400" height="250"></canvas>
 
-<div  in:fade out:fade class="fixed top-0 z-20 min-h-screen flex items-center w-full justify-center bg-gray-200/50 dark:bg-semi-gray py-12 px-4 sm:px-6 lg:px-8 items-center">
+<div  in:fade out:fade class="fixed top-0 z-30 min-h-screen flex items-center w-full justify-center bg-gray-200/50 dark:bg-semi-gray py-12 px-4 sm:px-6 lg:px-8 items-center">
     <div class="absolute bg-black opacity-60 inset-0 z-30"></div>
     <div class="modal-body mt-6 max-w-md w-full space-y-8 p-10 bg-white dark:bg-dark-bg rounded-xl shadow-lg z-40">
     <div class="grid  gap-8 grid-cols-1">
