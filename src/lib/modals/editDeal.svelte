@@ -4,7 +4,7 @@
     import { fade } from "svelte/transition"
     import Canva from "$lib/deals";
     import { db } from "$lib/config/app";
-    import { collection, addDoc } from "firebase/firestore"; 
+    import { collection, addDoc, doc, updateDoc } from "firebase/firestore"; 
 
     export let deal_name = '', priority = 0, deal_id, total, temp_total;
     export let productList = [];
@@ -89,6 +89,17 @@
 
     }
 
+    const updataData = async () => {
+        const ref = doc(db, "deals", deal_id);
+
+        await updateDoc(ref, {
+            title: capitalize(deal_name.trim().toLowerCase()),
+            price: total,
+            id: priority || 0,
+            discount: Math.round((discount/temp_total) * 100) || 0
+        });
+    }
+
     const getCurrentDeal = () => {
         let deal = productList.reduce(
             (obj, item) => Object.assign(obj, { [item.type]: item.qnt > 0 ? item.qnt : 1 }), {});
@@ -103,14 +114,15 @@
 
     const submitHandler = async () => {
         // wish I knew Typescript
-        if (!deal_name.trim().length == 0 && !productList.length == 0 && !(discount < 0 || extras < 0)) {
+        if (!deal_name.trim().length == 0 && !productList.length == 0 && !(discount < 0 || extras < 0) && !total <= 0) {
             document.querySelector('#loop').classList.remove('hidden');
             errorMessage = '';
-            await postData();
+            if (productList[0].qnt) await postData();
+            else await updataData();
             location.href = '/admin/dashboard/deals'
         } else if (productList.length == 0) {
             errorMessage = 'Please add at least 1 Product'
-        } else if (total < 0 || discount < 0 || extras < 0) {
+        } else if (total <= 0 || discount < 0 || extras < 0) {
             errorMessage = 'Price cannot be negative'
         } else {
             errorMessage = 'Please fill the required info'
