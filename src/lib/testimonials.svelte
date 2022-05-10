@@ -2,7 +2,7 @@
     import Stars from "$lib/stars.svelte"
     import { fade } from "svelte/transition"
 
-    export let reviews, showButton = false;
+    export let reviews, showButton = false, writeReviewButton = true;
     export let MAX_REVIEWS = 1; // set to 1 for reviews.length
     export let showModal, selection = 'title';
 
@@ -30,7 +30,7 @@
     }
 
 </script>
-{#if !showButton}
+{#if writeReviewButton}
     <div class="text-center">
         <button on:click="{()=>showModal=true}" class="text-xl mt-24 mb-10 bg-indigo-600 dark:bg-dark-indigo-button border border-transparent rounded-md py-3 px-8 text-white hover:bg-indigo-700">
             <span class="material-icons" style="vertical-align: text-bottom;">

@@ -137,7 +137,7 @@
   
 			  <li class="hover:bg-gray-100">
 				  <a
-					  href="."
+					  href="/admin/dashboard/reviews"
 					  class="h-16 px-6 flex flex justify-center items-center w-full
 					  focus:text-orange-500">
 					  <svg
@@ -158,7 +158,7 @@
 							  2-1.61L23 6H6"></path>
 					  </svg>
 					  <span class="sc-list text-lg pl-2">
-						  Something
+						  Reviews
 					  </span>
 				  </a>
 			  </li>

@@ -71,7 +71,8 @@
 <Testimonials
   bind:reviews
   MAX_REVIEWS={max_reviews}
-  showButton=true
+  writeReviewButton={false}
+  showButton={true}
   />
 
 <style>
