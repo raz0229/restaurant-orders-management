@@ -28,7 +28,7 @@
       export let reviews;
   
     let hideCart, showModal, updateRevs, tempLength = 0;
-    let starCount = 4, charCount = 0, errorMessage = '', end = false, overwrite = false;
+    let starCount = 4, charCount = 0, errorMessage = '', end = false, overwrite;
     let fullname = '', email = '', textBox = '', selection;
 
     cart.subscribe(val => {
@@ -86,7 +86,7 @@
         let temp = reviews;
         tempLength = reviews.length;
         
-        const res = await fetch('/api/reviews?update=true');
+        const res = await fetch(`/api/reviews?update=true&order=${selection}`);
 
         if (res.ok) {
             res.json().then(docs => {
@@ -115,6 +115,7 @@
       bind:reviews
       bind:showModal
       bind:selection
+      bind:overwrite
       bind:updateRevs
   />
 

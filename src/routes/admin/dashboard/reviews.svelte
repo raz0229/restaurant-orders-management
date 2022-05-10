@@ -21,19 +21,21 @@
   
   <script>
       import Testimonials from "$lib/testimonials.svelte"
+      import { db } from "$lib/config/app";
+      import { doc, deleteDoc } from "firebase/firestore";
       import { fade } from "svelte/transition"
       
       export let reviews;
   
     let updateRevs, tempLength = 0;
-    let end = false, overwrite = false;
+    let end = false, overwrite, selection;
 
 
     const loadMore = async () => {
         let temp = reviews;
         tempLength = reviews.length;
         
-        const res = await fetch('/api/reviews?update=true');
+        const res = await fetch(`/api/reviews?update=true&order=${selection}`);
 
         if (res.ok) {
             res.json().then(docs => {
@@ -52,6 +54,11 @@
         }
     }
 
+    const deleteReview = async (event) => {
+        await deleteDoc(doc(db, "reviews", event.detail.id));
+        location.href = '/admin/dashboard/deals';
+    }
+
 
   </script>
 
@@ -68,10 +75,13 @@
 </div>  
 
 
-  <Testimonials
+  <Testimonials on:delete={deleteReview}
       bind:reviews
       bind:updateRevs
+      bind:selection
+      bind:overwrite
       writeReviewButton={false}
+      showDeleteButton={true}
       showButton={false}
   />
 

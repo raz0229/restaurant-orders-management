@@ -15,7 +15,7 @@ const getDocuments = async (sr, update, doc) => {
     //const snap = await loadMore(querySnapshot, ref, sr);
 
     querySnapshot.forEach((doc) => {
-        if (doc.data()) arr.push(Object.assign(doc.data()));
+        if (doc.data()) arr.push(Object.assign(doc.data(), {doc_id: doc.id}));
     });
     return arr;
 }
