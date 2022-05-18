@@ -3,10 +3,12 @@ import { getProductsPopulatedWithPrices } from "$lib/config/controllers";
 export async function get() {
 
   /*
-    products are fixed. (cant be added or removed through admin dashboard).
-    prices are fetched from Cloud Firestore for easy and secure access and modification.
-    products array is populated with fetched prices.
-    prices must cohere with Product ID of products array.
+    Experimental: Products are being fetched from Sanity CMS. 
+    More can be added or removed using the sanity studio or from the
+    Products page from the Admin dashboard. 
+    The link to the studio is referred via Vite's environment variable
+    VITE_SANITY_STUDIO_URL in '.env' file in the root directory of
+    this project.
   */
 
     // populate array with fetched prices
