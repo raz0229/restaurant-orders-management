@@ -74,6 +74,10 @@
     </div>
 </div>  
 
+<svelte:head>
+  <title> Reviews | Admin</title>
+</svelte:head>
+
 
   <Testimonials on:delete={deleteReview}
       bind:reviews

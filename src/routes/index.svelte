@@ -1,5 +1,8 @@
 <script context="module">
   import { getSettings } from "$lib/config/controllers"
+  import { page_title } from "$lib/stores";
+
+  page_title.update(title => 'Home')
 
   export async function load({ fetch }) {
     const dealRes = await fetch('/api/deals')

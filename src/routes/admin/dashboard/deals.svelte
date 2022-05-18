@@ -91,6 +91,10 @@
 
 </script>
 
+<svelte:head>
+  <title> Deals | Admin</title>
+</svelte:head>
+
 <!-- Delete Modal -->
 {#if confirmDelete}
 <div in:fade out:fade class="z-30 flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-modal">

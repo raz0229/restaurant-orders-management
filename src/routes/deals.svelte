@@ -1,4 +1,7 @@
 <script context="module">
+  import { page_title } from "$lib/stores";
+  page_title.update(title => 'Deals')
+  
   export async function load({ fetch }) {
     const res = await fetch('/api')
     const dealRes = await fetch('/api/deals')
@@ -57,6 +60,10 @@ const scrollToBottom = () => {
 }
 
 </script>
+<!-- 
+<svelte:head>
+   <title>Deals | {import.meta.env.VITE_BUSINESS_NAME}</title>
+</svelte:head> -->
 
 <svelte:window on:scroll="{ scrollHandler }"/>
 

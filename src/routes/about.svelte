@@ -1,6 +1,8 @@
-<script>
-  
+<script context="module">
+  import { page_title } from "$lib/stores";
+  page_title.update(title => 'About Us') 
 </script>
+
 
 <div class="about">
   <h2>About Us</h2>

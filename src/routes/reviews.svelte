@@ -1,4 +1,6 @@
 <script context="module">
+    import { page_title } from "$lib/stores";
+    page_title.update(title => 'Reviews')
 
     export async function load({ fetch }) {
       const res = await fetch(`/api/reviews`)
@@ -107,6 +109,7 @@
 
 
   </script>
+
   <Cart
       bind:hideCart
   />

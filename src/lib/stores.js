@@ -2,6 +2,7 @@ import { writable } from 'svelte/store';
 import { browser } from "$app/env"
 
 export let cart = writable(true);
+
 let storedItems, mode;
 
 if (browser) {
@@ -10,4 +11,5 @@ if (browser) {
 }
 
 export let cartItems = writable(storedItems);
-export let theme = writable(mode || 'light'); 
+export let theme = writable(mode || 'light');
+export let page_title = writable('Loading...'); 

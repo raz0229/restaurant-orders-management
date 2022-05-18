@@ -1,3 +1,7 @@
+<svelte:head>
+  <title> Products | Admin </title>
+</svelte:head>
+
 <div id="menu" class="mt-12 container mx-auto px-4 lg:pt-24 lg:pb-64">
     <div class="flex flex-wrap text-center justify-center">
       <div class="w-full lg:w-6/12 px-4">

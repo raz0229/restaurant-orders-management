@@ -165,6 +165,10 @@ const closeModal = () => {
 
 </script>
 
+<svelte:head>
+  <title> Dashboard | Admin</title>
+</svelte:head>
+
 <button on:click="{unsub}" 
   style="backdrop-filter: blur(5px)" class="broadcast fixed z-40 right-4 top-2 p-2 rounded-full border-2 border-red-300 bg-transparent hover:bg-red-200 text-center text-gray-600">
   {#if !unsubbed}

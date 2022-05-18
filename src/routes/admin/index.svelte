@@ -1,5 +1,8 @@
 <script context="module">
   import { isSignedIn } from "$lib/config/controllers"
+  import { page_title } from "$lib/stores";
+
+  page_title.update(title => 'Admin')
 
   const checkState = async () => {
     const signedIn = await isSignedIn()
