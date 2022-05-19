@@ -81,9 +81,13 @@ const markChecked = async (id, e) => {
   const status = label.dataset.status == 'true' ? false : true;
   const ref = doc(db, "orders", id);
 
-  await updateDoc(ref, {
-    status
-  })
+  try {
+    await updateDoc(ref, {
+      status
+    })
+  } catch (e) {
+    console.log(e.message);
+  }
   
   e.target.children[1].classList.remove('hidden'); // unhide check mark
   e.target.children[0].classList.add('hidden'); // hide loading
@@ -151,7 +155,11 @@ const deleteOrder = (id, e) => {
 }
 
 const deleteSingleDoc = async (id) => {
-  await deleteDoc(doc(db, "orders", id));
+  try {
+    await deleteDoc(doc(db, "orders", id));
+  } catch (e) {
+    console.log(e.message);
+  }
 }
 
 const handleModal = () => {

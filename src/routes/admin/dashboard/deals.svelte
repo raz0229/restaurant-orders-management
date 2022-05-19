@@ -79,8 +79,13 @@
         if (confirmed) {
             // delte doc
             document.querySelector('#delete-spinner').classList.remove('hidden')
-            await deleteDoc(doc(db, "deals", pendingDelete));
-            location.href = '/admin/dashboard/deals'
+            try {
+              await deleteDoc(doc(db, "deals", pendingDelete));
+              location.href = '/admin/dashboard/deals'
+            } catch (e) {
+              document.querySelector('#delete-spinner').classList.add('hidden')  
+            }
+            
         }
     }
 

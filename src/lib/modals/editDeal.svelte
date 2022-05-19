@@ -117,9 +117,15 @@
         if (!deal_name.trim().length == 0 && !productList.length == 0 && !(discount < 0 || extras < 0) && !total <= 0) {
             document.querySelector('#loop').classList.remove('hidden');
             errorMessage = '';
-            if (productList[0].qnt) await postData();
-            else await updataData();
-            location.href = '/admin/dashboard/deals'
+            try {
+                if (productList[0].qnt) await postData();
+                else await updataData();
+                location.href = '/admin/dashboard/deals';
+            } catch(e) {
+                document.querySelector('#loop').classList.add('hidden');
+                errorMessage = 'Something went wrong while applying changes'                 
+            }
+            
         } else if (productList.length == 0) {
             errorMessage = 'Please add at least 1 Product'
         } else if (total <= 0 || discount < 0 || extras < 0) {
