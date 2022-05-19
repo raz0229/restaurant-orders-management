@@ -35,7 +35,6 @@
     export let products, dealArray;
     let showEditModal = false, confirmDelete = false, pendingDelete;
     let deal_name, priority, discount, deal_id, productList, total, temp_total;
-    console.log(dealArray, products)
 
     let canvas = document.createElement('canvas');
     canvas.setAttribute('id', 'canvas');

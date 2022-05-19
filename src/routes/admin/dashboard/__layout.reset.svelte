@@ -3,15 +3,21 @@
 	import { signOut } from 'firebase/auth';
 	import '../../../styles/global.css'
 	import { isSignedIn } from "$lib/config/controllers"
-	import { fade } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 	import { browser } from "$app/env"
 
-	let user, isMobile = true;
+	let user, isMobile = true, showFooter = false;
   
 	const checkState = async () => {
 	  const signedIn = await isSignedIn()
 	  if (!signedIn) location.href = '/admin'
 	  else user = signedIn
+
+	// Switch to test mode if specific USER ID
+	// Following UID corresponds to the given credentials provided for test-only pruposes. 
+	// Access is restricted and handled through firebase security rules only.
+	// See 'security-rules.txt' file to manage rules on your app.  
+	  if (user.user.uid == 'W9gbZXvr5sQBIwpkfzMaW8fJ4eD3') showFooter = true;
 	}
 
 	const logout = () => {
@@ -26,6 +32,11 @@
 
 	const toggleSideMenu = () => {
 		isMobile = !isMobile;
+	}
+
+	const closeFooter = () => {
+		//node.target.parentNode.classList.add('hidden');
+		showFooter = false;
 	}
 
 	if (browser) {
@@ -103,6 +114,18 @@
 			  </li>
   
 			  <li class="hover:bg-gray-100">
+				<a
+					href="/admin/dashboard/account"
+					class="h-16 px-6 flex flex justify-center items-center w-full
+					focus:text-orange-500">
+					<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 5.9c1.16 0 2.1.94 2.1 2.1s-.94 2.1-2.1 2.1S9.9 9.16 9.9 8s.94-2.1 2.1-2.1m0 9c2.97 0 6.1 1.46 6.1 2.1v1.1H5.9V17c0-.64 3.13-2.1 6.1-2.1M12 4C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 9c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"/></svg>
+					<span class="sc-list text-lg pl-2">
+						Account
+					</span>
+				</a>
+			</li>
+
+			  <li class="hover:bg-gray-100">
 				  <a
 					  href="/admin/dashboard/settings"
 					  class="h-16 px-6 flex flex justify-center items-center w-full
@@ -146,8 +169,23 @@
 	  </div>
 	  <div id="main-container">
 		{#if user}
+		<!-- {console.log(user.user.uid)} -->
 		<main>
 	  		<slot></slot>
+
+			<!-- TEST MODE -->
+			{#if showFooter}
+			<footer 
+				in:fade out:fly="{{ y: 100, duration: 1000 }}" 
+				style="font-stretch: condensed;" 
+				class="w-full z-30 absolute bottom-0 left-0 p-2 bg-green-600 text-white text-center">
+				<b class="text-yellow-400">Test Mode: </b>
+				&nbsp;Changes made in Test Mode will not be published live.
+				<span on:click={closeFooter}
+				class="absolute right-4 cursor-pointer">×</span>
+			</footer>
+			{/if}
+
 		</main>
 		{:else}
 		<div in:fade="{{duration: 300}}" class="spinner padding-3 w-screen z-50">

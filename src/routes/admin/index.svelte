@@ -26,7 +26,6 @@
     try {
       const uc = await signInWithEmailAndPassword(auth, email.trim(), password.trim())
       errorMessage = ''
-      console.log(uc.user)
       loop.classList.add('hidden')
       await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence)
       location.href = '/admin/dashboard'
