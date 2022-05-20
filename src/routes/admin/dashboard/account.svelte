@@ -1,22 +1,39 @@
 <script>
     import { getContext } from "svelte";
+    import { auth } from "$lib/config/app";
+    import { updateEmail, updatePassword } from "firebase/auth";
+    import { fade } from "svelte/transition";
     
     const user = getContext('user-details');
-    let userImpl, email, password = '', password_confirm = '';
+    let userImpl, email, password = '', password_confirm = '', clickedSubmit = false;
+
     $: notPassed = (
         !(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) ||
-        !(password == password_confirm && password.length !== 0 && password_confirm.length !== 0) ||
-        !(password?.length >= 8 && password_confirm?.length >= 8)
+        !(password == password_confirm && 
+        password.length !== 0 && 
+        password_confirm.length !== 0) ||
+        !(password?.length >= 8 && 
+        password_confirm?.length >= 8)
     )
 
     user.subscribe( cred => {
         userImpl = cred;
-        console.log(cred)
     })
 
-    const updateCred = () => {
-        if (userImpl.uid !== import.meta.env.VITE_DEMO_UID) console.log('good to go')
-        else console.log('not good to go')
+    const updateCred = async () => {
+        clickedSubmit = true;
+
+        if (userImpl.uid !== import.meta.env.VITE_DEMO_UID && !notPassed) {
+            try {
+                await updateEmail(auth.currentUser, email.trim());
+                await updatePassword(auth.currentUser, password);
+                location.href = '/admin/dashboard/account';
+            } catch (e) {
+                console.log(e)
+                clickedSubmit = false;
+            }
+        }
+        else clickedSubmit = false;
     }
 </script>
 
@@ -24,6 +41,14 @@
   <title> Account | Admin </title>
 </svelte:head>
 
+
+{#if clickedSubmit}
+<div in:fade out:fade class="z-30 flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-modal">
+    <div class="absolute m-4 text-gray-100" style="text-align: -webkit-center;">
+      <img class="w-2/4" src="../../buffer.svg" alt="">
+    </div>
+  </div>
+{/if}
 
 <div id="menu" class="mt-12 container mx-auto px-4 lg:pt-24 lg:pb-64">
     <div class="flex flex-wrap text-center justify-center">
@@ -45,7 +70,7 @@
                         class="mt-2">
                         <div class="mx-auto max-w-lg ">
                             <div class="py-1">
-                                <span class="px-1 text-sm text-gray-600">Email</span>
+                                <span class="px-1 text-sm text-gray-600">New Email</span>
                                 <input placeholder="{ userImpl?.email }" type="email" bind:value="{email}"
                                        class="text-md block px-3 py-2 rounded-lg w-full
                 bg-white border-2 border-gray-300 placeholder-gray-400 shadow-md focus:placeholder-gray-400 focus:bg-white focus:border-gray-600 focus:outline-none">
@@ -137,4 +162,8 @@
     input {
         outline: none;
     }
+
+.bg-modal {
+  background-color: rgba(0, 0, 0, 0.6);
+}
 </style>
