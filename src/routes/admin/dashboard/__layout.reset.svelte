@@ -3,21 +3,26 @@
 	import { signOut } from 'firebase/auth';
 	import '../../../styles/global.css'
 	import { isSignedIn } from "$lib/config/controllers"
+	import { setContext } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
-	import { browser } from "$app/env"
+	import { browser } from "$app/env";
+	import { writable } from "svelte/store"
 
 	let user, isMobile = true, showFooter = false;
-  
+	const ws = writable(user);
+
 	const checkState = async () => {
 	  const signedIn = await isSignedIn()
 	  if (!signedIn) location.href = '/admin'
-	  else user = signedIn
-
+	  else {
+		  user = signedIn;
+		  ws.update(x => user.user)
+	  }
 	// Switch to test mode if specific USER ID
 	// Following UID corresponds to the given credentials provided for test-only pruposes. 
 	// Access is restricted and handled through firebase security rules only.
 	// See 'security-rules.txt' file to manage rules on your app.  
-	  if (user.user.uid == 'W9gbZXvr5sQBIwpkfzMaW8fJ4eD3') showFooter = true;
+	  if (user?.user.uid == 'W9gbZXvr5sQBIwpkfzMaW8fJ4eD3') showFooter = true;
 	}
 
 	const logout = () => {
@@ -42,7 +47,10 @@
 	if (browser) {
 		removeDarkMode()
 		checkState()
+		// reactive context
+		setContext('user-details', ws);
 	}
+
 </script>
 
 <input id="hamburger" type="checkbox" bind:checked="{ isMobile }"
@@ -171,7 +179,7 @@
 		{#if user}
 		<!-- {console.log(user.user.uid)} -->
 		<main>
-	  		<slot></slot>
+	  		<slot ></slot>
 
 			<!-- TEST MODE -->
 			{#if showFooter}

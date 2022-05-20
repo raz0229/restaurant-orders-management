@@ -12,12 +12,6 @@
 	export let message
 </script>
 
-<!-- <div class="mt-20 error">
-  <h2>Oops</h2>
-  <p>{message}</p>
-  <a href="/guides">View all guides</a>
-</div> -->
-
 <!-- component -->
 <div class="mt-20 error lg:px-24 lg:py-24 md:py-20 md:px-44 px-4 py-24 items-center flex justify-center flex-col-reverse lg:flex-row md:gap-28 gap-16">
 	<div class="xl:pt-24 w-full xl:w-1/2 relative pb-12 lg:pb-0">
@@ -36,12 +30,12 @@
 				</div>
 			</div>
 			<div>
-				<img class="dark:invert-[10%] dark:opacity-25" src="404.png" />
+				<img class="dark:invert-[10%] dark:opacity-25" src="404.png" alt="404"/>
 			</div>
 		</div>
 	</div>
 	<div>
-		<img class="dark:opacity-75 dark:invert-[10%]" src="illustration.png" />
+		<img class="dark:opacity-75 dark:invert-[10%]" src="illustration.png" alt="OOPS"/>
 	</div>
 </div>
 

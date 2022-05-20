@@ -66,7 +66,6 @@
                 await setSettings('max-deals', max_deals);
                 await setUTCHours((parseInt(open) - utc), (parseInt(close) - utc));
                 clickedSubmit = false;
-                console.log('status:', status)
             } catch(e) {
                 errorMessage = "Something went wrong! Couldn't make changes";
             }
