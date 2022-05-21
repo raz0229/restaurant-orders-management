@@ -161,7 +161,7 @@
                         <option value="9">9 AM</option>
                         <option value="10">10 AM</option>
                         <option value="11">11 AM</option>
-                        <option value="0">12 AM</option>
+                        <option value="0">12 PM</option>
                     </select>
                 </div>
             </div>
@@ -189,7 +189,7 @@
                         <option value="20">9 PM</option>
                         <option value="21">10 PM</option>
                         <option value="22">11 PM</option>
-                        <option value="23">12 PM</option>
+                        <option value="23">12 AM</option>
                     </select>
                 </div>
             </div>
