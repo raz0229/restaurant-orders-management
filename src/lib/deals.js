@@ -49,6 +49,14 @@ loadDeal (images) {
         context.drawImage(images[4],base, cond ? alt : alt = 90); // draw nuggets
         deal.nuggets--;
     }
+    for (cond ? base : base = 90; deal.pasta > 0; base -= 30) {
+        context.drawImage(images[10],base, cond ? alt : alt = 160); // draw pasta
+        deal.pasta--;
+    }
+    for (cond ? base : base = 100; deal.dessert > 0; base += 30) {
+        context.drawImage(images[11],base, cond ? alt : alt = 150); // draw dessert
+        deal.dessert--;
+    }
     for (cond ? base : base = 90; deal.hotwings > 0; base -= 30) {
         context.drawImage(images[1],base, cond ? alt : alt = 190); // draw hotwings
         deal.hotwings--;
@@ -106,6 +114,14 @@ loadDeal (images) {
                 name: 'Fries',
                 val: 'fries'
             },
+            {
+                name: 'Dessert',
+                val: 'dessert'
+            },
+            {
+                name: 'Pasta',
+                val: 'pasta'
+            }
         ]
     }
 

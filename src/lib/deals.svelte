@@ -27,7 +27,7 @@ if (browser) {
     canvas.setAttribute('height', 250);
     // canvas = document.querySelector('#canvas')
 
-    let imageURL = ["deal-template.jpg","hotwings.png", "pizza.png", "drink.png", "nuggets.png", "zinger.png", "fries.png", "mpizza.png", "spizza.png", "sdrink.png"]; // list of image URLs
+    let imageURL = ["deal-template.jpg","hotwings.png", "pizza.png", "drink.png", "nuggets.png", "zinger.png", "fries.png", "mpizza.png", "spizza.png", "sdrink.png", "pasta.png", "dessert.png"]; // list of image URLs
     const images = []; /// array to hold images.
     let imageCount = 0; // number of loaded images;
 
