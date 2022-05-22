@@ -42,8 +42,20 @@ const getDocuments = async (update) => {
 
         
 let collapsible = (id) => {
-  let elem = document.querySelector(`#${id.trim()}`);
+  const elem = document.querySelector(`#id-${id.trim()}`);
+  const lb = document.querySelector(`#lb-${id.trim()}`);
+  let up = lb.childNodes[0];
+  let down = lb.childNodes[2]; 
+
   elem.checked = elem.checked ? false : true;
+  
+  if (up.classList.contains('hidden')) {
+    up.classList.remove('hidden');
+    down.classList.add('hidden');
+  } else {
+    down.classList.remove('hidden');
+    up.classList.add('hidden');
+  }
 }
 
 const unsubscribe = onSnapshot(collection(db, "orders"), () => {
@@ -275,11 +287,14 @@ const closeModal = () => {
 <section out:fly="{{ y: -200, duration: 2000 }}" in:fly="{{ y: -200, duration: 1000 }}" class="accordion p-3">
   <!-- Since order.id is unique to each object, we shall use it as element ID-->
   <input type="checkbox" name="collapse" id="id-{ order.id }" checked="{false}">
-  <div class="handle" on:click="{()=>collapsible(`id-${ order.id }`)}" >
+  <div class="handle" on:click="{()=>collapsible(order.id)}" >
     <!-- If status == true -->
     <h3 class:bg-checked="{ order.status }" id="lb-{ order.id }" data-status="{ order.status }" 
        > 
       <!-- for="id-{ order.id }" on:click="{()=>collapsible(`id-${ order.id }`)}" -->
+      <span class="material-icons va-b pl-2 hidden">
+        keyboard_arrow_up
+        </span>
       <span class="material-icons va-b pl-2">
         expand_more
         </span>
@@ -314,7 +329,7 @@ const closeModal = () => {
     {/if}
         
     </div>
-  <div class="content text-gray-600" on:click="{()=>collapsible(`id-${ order.id }`)}">
+  <div class="content text-gray-600" on:click="{()=>collapsible(order.id)}">
 
     {#each order.content as cnt}
     <div class="item">
