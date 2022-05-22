@@ -15,7 +15,15 @@
 <script>
   import { auth } from "$lib/config/app"
   import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence } from "firebase/auth"
+  import Cart from "$lib/cart.svelte"
+  import { cart } from '$lib/stores';
   
+  let hideCart;
+
+  cart.subscribe(val => {
+    hideCart = val;
+  });
+
   let email, password, remember = false, errorMessage = '';
 
   const login = async () => {
@@ -53,6 +61,9 @@
 
 
 </script>
+
+<Cart 
+  bind:hideCart />
 
 <div class="w-full min-h-screen bg-gray-50 dark:bg-dark-bg flex flex-col justify-center items-center lg:pt-6 md:pt-8">
     <div class="w-full sm:max-w-md p-5 mx-auto">
