@@ -19,15 +19,15 @@
 			</div>
 			<div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
 				<div>
-					<h3 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Resources</h3>
+					<h3 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Contact</h3>
 					<ul>
 						<li class="mb-4">
-							<a href="https://flowbite.com" target="_blank"
-								class="text-gray-600 hover:underline dark:text-gray-400">{ title }</a>
+							<a href="mailto:{ import.meta.env.VITE_CONTACT_EMAIL }" target="_blank"
+								class="text-gray-600 hover:underline dark:text-gray-400">Send an Email</a>
 						</li>
 						<li>
-							<a href="https://tailwindcss.com/" target="_blank" rel="nofollow"
-								class="text-gray-600 hover:underline dark:text-gray-400">Tailwind CSS</a>
+							<a href="#"
+								class="text-gray-600 underline dark:text-gray-400">{ import.meta.env.VITE_CONTACT_PHONE }</a>
 						</li>
 					</ul>
 				</div>
