@@ -7,7 +7,7 @@
 <!-- dark keyword switches to dark mode-->
 <div class="max-w-1xl mt-6 mx-auto dark">
 
-	<footer class="p-4 bg-white sm:p-6 dark:bg-gray-800">
+	<footer class="p-4 bg-white sm:p-6 dark:bg-gray-800 min-h-[35vh]">
 		<div class="md:flex md:justify-between">
 			<div class="mb-6 md:mb-0" id="bottom">
 				<a href="/" target="_blank" class="flex items-center">
@@ -35,12 +35,12 @@
 					<h3 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Follow us</h3>
 					<ul>
 						<li class="mb-4">
-							<a href="https://github.com/themesberg/flowbite" target="_blank"
-								class="text-gray-600 hover:underline dark:text-gray-400">Github</a>
+							<a href="{ import.meta.env.VITE_FACEBOOK_PAGE }" target="_blank"
+								class="text-gray-600 hover:underline dark:text-gray-400">Facebook</a>
 						</li>
 						<li>
-							<a href="https://discord.gg/4eeurUVvTy" target="_blank"
-								class="text-gray-600 hover:underline dark:text-gray-400">Discord</a>
+							<a href="{ import.meta.env.VITE_INSTAGRAM_PAGE }" target="_blank"
+								class="text-gray-600 hover:underline dark:text-gray-400">Instagram</a>
 						</li>
 					</ul>
 				</div>
@@ -48,11 +48,11 @@
 					<h3 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Legal</h3>
 					<ul>
 						<li class="mb-4">
-							<a href="#" target="_blank" class="text-gray-600 hover:underline dark:text-gray-400">Privacy
+							<a href="/legal" target="_blank" class="text-gray-600 hover:underline dark:text-gray-400">Privacy
 								Policy</a>
 						</li>
 						<li>
-							<a href="#" target="_blank" class="text-gray-600 hover:underline dark:text-gray-400">Terms
+							<a href="/legal" target="_blank" class="text-gray-600 hover:underline dark:text-gray-400">Terms
 								&amp; Conditions</a>
 						</li>
 					</ul>

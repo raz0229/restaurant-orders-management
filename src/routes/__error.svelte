@@ -1,4 +1,7 @@
 <script context="module">
+    import { page_title } from "$lib/stores";
+    page_title.update(title => 'Oops!') 
+  
 	export function load({ error }) {
 		return {
 			props: {
