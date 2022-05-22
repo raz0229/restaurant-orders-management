@@ -221,7 +221,7 @@ const closeModal = () => {
     </svg>
   </button>
   <select bind:value="{searchValue}"
-    class="absolute right-1 top-1 mt-4 mr-1 focus:outline-none" style="background: none; content-visibility: hidden;">
+    class="absolute right-1 top-1 mt-4 mr-1 focus:outline-none" style="background: none; content-visibility: hidden; content: none;">
     <svg class="w-2 h-2 m-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero"/></svg>
     <option value="title">By Name</option>
     <option value="phone">By Phone</option>
@@ -277,11 +277,10 @@ const closeModal = () => {
   <input type="checkbox" name="collapse" id="id-{ order.id }" checked="{false}">
   <div class="handle" on:click="{()=>collapsible(`id-${ order.id }`)}" >
     <!-- If status == true -->
-    
     <h3 class:bg-checked="{ order.status }" id="lb-{ order.id }" data-status="{ order.status }" 
        > 
       <!-- for="id-{ order.id }" on:click="{()=>collapsible(`id-${ order.id }`)}" -->
-      <span class="material-icons va-b">
+      <span class="material-icons va-b pl-2">
         expand_more
         </span>
         &nbsp;
@@ -449,10 +448,12 @@ input[type="range"] {
   /*
  CSS for the main interaction
 */
+
 .accordion > input[type="checkbox"] {
   position: absolute;
   left: -100vw;
 }
+
 
 .accordion .content {
   overflow-y: hidden;
@@ -516,18 +517,8 @@ input[type="range"] {
   background: #801515 !important;
 }
 
-.accordion .handle h3:before {
-  font-family: 'fontawesome';
-  content: "\f054";
-  display: inline-block;
-  margin-right: 10px;
-  font-size: .58em;
-  line-height: 1.556em;
-  vertical-align: middle;
-}
-
 .accordion > input[type="checkbox"]:checked ~ .handle h3:before {
-  content: "\f078";
+  content: none;
 }
 
 
