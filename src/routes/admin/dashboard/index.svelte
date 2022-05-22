@@ -44,18 +44,11 @@ const getDocuments = async (update) => {
 let collapsible = (id) => {
   const elem = document.querySelector(`#id-${id.trim()}`);
   const lb = document.querySelector(`#lb-${id.trim()}`);
-  let up = lb.childNodes[0];
-  let down = lb.childNodes[2]; 
-
+  let down = lb.childNodes[0];
+ 
   elem.checked = elem.checked ? false : true;
+  down.classList.toggle('inverse');
   
-  if (up.classList.contains('hidden')) {
-    up.classList.remove('hidden');
-    down.classList.add('hidden');
-  } else {
-    down.classList.remove('hidden');
-    up.classList.add('hidden');
-  }
 }
 
 const unsubscribe = onSnapshot(collection(db, "orders"), () => {
@@ -292,11 +285,8 @@ const closeModal = () => {
     <h3 class:bg-checked="{ order.status }" id="lb-{ order.id }" data-status="{ order.status }" 
        > 
       <!-- for="id-{ order.id }" on:click="{()=>collapsible(`id-${ order.id }`)}" -->
-      <span class="material-icons va-b pl-2 hidden">
+      <span class="material-icons va-b pl-2 inverse">
         keyboard_arrow_up
-        </span>
-      <span class="material-icons va-b pl-2">
-        expand_more
         </span>
         &nbsp;
       {#if !order.status}
@@ -415,7 +405,11 @@ const closeModal = () => {
 </div>
 
 <style>
-  
+
+.inverse {
+  transform: rotateX(180deg);
+}
+
 .va-b {
   vertical-align: bottom;
 }
