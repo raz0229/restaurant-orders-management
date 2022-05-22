@@ -227,6 +227,7 @@
 
   #hamburger {
 	-webkit-appearance: none;
+	-moz-appearance: none;
   	appearance: none;
   	background-image: url('../../hamburger.svg');
 	width: 25px;

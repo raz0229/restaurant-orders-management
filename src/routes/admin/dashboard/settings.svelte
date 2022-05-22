@@ -85,7 +85,7 @@
 
 {#if clickedSubmit}
 <div in:fade out:fade class="z-30 flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-modal">
-    <div class="absolute m-4 text-gray-100" style="text-align: -webkit-center;">
+    <div class="absolute m-4 text-gray-100" style="text-align: -webkit-center; text-align: -moz-center;">
       <img class="w-2/4" src="../../buffer.svg" alt="">
     </div>
   </div>

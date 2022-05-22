@@ -123,7 +123,7 @@
          </div>
          
          <div class="w-full md:w-1/2 xl:w-1/3 px-4">
-            <div class="bg-white text-center rounded-lg overflow-hidden mb-10" style="text-align: -webkit-center">
+            <div class="bg-white text-center rounded-lg overflow-hidden mb-10" style="text-align: -webkit-center; text-align: -moz-center;">
                <img
                   src="RAZ0229.gif"
                   alt="image"
