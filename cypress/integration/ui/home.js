@@ -20,7 +20,6 @@ describe('UI - Home page', () => {
         .should(($div) => {
   
           const src = $div[0].getAttribute('src')
-          console.log('src: ', $div[0].getAttribute('src'))
           expect(src).to.have.length.greaterThan(0)
         })   
   

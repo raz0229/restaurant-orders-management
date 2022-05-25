@@ -116,7 +116,7 @@
                 <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
                     {#each group.products as item}
                     
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
+                    <div class="product w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
                         <div on:click="{()=>sendToCart(event, group.sizes)}" class="zoom flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{ item.img }')">
                             <button class="p-2 rounded-full bg-indigo-500 dark:bg-dark-indigo text-white mx-5 -mb-4 hover:bg-indigo-700 hover:dark:bg-indigo-800 focus:outline-none focus:bg-indigo-500">
                                 <span style="pointer-events: none;" class="material-icons">add_shopping_cart</span>
