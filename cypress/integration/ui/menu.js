@@ -28,7 +28,9 @@ describe('UI - Deals', () => {
         cy.contains('dark_mode').click()
         cy.get('.floater').click()
         cy.get('.sizes').each( ($size) => {
-          cy.wrap($size).click({force: true})
+          cy.wrap($size)
+          .scrollIntoView({ offset: { top: -200, left: 0 } })
+          .click({force: true})
 
           cy.wrap($size).parent().parent().children().then( $div => {
             cy.wrap($div).should('not.include.text', 'undefined')
