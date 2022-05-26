@@ -27,13 +27,33 @@ describe('UI - Deals', () => {
 
         cy.contains('dark_mode').click()
         cy.get('.floater').click()
-        cy.get('.sizes').each( ($size, index, $list) => {
-          cy.wrap($size).scrollIntoView().click({force: true})
+        // cy.get('.sizes').each( ($size) => {
+        //   cy.wrap($size).scrollIntoView().click({force: true})
 
-          cy.wrap($size).parent().parent().children().then( $div => {
-            cy.wrap($div).should('not.include.text', `undefined ${ Cypress.env('currency') }`)
-          })
-        })
+        //   cy.wrap($size).parent().parent().children().then( $div => {
+        //     cy.wrap($div).should('not.include.text', 'undefined')
+        //   })
+        // })
+        
+    })
+
+    it('Add first deal to cart and opens cart', () => {
+      cy.contains('add_shopping_cart').click()
+    })
+
+    it('Price calculator works fine', () => {
+        for (let i = 1; i <= 9; i++) cy.contains('add').click()
+        for (let i = 1; i <= 9; i++) cy.contains('remove').click()
+
+        cy.get('.delivery-val').should('not.include.text', 'undefined')
+        .and($p => {
+          expect($p).to.not.include.text('NaN')
+        });
+
+        cy.get('.total-val').should('not.include.text', 'undefined')
+        .and($p => {
+          expect($p).to.not.include.text('NaN')
+        });
         
     })
 

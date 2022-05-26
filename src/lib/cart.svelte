@@ -245,7 +245,7 @@ if (browser) {
 						class="px-5 py-5 bg-white dark:bg-dark-bg border-t dark:border-dark-border flex flex-col xs:flex-row items-center xs:justify-between          ">
 						<span class="text-xs xs:text-sm text-gray-900" style="text-align: center;">
                           <div class="relative px-3 py-1 mb-2 font-semibold text-sm text-yellow-600 dark:text-light-yellow leading-tight">
-                            Delivery Charges: <span class="font-normal">{delivery} PKR</span>
+                            Delivery Charges: <span class="font-normal delivery-val">{delivery} PKR</span>
                           </div>
                             <span class="text-lg dark:text-dark-blue">Total Bill: </span><span
                             class="relative inline-block px-3 py-1 font-semibold text-lg text-green-900 dark:text-light-grn leading-tight">
@@ -253,7 +253,7 @@ if (browser) {
                                   class="absolute inset-0 bg-green-200 dark:bg-dark-green-bg opacity-50 rounded-full"></span>
                         
                               <!-- Set total price to 0 instead of NaN when cart is cleared -->
-                                <span class="relative">
+                                <span class="relative total-val">
                                   {#if storedItems.length === 0}
                                     0 PKR
                                   {:else}
