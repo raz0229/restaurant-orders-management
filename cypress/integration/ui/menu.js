@@ -27,13 +27,13 @@ describe('UI - Deals', () => {
 
         cy.contains('dark_mode').click()
         cy.get('.floater').click()
-        // cy.get('.sizes').each( ($size) => {
-        //   cy.wrap($size).scrollIntoView().click({force: true})
+        cy.get('.sizes').each( ($size) => {
+          cy.wrap($size).click({force: true})
 
-        //   cy.wrap($size).parent().parent().children().then( $div => {
-        //     cy.wrap($div).should('not.include.text', 'undefined')
-        //   })
-        // })
+          cy.wrap($size).parent().parent().children().then( $div => {
+            cy.wrap($div).should('not.include.text', 'undefined')
+          })
+        })
         
     })
 
