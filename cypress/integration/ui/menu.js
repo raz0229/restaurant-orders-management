@@ -23,21 +23,21 @@ describe('UI - Deals', () => {
   
       })
   
-    it('Switch dark and test available sizes', () => {
+    // it('Switch dark and test available sizes', () => {
 
-        cy.contains('dark_mode').click()
-        cy.get('.floater').click()
-        cy.get('.sizes').each( ($size) => {
-          cy.wrap($size)
-          .scrollIntoView({ offset: { top: -200, left: 0 } })
-          .click({force: true})
+    //     cy.contains('dark_mode').click()
+    //     cy.get('.floater').click()
+    //     cy.get('.sizes').each( ($size) => {
+    //       cy.wrap($size)
+    //       .scrollIntoView({ offset: { top: -200, left: 0 } })
+    //       .click({force: true})
 
-          cy.wrap($size).parent().parent().children().then( $div => {
-            cy.wrap($div).should('not.include.text', 'undefined')
-          })
-        })
+    //       cy.wrap($size).parent().parent().children().then( $div => {
+    //         cy.wrap($div).should('not.include.text', 'undefined')
+    //       })
+    //     })
         
-    })
+    // })
 
     it('Add first deal to cart and opens cart', () => {
       cy.contains('add_shopping_cart').click()
@@ -57,6 +57,17 @@ describe('UI - Deals', () => {
           expect($p).to.not.include.text('NaN')
         });
         
+    })
+
+    it('Places an order successfully', () => {
+      cy.get('#checkout-btn').click()
+      cy.contains('Full Name').prev().type('John Doe')
+      cy.contains('Phone Number').prev().type('+1234567890')
+      cy.contains('Address').prev().type('123 St Boul, Gotham')
+      cy.contains('Short Note').prev().type('This is a test (dummy) submission')
+      cy.contains('Submit').click()
+      cy.wait(4000)
+      cy.contains('Order placed successully').should('be.visible')
     })
 
     // it('Opens cart from right-side', () => {
