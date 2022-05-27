@@ -76,8 +76,6 @@ describe('UI - Deals', () => {
         .children()
         .should('have.length', 0)
         cy.contains('shopping_cart').click()
-
-        cy.contains('shopping_cart').click()
     })
 
   })
