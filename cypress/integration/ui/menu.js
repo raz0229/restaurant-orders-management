@@ -23,21 +23,21 @@ describe('UI - Deals', () => {
   
       })
   
-    // it('Switch dark and test available sizes', () => {
+    it('Switch dark and test available sizes', () => {
 
-    //     cy.contains('dark_mode').click()
-    //     cy.get('.floater').click()
-    //     cy.get('.sizes').each( ($size) => {
-    //       cy.wrap($size)
-    //       .scrollIntoView({ offset: { top: -200, left: 0 } })
-    //       .click({force: true})
+        cy.contains('dark_mode').click()
+        cy.get('.floater').click()
+        cy.get('.sizes').each( ($size) => {
+          cy.wrap($size)
+          .scrollIntoView({ offset: { top: -200, left: 0 } })
+          .click({force: true})
 
-    //       cy.wrap($size).parent().parent().children().then( $div => {
-    //         cy.wrap($div).should('not.include.text', 'undefined')
-    //       })
-    //     })
+          cy.wrap($size).parent().parent().children().then( $div => {
+            cy.wrap($div).should('not.include.text', 'undefined')
+          })
+        })
         
-    // })
+    })
 
     it('Add first deal to cart and opens cart', () => {
       cy.contains('add_shopping_cart').click()
@@ -70,17 +70,14 @@ describe('UI - Deals', () => {
       cy.contains('Order placed successully').should('be.visible')
     })
 
-    // it('Opens cart from right-side', () => {
-    //     cy.contains('shopping_cart').click()
-    // })
+    it('Checks if cart clear and closes cart', () => {
+          // check if cart clear was successfull
+        cy.get('tbody')
+        .children()
+        .should('have.length', 0)
+        cy.contains('shopping_cart').click()
 
-    // it('Clear cart if not and close', () => {
-    //     cy.contains('Clear Cart').click()
+        cy.contains('shopping_cart').click()
+    })
 
-    //     // check if cart clear was successfull
-    //     cy.get('tbody')
-    //     .children()
-    //     .should('have.length', 0)
-    //     cy.contains('shopping_cart').click()
-    // })
   })
