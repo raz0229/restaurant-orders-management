@@ -141,7 +141,7 @@
     <!-- Write a Review Modal -->
 <div  in:fade out:fade id="abs" class="fixed top-0 min-h-screen flex items-center w-full justify-center bg-gray-200/50 dark:bg-semi-gray py-12 px-4 sm:px-6 lg:px-8 items-center">
     <div class="absolute bg-black opacity-60 inset-0 z-0"></div>
-    <div class="mt-12 max-w-md w-full space-y-8 p-10 bg-white dark:bg-dark-bg rounded-xl shadow-lg z-10">
+    <div id="write-review-modal" class="mt-12 max-w-md w-full space-y-8 p-10 bg-white dark:bg-dark-bg rounded-xl shadow-lg z-10">
     <div class="grid  gap-8 grid-cols-1">
     <div class="flex flex-col">
             <div class="flex flex-col sm:flex-row items-center">

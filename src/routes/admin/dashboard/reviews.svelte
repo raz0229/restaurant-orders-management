@@ -57,7 +57,7 @@
     const deleteReview = async (event) => {
         try {
           await deleteDoc(doc(db, "reviews", event.detail.id));
-          location.href = '/admin/dashboard/deals';
+          location.href = '/admin/dashboard/reviews';
         } catch (e) {
           document.querySelector('#delete-spinner').classList.add('hidden'); 
         }
