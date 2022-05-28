@@ -3,6 +3,21 @@
     page_title.update(title => 'Privacy Policy') 
 </script>
 
+<script>
+    import { cart } from '$lib/stores';
+    import Cart from "$lib/cart.svelte"
+
+    let hideCart;
+    cart.subscribe(val => {
+        hideCart = val;
+    });
+
+</script>
+
+
+<Cart 
+  bind:hideCart
+  />
 <!-- Privacy Policy -->
 <div class="mt-16 lg:px-24 lg:py-24 md:py-20 md:px-44 px-4 py-24 items-center text-center">
 	<h1 class="text-6xl font font-extrabold tracking-tight text-gray-900 sm:text-6xl dark:text-dark-blue">Privacy Policy</h1>

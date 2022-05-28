@@ -1,7 +1,7 @@
 <script context="module">
     import { page_title } from "$lib/stores";
-    page_title.update(title => 'Oops!') 
-  
+	page_title.update(title => 'Oops!') 
+	
 	export function load({ error }) {
 		return {
 			props: {
@@ -12,8 +12,21 @@
 </script>
 
 <script>
-	export let message
+	export let message;
+	import Cart from "$lib/cart.svelte";
+	import { cart } from '$lib/stores';
+
+	let hideCart;
+  	cart.subscribe(val => {
+		hideCart = val;
+  	});
+
 </script>
+
+
+<Cart 
+  bind:hideCart
+  />
 
 <!-- component -->
 <div class="mt-20 error lg:px-24 lg:py-24 md:py-20 md:px-44 px-4 py-24 items-center flex justify-center flex-col-reverse lg:flex-row md:gap-28 gap-16">
