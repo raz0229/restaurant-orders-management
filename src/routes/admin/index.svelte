@@ -85,7 +85,7 @@
             <input id="remember_me" bind:checked="{remember}" type="checkbox" class="border border-gray-300 dark:border-dark-border-gray text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
             <label for="remember_me" class="ml-2 block text-sm leading-5 text-gray-900 dark:text-light-indigo"> Remember me </label>
           </div>
-          <a href="#" class="text-sm dark:text-dark-p"> Forgot your password? </a>
+         
         </div>
         <p class="text-md text-red-500 text-right my-3">{ errorMessage }</p>
         <div class="mt-6">
