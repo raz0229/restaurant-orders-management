@@ -87,7 +87,7 @@
           </div>
          
         </div>
-        <p class="text-md text-red-500 text-right my-3">{ errorMessage }</p>
+        <p id="error-message" class="text-md text-red-500 text-right my-3">{ errorMessage }</p>
         <div class="mt-6">
           <button on:click|preventDefault="{login}" 
             class="w-full inline-flex items-center justify-center px-4 py-2 bg-indigo-600 dark:bg-dark-indigo-button dark:hover:bg-indigo-800 border border-transparent rounded-md font-semibold capitalize text-white hover:bg-indigo-700 active:bg-indigo-700 focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200 disabled:opacity-25 transition">
