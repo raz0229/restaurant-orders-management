@@ -17,7 +17,7 @@ describe('UI - Not Found (404)', () => {
 
     it('Clear cart if not and close', () => {
         cy.contains('Clear Cart').click()
-
+        cy.scrollTo('top')
         // check if cart clear was successfull
         cy.get('tbody')
         .children()

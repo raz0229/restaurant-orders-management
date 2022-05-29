@@ -1,6 +1,8 @@
 { 
     "chromeWebSecurity": false,
     "env": {
-        "base_url": "http://localhost:3000"
+        "base_url": "http://localhost:3000",
+        "admin_email": "test@pizzahome.com",
+        "admin_pass": "4c696275"
       }
 }
