@@ -33,8 +33,10 @@ describe('UI - Admin', () => {
 
     it('Login to test mode', () => {
         cy.contains('Email Address').next().type(Cypress.env('admin_email'))
-        cy.contains('Password').next().type(Cypress.env('admin_pass') + '123')
+        cy.contains('Password').next().type(Cypress.env('admin_pass'))
 
         cy.contains('Sign In').click()
+        cy.wait(3000);
+        
     })
   })
