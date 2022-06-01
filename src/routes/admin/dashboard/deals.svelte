@@ -146,7 +146,7 @@
 
     <div class="flex flex-wrap text-center justify-center">
       <div class="w-full lg:w-6/12 px-4">
-        <h2 class="page-title text-4xl font-semibold text-black">Deals</h2>
+        <h2 class="page-title-deals text-4xl font-semibold text-black">Deals</h2>
         <p class="text-lg leading-relaxed mt-4 mb-4 text-gray-500">
           You can create or edit new deals on this page and decide which ones to appear on your Menu. 
         </p>

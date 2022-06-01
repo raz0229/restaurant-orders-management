@@ -48,4 +48,9 @@ describe('UI - Admin', () => {
         cy.contains('Products').click()
         cy.get('.page-title', {timeout: 5000}).should('include.text', 'Products')
     })
+
+    it('Load Deals tab and create a deal', () => {
+        cy.contains('Products').click()
+        cy.get('.page-title-deals', {timeout: 5000}).should('include.text', 'Deals')
+    })
   })
