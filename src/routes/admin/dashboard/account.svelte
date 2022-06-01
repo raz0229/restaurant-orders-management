@@ -54,7 +54,7 @@
     <div class="flex flex-wrap text-center justify-center">
       <div class="w-full lg:w-6/12 px-4">
 
-        <h2 class="text-4xl font-semibold text-black">Account</h2>
+        <h2 class="page-title text-4xl font-semibold text-black">Account</h2>
         <p class="text-lg leading-relaxed mt-4 mb-4 text-gray-500">
             You can simply change your account's email or password through the Account page. Make sure you use a strong password to save it from attackers.
         </p>

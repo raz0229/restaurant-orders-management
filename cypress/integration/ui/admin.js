@@ -39,4 +39,11 @@ describe('UI - Admin', () => {
         cy.wait(3000);
         
     })
+
+    it('Browser and take orders', () => {
+      cy.get('.accordion', {timeout: 5000}).click({multiple: true})
+      cy.scrollTo('bottom')
+      cy.wait(3000);
+      
+  })
   })

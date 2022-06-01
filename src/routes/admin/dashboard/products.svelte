@@ -5,7 +5,7 @@
 <div id="menu" class="mt-12 container mx-auto px-4 lg:pt-24 lg:pb-64">
     <div class="flex flex-wrap text-center justify-center">
       <div class="w-full lg:w-6/12 px-4">
-        <h2 class="text-4xl font-semibold text-black">Products</h2>
+        <h2 class="page-title text-4xl font-semibold text-black">Products</h2>
         <p class="text-lg leading-relaxed mt-4 mb-4 text-gray-500">
           Products include everything individual item that your restaurant has to offer. You can manage all your products using Sanity Studio by opening the link below. 
         </p>
