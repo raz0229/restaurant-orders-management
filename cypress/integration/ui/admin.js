@@ -41,9 +41,11 @@ describe('UI - Admin', () => {
     })
 
     it('Browser and take orders', () => {
-      cy.get('.accordion', {timeout: 5000}).click({multiple: true})
-      cy.scrollTo('bottom')
-      cy.wait(3000);
-      
-  })
+      cy.get('.accordion', {timeout: 8000}).click({multiple: true})    
+    })
+
+    it('Load Products tab', () => {
+        cy.contains('Products').click()
+        cy.get('.page-title', {timeout: 5000}).should('include.text', 'Products')
+    })
   })
