@@ -50,7 +50,7 @@ describe('UI - Admin', () => {
     })
 
     it('Load Deals tab and create a deal', () => {
-        cy.contains('Products').click()
+        cy.contains('Deals').click()
         cy.get('.page-title-deals', {timeout: 5000}).should('include.text', 'Deals')
     })
   })
