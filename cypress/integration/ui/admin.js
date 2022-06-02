@@ -46,7 +46,7 @@ describe('UI - Admin', () => {
 
     it('Load Products tab', () => {
         cy.contains('Products').click()
-        cy.get('.page-title', {timeout: 5000}).should('include.text', 'Products')
+        cy.get('.page-title', {timeout: 8000}).should('include.text', 'Products')
     })
 
     it('Load Deals tab and create a deal', () => {
@@ -61,5 +61,11 @@ describe('UI - Admin', () => {
 
         cy.get('button[type=submit]').click()
         cy.contains('Submit').click({force: true})
+    })
+
+    it('Loads Reviews tab and scroll down', () => {
+        cy.contains('Reviews').click()
+        cy.get('.page-title-reviews', {timeout: 8000}).should('include.text', 'Reviews')
+        cy.scrollTo('bottom', { easing: 'linear', duration: 2000 })
     })
   })
