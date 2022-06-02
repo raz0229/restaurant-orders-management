@@ -51,6 +51,15 @@ describe('UI - Admin', () => {
 
     it('Load Deals tab and create a deal', () => {
         cy.contains('Deals').click()
-        cy.get('.page-title-deals', {timeout: 5000}).should('include.text', 'Deals')
+        cy.get('.page-title-deals', {timeout: 10000}).should('include.text', 'Deals')
+
+        cy.contains('Create a Deal').click()
+        cy.contains('Deal\'s Name').next().type('Text Test Deal')
+        cy.get('form').children().first().type('Some item')
+        cy.get('form').children().eq(1).children().first().type('1200')
+        cy.get('form').children().eq(1).children().last().type('2')
+
+        cy.get('button[type=submit]').click()
+        cy.contains('Submit').click({force: true})
     })
   })
