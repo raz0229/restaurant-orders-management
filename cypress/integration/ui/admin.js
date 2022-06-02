@@ -63,9 +63,19 @@ describe('UI - Admin', () => {
         cy.contains('Submit').click({force: true})
     })
 
-    it('Loads Reviews tab and scroll down', () => {
+    it('Loads Reviews tab', () => {
         cy.contains('Reviews').click()
         cy.get('.page-title-reviews', {timeout: 8000}).should('include.text', 'Reviews')
-        cy.scrollTo('bottom', { easing: 'linear', duration: 2000 })
     })
+
+    it('Loads Account tab', () => {
+      cy.contains('Account').click()
+      cy.get('.page-title-account', {timeout: 8000}).should('include.text', 'Account')
+
+      cy.contains('New Email').next().type('test123@cypress.dev')
+      cy.contains('New Password').next().type('you were not supposed to see this')
+      cy.contains('Confirm Password').next().type('you were not supposed to see this')
+
+      cy.contains('Update').click()
+  })
   })
