@@ -81,7 +81,7 @@ describe('UI - Admin', () => {
 
     it('Load Settings tab and try to update settings', () => {
         cy.contains('Settings').click()
-        cy.get('.page-title-settings', {timeout: 10000}).should('include.text', 'Settings')
+        cy.get('.page-title-settings', {timeout: 15000}).should('include.text', 'Settings')
   
     })
   })
