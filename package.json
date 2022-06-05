@@ -7,7 +7,8 @@
     "package": "svelte-kit package",
     "preview": "svelte-kit preview",
     "lint": "eslint --ignore-path .gitignore .",
-    "test": "cypress open"
+    "test:api": "cypress run --spec cypress/integration/api/*",
+    "test": "cypress open cypress/integration/ui/"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "next",
