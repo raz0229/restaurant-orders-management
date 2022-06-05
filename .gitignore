@@ -1,6 +1,14 @@
 .DS_Store
 node_modules
-restmgmt
+/sanity/config
+/sanity/dist
+/sanity/plugins
+/sanity/static
+/sanity/.eslintrc
+/sanity/.npmignore
+/sanity/package.json
+/sanity/tsconfig.json
+/sanity/yarn.lock
 /build
 /.svelte-kit
 /package
