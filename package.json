@@ -9,7 +9,7 @@
     "lint": "eslint --ignore-path .gitignore .",
     "test:api": "cypress run --spec cypress/integration/api/*",
     "test": "cypress open cypress/integration/ui/",
-    "configure": "node scripts/configure.js"
+    "configure": "node src/scripts/configure.js"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "next",
