@@ -14,7 +14,7 @@ const clientConfig = sanityClient({
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCtTl0VWY2ODir5w4q8hBjTrZ2rVB1AzRs",
+  apiKey: "AIzaSyCtTl0VWY2ODir5w4q8hBjTrZ2rVB1AzRs", //AIzaSyCtTl0VWY2ODir5w4q8hBjTrZ2rVB1AzRs
   authDomain: "restaurant-mgmt-eba65.firebaseapp.com",
   projectId: "restaurant-mgmt-eba65",
   storageBucket: "restaurant-mgmt-eba65.appspot.com",

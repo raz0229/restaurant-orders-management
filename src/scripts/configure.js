@@ -1,2 +1,2 @@
-import { db } from "../lib/config/app.js"
+import { db, client } from "../lib/config/app.js"
 console.log('File located')
