@@ -9,6 +9,10 @@ Data added can be updated or removed entirely through the admin panel
 */
 
 import { db } from "../lib/config/app.js"
+import promptSync  from "prompt-sync"
 
+const prompt = promptSync()
+const email = prompt("Enter Email: ")
+const pswd = prompt("Enter Password: ")
 
-console.log('Started', db)
+console.log('Started', email, pswd)

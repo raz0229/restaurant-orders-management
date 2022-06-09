@@ -27,6 +27,7 @@
     "@sanity/client": "^3.3.0",
     "dotenv": "^16.0.0",
     "firebase": "^9.6.9",
-    "firebase-admin": "^10.0.2"
+    "firebase-admin": "^10.0.2",
+    "prompt-sync": "^4.2.0"
   }
 }
