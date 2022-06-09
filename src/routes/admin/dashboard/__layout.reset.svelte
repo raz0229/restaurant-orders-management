@@ -18,11 +18,12 @@
 		  user = signedIn;
 		  ws.update(x => user.user)
 	  }
-	// Switch to test mode if specific USER ID
+	// Switch to test mode if NOT specific USER ID
 	// Following UID corresponds to the given credentials provided for test-only pruposes. 
 	// Access is restricted and handled through firebase security rules only.
 	// See 'security-rules.txt' file to manage rules on your app
-	  if (user?.user.uid == import.meta.env.VITE_DEMO_UID) showFooter = true;
+
+	  if (user?.user.uid !== import.meta.env.VITE_UID) showFooter = true;
 	}
 
 	const logout = () => {
