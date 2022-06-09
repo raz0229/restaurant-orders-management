@@ -32,7 +32,7 @@
     loop.classList.remove('hidden')
 
     try {
-      const uc = await signInWithEmailAndPassword(auth, email.trim(), password.trim())
+      const uc = await signInWithEmailAndPassword(auth, email.trim(), password)
       errorMessage = ''
       loop.classList.add('hidden')
       await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence)
