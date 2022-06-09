@@ -14,7 +14,7 @@ import promptSync  from "prompt-sync"
 
 const prompt = promptSync()
 const email = prompt("Enter Email: ")
-const pswd = prompt("Enter Password: ")
+const pswd = prompt.hide("Enter Password: ")
 
 signInWithEmailAndPassword(auth, email.trim(), pswd).then(() => {
     console.log('Signed in successfully')
