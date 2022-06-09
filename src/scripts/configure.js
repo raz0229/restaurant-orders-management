@@ -16,4 +16,8 @@ const prompt = promptSync()
 const email = prompt("Enter Email: ")
 const pswd = prompt("Enter Password: ")
 
-await signInWithEmailAndPassword(auth, email.trim(), pswd)
+signInWithEmailAndPassword(auth, email.trim(), pswd).then(() => {
+    console.log('Signed in successfully')
+}).catch(err => {
+    console.error(err)
+})
