@@ -11,13 +11,17 @@ Data added can be updated or removed entirely through the admin panel
 import { db, auth } from "../lib/config/app.js"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import promptSync  from "prompt-sync"
+import { createSpinner } from 'nanospinner'
 
 const prompt = promptSync()
 const email = prompt("Enter Email: ")
 const pswd = prompt.hide("Enter Password: ")
+const spinner = createSpinner(' Signing in').start()
 
 signInWithEmailAndPassword(auth, email.trim(), pswd).then(() => {
-    console.log('Signed in successfully')
+    spinner.success()
+    console.log('Signed in successfully!')
 }).catch(err => {
-    console.error(err)
+    spinner.error()
+    console.log('Wrong email or password!')
 })
