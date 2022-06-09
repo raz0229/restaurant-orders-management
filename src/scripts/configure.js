@@ -18,6 +18,7 @@ const email = prompt("Enter Email: ")
 const pswd = prompt.hide("Enter Password: ")
 const spinner = createSpinner(' Signing in').start()
 
+console.clear()
 signInWithEmailAndPassword(auth, email.trim(), pswd).then(() => {
     spinner.success()
     console.log('Signed in successfully!')
