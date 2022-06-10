@@ -35,8 +35,6 @@ const settings = new Map([
     }]
 ])
 
-const delay = ms => new Promise(res => setTimeout(res, ms));
-
 console.clear()
 try {
     await signInWithEmailAndPassword(auth, email.trim(), pswd)
@@ -46,17 +44,13 @@ try {
     spinner.update({
         text: ' [Creating Collection] Settings'
     }).start()
-    // for await (const contents of settings) {
-    //     console.log(contents)
-    // }
+    
     for (const [key, value] of settings) {
-        console.log(key, value)
-        //await setDoc(doc(db, "settings2", key), value);
-        await delay(1000)
+        await setDoc(doc(db, "settings2", key), value);
     }
 
-    console.log("finished")
     spinner.success()
+    process.exit()
 
 } catch (err) {
     spinner.error()
