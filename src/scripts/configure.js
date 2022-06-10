@@ -19,10 +19,11 @@ const pswd = prompt.hide("Enter Password: ")
 const spinner = createSpinner(' Signing in').start()
 
 console.clear()
-signInWithEmailAndPassword(auth, email.trim(), pswd).then(() => {
+try {
+    await signInWithEmailAndPassword(auth, email.trim(), pswd)
     spinner.success()
-    console.log('Signed in successfully!')
-}).catch(err => {
+    console.log("\x1b[32m", 'Signed in successfully!')
+} catch (err) {
     spinner.error()
-    console.log('Wrong email or password!')
-})
+    console.log("\x1b[31m", 'Wrong email or password!')
+}
