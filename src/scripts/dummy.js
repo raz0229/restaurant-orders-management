@@ -100,7 +100,7 @@ export const deals = new Map([
         deal: {
             pizza: 3,
             spizza: 1,
-            nuggets: 20,
+            nuggets: 1,
             sdrink: 2,
             fries: 1
         }
