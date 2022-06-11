@@ -13,7 +13,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { signInWithEmailAndPassword } from "firebase/auth"
 import promptSync  from "prompt-sync"
 import { createSpinner } from 'nanospinner'
-import { reviews, settings } from "./dummy.js"
+import { reviews, deals, settings } from "./dummy.js"
 
 const prompt = promptSync()
 const email = prompt("Enter Email: ")
@@ -48,6 +48,7 @@ try {
 
     await setDocuments(' [Creating Collection] Settings', settings, "settings")
     await setDocuments(' [Creating Collection] Reviews', reviews, "reviews")
+    await setDocuments(' [Creating Collection] Deals', deals, "deals")
 
     process.exit()
 
