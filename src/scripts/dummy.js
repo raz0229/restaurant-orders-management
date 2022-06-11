@@ -20,7 +20,7 @@ export const deals = new Map([
         title: 'Today\'s Special',
         price: 1200,
         discount: 10,
-        content: ["Fajita Pizza (1)", "20 Hotwings (1)", "1 Litre Drink (1)"],
+        content: ["Fajita Pizza ", "20 Hotwings ", "1 Litre Drink "],
         deal: {
             pizza: 1,
             hotwings: 1,
@@ -32,7 +32,7 @@ export const deals = new Map([
         title: 'Regular Deal 1',
         price: 999,
         discount: 20,
-        content: ["Medium Pizzas (2)", "10 Hotwings (1)", "Soda cans (2)"],
+        content: ["Medium Pizzas (2)", "10 Hotwings ", "Soda cans (2)"],
         deal: {
             mpizza: 2,
             hotwings: 1,
@@ -42,71 +42,92 @@ export const deals = new Map([
     ["5SkfwIMo94ukaY6ppasp", {
         id: 2,
         title: 'Regular Deal 2',
-        price: 0,
-        discount: 0,
-        content: ["Large Pizza (1)", "Small Piza (1)", "10 Chicken Nuggets (2)"],
+        price: 1500,
+        discount: 15,
+        content: ["Large Pizza ", "Small Piza ", "10 Chicken Nuggets (2)", "1 litre drink "],
         deal: {
-
+            pizza: 1,
+            spizza: 1,
+            nuggets: 2,
+            drink: 1
         }
     }],
     ["5SkfwIMo94ukaY6ppasq", {
-        id: 0,
-        title: '',
-        price: 0,
-        discount: 0,
-        content: [],
+        id: 3,
+        title: 'Regular Deal 3',
+        price: 1850,
+        discount: 5,
+        content: ["Large Pizzas (2)", "1.5 litre drink ", "Chinese Pasta "],
         deal: {
-
+            pizza: 2,
+            drink: 1,
+            pasta: 1
         }
     }],
     ["5SkfwIMo94ukaY6ppasr", {
-        id: 0,
-        title: '',
-        price: 0,
-        discount: 0,
-        content: [],
+        id: 4,
+        title: 'Banger Deal 1',
+        price: 3300,
+        discount: 9,
+        content: ["Large Pizzas (2)", "Zinger Burgers (2)", "20 Chicken Hotwings ", "1.5 litre drinks (2)"],
         deal: {
-
+            pizza: 2,
+            zinger: 2,
+            hotwings: 1,
+            drink: 2
         }
     }],
     ["5SkfwIMo94ukaY6ppass", {
-        id: 0,
-        title: '',
-        price: 0,
-        discount: 0,
-        content: [],
+        id: 5,
+        title: 'Banger Deal 2',
+        price: 5300,
+        discount: 18,
+        content: ["Large Pizzas (3)", "20 Chicken Nuggets ", "1.5 litre drinks (3)", "Zinger Burgers (5)", "Family Fries (2)"],
         deal: {
-
+            pizzas: 3,
+            nuggets: 1,
+            drink: 3,
+            zinger: 5,
+            fries: 2
         }
     }],
     ["5SkfwIMo94ukaY6ppast", {
-        id: 0,
-        title: '',
-        price: 0,
-        discount: 0,
-        content: [],
+        id: 6,
+        title: 'Banger Deal 3',
+        price: 4300,
+        discount: 20,
+        content: ["Large Pizzas (3)", "Small Pizza ","20 Chicken Nuggets ", "Soda cans (2)", "Family Fries "],
         deal: {
-
+            pizza: 3,
+            spizza: 1,
+            nuggets: 20,
+            sdrink: 2,
+            fries: 1
         }
     }],
     ["5SkfwIMo94ukaY6ppasu", {
-        id: 0,
-        title: '',
-        price: 0,
-        discount: 0,
-        content: [],
+        id: 7,
+        title: 'Special Deal 1',
+        price: 1600,
+        discount: 13,
+        content: ["Medium Pizzas (2)", "Fruit Dessert (2)", "1 litre drink ", "Family Fries (2)"],
         deal: {
-
+            mpizza: 2,
+            dessert: 2,
+            drink: 1,
+            fries: 2
         }
     }],
     ["5SkfwIMo94ukaY6ppasv", {
-        id: 0,
-        title: '',
-        price: 0,
-        discount: 0,
-        content: [],
+        id: 8,
+        title: 'Special Deal 2',
+        price: 720,
+        discount: 12,
+        content: ["Small Pizzas (2)", "Zinger Burger (2)", "1 litre drink "],
         deal: {
-
+            spizza: 2,
+            zinger: 2,
+            drink: 1
         }
     }],
 ])
