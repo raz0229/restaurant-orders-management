@@ -108,7 +108,7 @@
 
     const getCurrentContent = () => {
         let arr = [];
-        productList.forEach(product => arr.push(`${ capitalize(product.title.trim().toLowerCase()) } (${ product.qnt })`));
+        productList.forEach(product => arr.push(`${ capitalize(product.title.trim().toLowerCase()) } ${ parseInt(product.qnt ) > 1 ? `(${product.qnt})` : "" }`));
         return arr;
     }
 

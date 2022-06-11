@@ -14,6 +14,103 @@ export const settings = new Map([
     }]
 ])
 
+export const deals = new Map([
+    ["5SkfwIMo94ukaY6ppasn", {
+        id: 0,
+        title: 'Today\'s Special',
+        price: 1200,
+        discount: 10,
+        content: ["Fajita Pizza (1)", "20 Hotwings (1)", "1 Litre Drink (1)"],
+        deal: {
+            pizza: 1,
+            hotwings: 1,
+            drink: 1
+        }
+    }],
+    ["5SkfwIMo94ukaY6ppaso", {
+        id: 1,
+        title: 'Regular Deal 1',
+        price: 999,
+        discount: 20,
+        content: ["Medium Pizzas (2)", "10 Hotwings (1)", "Soda cans (2)"],
+        deal: {
+            mpizza: 2,
+            hotwings: 1,
+            sdrink: 2
+        }
+    }],
+    ["5SkfwIMo94ukaY6ppasp", {
+        id: 2,
+        title: 'Regular Deal 2',
+        price: 0,
+        discount: 0,
+        content: ["Large Pizza (1)", "Small Piza (1)", "10 Chicken Nuggets (2)"],
+        deal: {
+
+        }
+    }],
+    ["5SkfwIMo94ukaY6ppasq", {
+        id: 0,
+        title: '',
+        price: 0,
+        discount: 0,
+        content: [],
+        deal: {
+
+        }
+    }],
+    ["5SkfwIMo94ukaY6ppasr", {
+        id: 0,
+        title: '',
+        price: 0,
+        discount: 0,
+        content: [],
+        deal: {
+
+        }
+    }],
+    ["5SkfwIMo94ukaY6ppass", {
+        id: 0,
+        title: '',
+        price: 0,
+        discount: 0,
+        content: [],
+        deal: {
+
+        }
+    }],
+    ["5SkfwIMo94ukaY6ppast", {
+        id: 0,
+        title: '',
+        price: 0,
+        discount: 0,
+        content: [],
+        deal: {
+
+        }
+    }],
+    ["5SkfwIMo94ukaY6ppasu", {
+        id: 0,
+        title: '',
+        price: 0,
+        discount: 0,
+        content: [],
+        deal: {
+
+        }
+    }],
+    ["5SkfwIMo94ukaY6ppasv", {
+        id: 0,
+        title: '',
+        price: 0,
+        discount: 0,
+        content: [],
+        deal: {
+
+        }
+    }],
+])
+
 export const reviews = new Map([
     ["0RnB3NnbiqGYc6jEz24a",{
         title: 'Adam Janjua',
