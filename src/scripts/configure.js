@@ -14,18 +14,53 @@ import { signInWithEmailAndPassword } from "firebase/auth"
 import promptSync  from "prompt-sync"
 import { createSpinner } from 'nanospinner'
 import { reviews, deals, settings, convertToSlug } from "./dummy.js"
+import {basename} from 'path'
+import {createReadStream} from 'fs'
 
 const ddoc = {
     _id: '012',
     _type: 'product',
-    title: '00Some Pizza',
+    title: 'Some Pizza',
     slug: {
         _type: 'slug',
         current: 'some-slug'
     },
-    prices: [450, 750, 900]
+    prices: [450, 750, 900],
+    image: {
+        _type: 'image',
+        asset: {
+            _ref: 'image-70306396e903ac08e84e2785594ebf80648adaea-1080x1338-jpg',
+            _type: 'reference'
+        }
+    }
 }
-  
+
+const filePath = 'static/menu/akram0.jpg'
+
+client.assets
+  .upload('image', createReadStream(filePath), {
+    filename: basename(filePath)
+  })
+  .then(imageAsset => {
+    // Here you can decide what to do with the returned asset document. 
+    // If you want to set a specific asset field you can to the following:
+    return client
+      .patch('akram-0')
+      .set({
+        theImageField: {
+          _type: 'image',
+          asset: {
+            _type: "reference",
+            _ref: imageAsset._id
+          }
+        }
+      })
+      .commit()
+  })
+  .then(() => {
+    console.log("Done!");
+  })
+
 client.createOrReplace(ddoc).then((res) => {
     console.log(`Bike was created, document ID is ${res._id}`)
 })
