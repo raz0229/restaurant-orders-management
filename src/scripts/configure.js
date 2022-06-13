@@ -8,12 +8,24 @@ Data added can be updated or removed entirely through the admin panel
 
 */
 
-import { db, auth } from "../lib/config/app.js"
+import { db, auth, client } from "../lib/config/app.js"
 import { doc, setDoc } from "firebase/firestore"; 
 import { signInWithEmailAndPassword } from "firebase/auth"
 import promptSync  from "prompt-sync"
 import { createSpinner } from 'nanospinner'
-import { reviews, deals, settings } from "./dummy.js"
+import { reviews, deals, settings, convertToSlug } from "./dummy.js"
+
+const ddoc = {
+    _id: '012',
+    _type: 'product',
+    title: '00Some Pizza',
+    slug: convertToSlug('some-pizza'),
+    prices: [450, 750, 900]
+}
+  
+client.createOrReplace(ddoc).then((res) => {
+    console.log(`Bike was created, document ID is ${res._id}`)
+})
 
 const prompt = promptSync()
 const email = prompt("Enter Email: ")
