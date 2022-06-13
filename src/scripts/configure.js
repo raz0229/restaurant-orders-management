@@ -17,23 +17,7 @@ import { reviews, deals, settings, convertToSlug } from "./dummy.js"
 import {basename} from 'path'
 import {createReadStream} from 'fs'
 
-const ddoc = {
-    _id: '012',
-    _type: 'product',
-    title: 'Some Pizza',
-    slug: {
-        _type: 'slug',
-        current: 'some-slug'
-    },
-    prices: [450, 750, 900],
-    image: {
-        _type: 'image',
-        asset: {
-            _ref: 'image-70306396e903ac08e84e2785594ebf80648adaea-1080x1338-jpg',
-            _type: 'reference'
-        }
-    }
-}
+let ddoc;
 
 const filePath = 'static/menu/akram0.jpg'
 
@@ -44,66 +28,82 @@ client.assets
   .then(imageAsset => {
     // Here you can decide what to do with the returned asset document. 
     // If you want to set a specific asset field you can to the following:
-    return client
-      .patch('akram-0')
-      .set({
-        theImageField: {
-          _type: 'image',
-          asset: {
-            _type: "reference",
-            _ref: imageAsset._id
-          }
+    ddoc = {
+        _id: '012',
+        _type: 'product',
+        title: 'Some Pizza',
+        slug: {
+            _type: 'slug',
+            current: 'some-slug'
+        },
+        prices: [450, 750, 900],
+        image: {
+            _type: 'image',
+            asset: {
+                _ref: imageAsset._id,
+                _type: 'reference'
+            }
         }
-      })
-      .commit()
+    }
+
+    // return client
+    //   .patch(imageAsset._id)
+    //   .set({
+    //     theImageField: {
+    //       _type: 'image',
+    //       _id: 'akram-0',
+    //       asset: {
+    //         _type: "reference",
+    //         _ref: imageAsset._id
+    //       }
+    //     }
+    //   })
+    //   .commit()
   })
   .then(() => {
-    console.log("Done!");
+    console.log(ddoc);
+    client.createOrReplace(ddoc)
   })
 
-client.createOrReplace(ddoc).then((res) => {
-    console.log(`Bike was created, document ID is ${res._id}`)
-})
+// const prompt = promptSync()
+// const email = prompt("Enter Email: ")
+// const pswd = prompt.hide("Enter Password: ")
+// const spinner = createSpinner(' Signing in').start()
 
-const prompt = promptSync()
-const email = prompt("Enter Email: ")
-const pswd = prompt.hide("Enter Password: ")
-const spinner = createSpinner(' Signing in').start()
-
-const setDocuments = (label, map, colName) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            spinner.update({
-                text: label
-            }).start()
+// const setDocuments = (label, map, colName) => {
+//     return new Promise(async (resolve, reject) => {
+//         try {
+//             spinner.update({
+//                 text: label
+//             }).start()
             
-            for (const [key, value] of map) {
-                await setDoc(doc(db, colName, key), value);
-            }
+//             for (const [key, value] of map) {
+//                 await setDoc(doc(db, colName, key), value);
+//             }
             
-            spinner.success()
-            resolve(map)
+//             spinner.success()
+//             resolve(map)
 
-        } catch (err) {
-            reject(err)
-        }
-    })
-}
+//         } catch (err) {
+//             reject(err)
+//         }
+//     })
+// }
 
-console.clear()
-try {
-    await signInWithEmailAndPassword(auth, email.trim(), pswd)
-    spinner.success()
-    console.log("\x1b[32m", '[CONFIG] Signed in successfully!')
+// //console.clear()
+// try {
+//     await signInWithEmailAndPassword(auth, email.trim(), pswd)
+//     spinner.success()
+//     console.log("\x1b[32m", '[CONFIG] Signed in successfully!')
 
-    await setDocuments(' [Creating Collection] Settings', settings, "settings")
-    await setDocuments(' [Creating Collection] Reviews', reviews, "reviews")
-    await setDocuments(' [Creating Collection] Deals', deals, "deals")
+//     await setDocuments(' [Creating Collection] Settings', settings, "settings")
+//     await setDocuments(' [Creating Collection] Reviews', reviews, "reviews")
+//     await setDocuments(' [Creating Collection] Deals', deals, "deals")
 
-    process.exit()
+//     process.exit()
 
-} catch (err) {
-    spinner.error()
-    console.log("\x1b[31m", '[CONFIG] Something went wrong!')
-    process.exit()
-}
+// } catch (err) {
+//     spinner.error()
+//     console.log("\x1b[31m", '[CONFIG] Something went wrong!')
+//     process.exit()
+// }
