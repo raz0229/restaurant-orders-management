@@ -19,7 +19,10 @@ const ddoc = {
     _id: '012',
     _type: 'product',
     title: '00Some Pizza',
-    slug: convertToSlug('some-pizza'),
+    slug: {
+        _type: 'slug',
+        current: 'some-slug'
+    },
     prices: [450, 750, 900]
 }
   
