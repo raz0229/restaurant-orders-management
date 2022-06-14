@@ -45,21 +45,7 @@ client.assets
             }
         }
     }
-
-    // return client
-    //   .patch(imageAsset._id)
-    //   .set({
-    //     theImageField: {
-    //       _type: 'image',
-    //       _id: 'akram-0',
-    //       asset: {
-    //         _type: "reference",
-    //         _ref: imageAsset._id
-    //       }
-    //     }
-    //   })
-    //   .commit()
-  })
+})
   .then(() => {
     console.log(ddoc);
     client.createOrReplace(ddoc)
