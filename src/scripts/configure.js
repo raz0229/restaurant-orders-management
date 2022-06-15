@@ -19,7 +19,7 @@ import {createReadStream} from 'fs'
 
 let ddoc;
 
-const filePath = 'static/menu/akram0.jpg'
+const filePath = 'static/menu/chapli.jpg'
 
 client.assets
   .upload('image', createReadStream(filePath), {
