@@ -22,11 +22,11 @@ client.createOrReplace({
   _type: 'group',
   title: 'some group',
   priority: 99,
-  sizes: [],
+  sizes: ['S', 'M', 'L'],
   products: [
       {
-        _key: '873c1bc30e8d',
-        _ref: 'bd05324c-42fb-4d55-9112-fd83f7ff12b8',
+        _key: 'somekeyvalue123', // unique key, could be anything
+        _ref: 'bd05324c-42fb-4d55-9112-fd83f7ff12b8', // _id of french fries
         _type: 'reference'
       }
   ]
