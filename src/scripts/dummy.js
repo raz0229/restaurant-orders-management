@@ -14,6 +14,16 @@ export const settings = new Map([
     }]
 ])
 
+export const products = [
+    {
+        fileName: `french-fries.jpg`,
+        id: 'st-0',
+        title: 'Some Fries',
+        slug: 'some-fries',
+        prices: [150]
+    }   
+]
+
 export const deals = new Map([
     ["5SkfwIMo94ukaY6ppasn", {
         id: 0,
