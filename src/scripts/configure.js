@@ -17,43 +17,58 @@ import { reviews, deals, settings, products} from "./dummy.js"
 import {basename} from 'path'
 import {createReadStream} from 'fs'
 
-products.forEach( product => {
-
-  let ddoc;
-  const filePath = `static/menu/${product.fileName}`
-  
-  client.assets
-    .upload('image', createReadStream(filePath), {
-      filename: basename(filePath)
-    })
-    .then(imageAsset => {
-      // Here you can decide what to do with the returned asset document. 
-      // If you want to set a specific asset field you can to the following:
-      ddoc = {
-          _id: product.id,
-          _type: 'product',
-          title: product.title,
-          slug: {
-              _type: 'slug',
-              current: product.slug
-          },
-          prices: product.prices,
-          image: {
-              _type: 'image',
-              asset: {
-                  _ref: imageAsset._id,
-                  _type: 'reference'
-              }
-          }
+client.createOrReplace({
+  _id: 'g0',
+  _type: 'group',
+  title: 'some group',
+  priority: 99,
+  sizes: [],
+  products: [
+      {
+        _key: '873c1bc30e8d',
+        _ref: 'bd05324c-42fb-4d55-9112-fd83f7ff12b8',
+        _type: 'reference'
       }
-  })
-    .then(() => {
-      console.log(ddoc);
-      client.createOrReplace(ddoc)
-    })
+  ]
+})
+
+// products.forEach( product => {
+
+//   let ddoc;
+//   const filePath = `static/menu/${product.fileName}`
+  
+//   client.assets
+//     .upload('image', createReadStream(filePath), {
+//       filename: basename(filePath)
+//     })
+//     .then(imageAsset => {
+//       // Here you can decide what to do with the returned asset document. 
+//       // If you want to set a specific asset field you can to the following:
+//       ddoc = {
+//           _id: product.id,
+//           _type: 'product',
+//           title: product.title,
+//           slug: {
+//               _type: 'slug',
+//               current: product.slug
+//           },
+//           prices: product.prices,
+//           image: {
+//               _type: 'image',
+//               asset: {
+//                   _ref: imageAsset._id,
+//                   _type: 'reference'
+//               }
+//           }
+//       }
+//   })
+//     .then(() => {
+//       console.log(ddoc);
+//       client.createOrReplace(ddoc)
+//     })
   
 
-});
+// });
 
 // const prompt = promptSync()
 // const email = prompt("Enter Email: ")
