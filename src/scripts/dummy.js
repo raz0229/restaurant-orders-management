@@ -18,10 +18,164 @@ export const products = [
     {
         fileName: `french-fries.jpg`,
         id: 'st-0',
-        title: 'Some Fries',
-        slug: 'some-fries',
+        title: 'French Fries',
+        slug: 'french-fries',
         prices: [150]
-    }   
+    },
+    {
+        fileName: `1.5l-drink.jpg`,
+        id: 'st-1',
+        title: '1.5 litre drink',
+        slug: '1-5-litre-drink',
+        prices: [90]
+    },
+    {
+        fileName: `1l-drink.jpg`,
+        id: 'st-2',
+        title: '1 litre drink',
+        slug: '1-litre-drink',
+        prices: [70]
+    },
+    {
+        fileName: `500ml-drink.jpg`,
+        id: 'st-3',
+        title: '500 ml drink',
+        slug: '500-ml-drink',
+        prices: [50]
+    },
+    {
+        fileName: `zinger-burger.jpg`,
+        id: 'st-4',
+        title: 'Zinger Burger',
+        slug: 'zinger-burger',
+        prices: [450]
+    },
+    {
+        fileName: `chicken-nuggets.jpg`,
+        id: 'tr-0',
+        title: 'Chicken Nuggets',
+        slug: 'chicken-nuggets',
+        prices: [250, 550, 850]
+    },
+    {
+        fileName: `chicken-hotwings.jpg`,
+        id: 'tr-1',
+        title: 'Chicken Hotwings',
+        slug: 'chicken-hotwings',
+        prices: [250, 550, 850]
+    },
+    {
+        fileName: `chapli.jpg`,
+        id: 'dn-1',
+        title: 'Chapli Pizza',
+        slug: 'chapli-pizza',
+        prices: [450, 750, 1050]
+    },
+    {
+        fileName: `garlic.jpg`,
+        id: 'dn-2',
+        title: 'Garlic Pizza',
+        slug: 'garlic-pizza',
+        prices: [450, 750, 1050]
+    },
+    {
+        fileName: `extreme.jpg`,
+        id: 'dn-3',
+        title: 'Extreme Pizza',
+        slug: 'extreme-pizza',
+        prices: [450, 750, 1050]
+    },
+    {
+        fileName: `pepperoni.jpg`,
+        id: 'dn-4',
+        title: 'Pepperoni Pizza',
+        slug: 'pepperoni-pizza',
+        prices: [450, 750, 1050]
+    },
+    {
+        fileName: `creamy.jpg`,
+        id: 'dn-5',
+        title: 'Creamy Pizza',
+        slug: 'creamy-pizza',
+        prices: [450, 750, 1050]
+    },
+    {
+        fileName: `chicken-kebab.jpg`,
+        id: 'dn-6',
+        title: 'Chicken Kebab',
+        slug: 'chicken-kebab',
+        prices: [450, 750, 1050]
+    },
+    {
+        fileName: `super-supreme.jpg`,
+        id: 'dn-7',
+        title: 'Super Supreme',
+        slug: 'super-supreme',
+        prices: [450, 750, 1050]
+    },
+    {
+        fileName: `bonfire.jpg`,
+        id: 'dn-8',
+        title: 'Bonfire Pizza',
+        slug: 'bonfire-pizza',
+        prices: [450, 750, 1050]
+    },
+    {
+        fileName: `cheese-lover.jpg`,
+        id: 'dy-1',
+        title: 'Cheese Lover',
+        slug: 'cheese-lover',
+        prices: [400, 650, 950]
+    },
+    {
+        fileName: `veggie-lover.jpg`,
+        id: 'dy-2',
+        title: 'Veggie Lover',
+        slug: 'veggie-lover',
+        prices: [400, 650, 950]
+    },
+    {
+        fileName: `chicken-tandoori.jpg`,
+        id: 'dy-3',
+        title: 'Chicken Tandoori',
+        slug: 'chicken-tandoori',
+        prices: [400, 650, 950]
+    },
+    {
+        fileName: `chicken-achari.jpg`,
+        id: 'dy-4',
+        title: 'Chicken Achari',
+        slug: 'chicken-achari',
+        prices: [400, 650, 950]
+    },
+    {
+        fileName: `hot-n-spicy.jpg`,
+        id: 'dy-5',
+        title: 'Hot n Spicy',
+        slug: 'hot-n-spicy',
+        prices: [400, 650, 950]
+    },
+    {
+        fileName: `fajita-sicilian.jpg`,
+        id: 'dy-6',
+        title: 'Fajita Sicilian',
+        slug: 'fajita-sicilian',
+        prices: [400, 650, 950]
+    },
+    {
+        fileName: `chicken-fajita.jpg`,
+        id: 'dy-7',
+        title: 'Chicken Fajita',
+        slug: 'chicken-fajita',
+        prices: [400, 650, 950]
+    },
+    {
+        fileName: `chicken-tikka.jpg`,
+        id: 'dy-8',
+        title: 'Chicken Tikka',
+        slug: 'chicken-tikka',
+        prices: [400, 650, 950]
+    },
 ]
 
 export const deals = new Map([
