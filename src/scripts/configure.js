@@ -13,24 +13,9 @@ import { doc, setDoc } from "firebase/firestore";
 import { signInWithEmailAndPassword } from "firebase/auth"
 import promptSync  from "prompt-sync"
 import { createSpinner } from 'nanospinner'
-import { reviews, deals, settings, products} from "./dummy.js"
+import { reviews, deals, settings, products, groups} from "./dummy.js"
 import {basename} from 'path'
 import {createReadStream} from 'fs'
-
-client.createOrReplace({
-  _id: 'g0',
-  _type: 'group',
-  title: 'some group',
-  priority: 99,
-  sizes: ['S', 'M', 'L'],
-  products: [
-      {
-        _key: 'somekeyvalue123', // unique key, could be anything
-        _ref: 'bd05324c-42fb-4d55-9112-fd83f7ff12b8', // _id of french fries
-        _type: 'reference'
-      }
-  ]
-})
 
 // products.forEach( product => {
 

@@ -14,6 +14,23 @@ export const settings = new Map([
     }]
 ])
 
+export const groups = [
+    {
+        _id: 'g0',
+        _type: 'group',
+        title: 'some group',
+        priority: 99,
+        sizes: ['S', 'M', 'L'],
+        products: [
+            {
+              _key: 'somekeyvalue123', // unique key, could be anything
+              _ref: 'bd05324c-42fb-4d55-9112-fd83f7ff12b8', // _id of french fries
+              _type: 'reference'
+            }
+        ]
+      }
+]
+
 export const products = [
     {
         fileName: `french-fries.jpg`,
@@ -379,18 +396,3 @@ export const reviews = new Map([
         oldest: 164814119
     }]
 ])
-
-/* Encode string to slug */
-export const convertToSlug = (str) => {
-    
-    //replace all special characters | symbols with a space
-    str = str.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
-             .toLowerCase();
-      
-    // trim spaces at start and end of string
-    str = str.replace(/^\s+|\s+$/gm,'');
-      
-    // replace space with dash/hyphen
-    str = str.replace(/\s+/g, '-');   
-    return str;
-  }
