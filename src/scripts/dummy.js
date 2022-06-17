@@ -16,18 +16,11 @@ export const settings = new Map([
 
 export const groups = [
     {
-        _id: 'g0',
-        _type: 'group',
-        title: 'some group',
-        priority: 99,
+        id: 'g0',
+        title: 'Regular Pizzas',
+        priority: 0,
         sizes: ['S', 'M', 'L'],
-        products: [
-            {
-              _key: 'somekeyvalue123', // unique key, could be anything
-              _ref: 'bd05324c-42fb-4d55-9112-fd83f7ff12b8', // _id of french fries
-              _type: 'reference'
-            }
-        ]
+        products: ['dy-8','dy-7','dy-6','dy-5','dy-4','dy-3','dy-2','dy-1']
       }
 ]
 

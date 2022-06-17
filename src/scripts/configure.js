@@ -17,6 +17,40 @@ import { reviews, deals, settings, products, groups} from "./dummy.js"
 import {basename} from 'path'
 import {createReadStream} from 'fs'
 
+groups.forEach( group => {
+  let ddoc, products = [];
+
+  ddoc = {
+      _id: group.id,
+      _type: 'group',
+      title: group.title,
+      priority: group.priority,
+      sizes: group.sizes,
+      // products: [
+      //     {
+      //       _key: `key-${group.ref}`, // unique key, could be anything
+      //       _ref: group.ref, // _id of french fries
+      //       _type: 'reference'
+      //     }
+      // ]
+  }
+
+  group.products.forEach(ref => {
+    products.push({
+      _key: `key-${ref}`,
+      _ref: ref,
+      _type: 'reference'
+    })
+  })
+
+  ddoc.products = products;
+  console.log(ddoc)
+
+  // client.createOrReplace(ddoc).then(() => {
+
+  // })
+})
+
 // products.forEach( product => {
 
 //   let ddoc;
