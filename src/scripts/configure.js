@@ -25,15 +25,8 @@ groups.forEach( group => {
       _type: 'group',
       title: group.title,
       priority: group.priority,
-      sizes: group.sizes,
-      // products: [
-      //     {
-      //       _key: `key-${group.ref}`, // unique key, could be anything
-      //       _ref: group.ref, // _id of french fries
-      //       _type: 'reference'
-      //     }
-      // ]
-  }
+      sizes: group.sizes
+    }
 
   group.products.forEach(ref => {
     products.push({
@@ -44,11 +37,10 @@ groups.forEach( group => {
   })
 
   ddoc.products = products;
-  console.log(ddoc)
 
-  // client.createOrReplace(ddoc).then(() => {
+  client.createOrReplace(ddoc).then(() => {
 
-  // })
+  })
 })
 
 // products.forEach( product => {

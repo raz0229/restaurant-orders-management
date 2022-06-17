@@ -21,7 +21,28 @@ export const groups = [
         priority: 0,
         sizes: ['S', 'M', 'L'],
         products: ['dy-8','dy-7','dy-6','dy-5','dy-4','dy-3','dy-2','dy-1']
-      }
+    },
+    {
+        id: 'g1',
+        title: 'Cafe\'s Special Pizzas',
+        priority: 1,
+        sizes: ['S', 'M', 'L'],
+        products: ['dn-8','dn-7','dn-6','dn-5','dn-4','dn-3','dn-2','dn-1']
+    },
+    {
+        id: 'g2',
+        title: 'Cafe\'s Treats',
+        priority: 2,
+        sizes: ['10', '15', '20'],
+        products: ['tr-0','tr-1']
+    },
+    {
+        id: 'g3',
+        title: 'Extras',
+        priority: 3,
+        sizes: [],
+        products: ['st-4', 'st-3', 'st-2', 'st-1', 'st-0']
+    },
 ]
 
 export const products = [
