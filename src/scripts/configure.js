@@ -69,7 +69,7 @@ const setGroups = () => {
       await client.createOrReplace(ddoc)
 
       spinner.update({
-        text: `[Creating Groups] ${100 / groups.length * (count + 1)}%`
+        text: ` [Creating Groups] ${Math.round(100 / groups.length * (count + 1))}%`
       }).start()
       if (count === (groups.length - 1)) {
         spinner.success()
@@ -116,7 +116,7 @@ const setProducts = () => {
         
         await client.createOrReplace(ddoc)
         spinner.update({
-          text: `[Creating Products] ${100 / products.length * (count + 1)}%`
+          text: ` [Creating Products] ${Math.round(100 / products.length * (count + 1))}%`
         }).start()
         if (count === (products.length - 1)) {
           spinner.success()
