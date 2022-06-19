@@ -10,6 +10,8 @@
   let storedItems, checkoutArr;
   let delivery = 0, hideToast = true;
 
+  const currency = import.meta.env.VITE_CURRENCY;
+
   // fetch delivery charges
   getSettings("delivery-charges").then(price => delivery = price)
 
@@ -203,7 +205,7 @@ if (browser) {
 								</th>
 								<th
 									class="px-5 py-3 border-b-2 border-gray-200 dark:border-dark-border bg-gray-100 dark:bg-list-item-bg text-left text-xs font-semibold text-gray-600 dark:text-list-item uppercase tracking-wider">
-									Price (PKR)
+									Price ({currency})
 								</th>
 							</tr>
 						</thead>
@@ -245,7 +247,7 @@ if (browser) {
 						class="px-5 py-5 bg-white dark:bg-dark-bg border-t dark:border-dark-border flex flex-col xs:flex-row items-center xs:justify-between          ">
 						<span class="text-xs xs:text-sm text-gray-900" style="text-align: center;">
                           <div class="relative px-3 py-1 mb-2 font-semibold text-sm text-yellow-600 dark:text-light-yellow leading-tight">
-                            Delivery Charges: <span class="font-normal delivery-val">{delivery} PKR</span>
+                            Delivery Charges: <span class="font-normal delivery-val">{delivery} {currency}</span>
                           </div>
                             <span class="text-lg dark:text-dark-blue">Total Bill: </span><span
                             class="relative inline-block px-3 py-1 font-semibold text-lg text-green-900 dark:text-light-grn leading-tight">
@@ -255,9 +257,9 @@ if (browser) {
                               <!-- Set total price to 0 instead of NaN when cart is cleared -->
                                 <span class="relative total-val">
                                   {#if storedItems.length === 0}
-                                    0 PKR
+                                    0 {currency}
                                   {:else}
-                                    { totalPrice + delivery } PKR
+                                    { totalPrice + delivery } {currency}
                                   {/if}
                                 </span>
                               </span>

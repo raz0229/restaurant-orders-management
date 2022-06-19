@@ -10,6 +10,8 @@
     export let productList = [];
     let extras = 0, discount = 0, errorMessage = '', item_name, item_price, item_qnt, item_type;
 
+    const currency = import.meta.env.VITE_CURRENCY;
+
     const properties = Canva.getProperties()
 
     $: total = (() => {
@@ -241,7 +243,7 @@
                                                 <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">Extras: </label>
                                             </div>
                                             <div class="mb-1 space-y-2 w-full text-xs">
-                                                <input bind:value="{extras}" placeholder="PKR" type="number" class="appearance-none block w-full bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-md h-6 px-2">
+                                                <input bind:value="{extras}" placeholder="{currency}" type="number" class="appearance-none block w-full bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-md h-6 px-2">
                                             </div>
                                         </div>
                                         <div class="md:flex flex-row md:space-x-4 w-full text-xs">
@@ -249,7 +251,7 @@
                                                 <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">Discount: </label>
                                             </div>
                                             <div class="mb-3 space-y-2 w-full text-xs">
-                                                <input bind:value="{discount}" placeholder="PKR" type="number" class="appearance-none block w-full bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-md h-6 px-2">
+                                                <input bind:value="{discount}" placeholder="{currency}" type="number" class="appearance-none block w-full bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-md h-6 px-2">
                                             </div>
                                         </div>
                                         <div class="md:flex flex-row pt-2 border-t border-gray-400 md:space-x-4 w-full text-xs">
@@ -257,7 +259,7 @@
                                                 <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">Total: </label>
                                             </div>
                                             <div class="mb-3 space-y-2 w-full text-xs">
-                                                <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">{total} PKR</label>
+                                                <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">{total} {currency}</label>
                                             </div>
                                         </div>
                                     </div>

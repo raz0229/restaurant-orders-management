@@ -8,6 +8,8 @@ let fetchLimit = 20, orders = [], searchKey = '';
 let confirmDelete = false, pendingDelete = '', filterValue = 'all', searchValue = 'title', loadFilter = false, toggleLatest = false;
 let lastVisible = null, overwrite = false, unsubbed = false;
 
+const currency = import.meta.env.VITE_CURRENCY;
+
 const getDocuments = async (update) => { 
     let arr = [], filter;
     const ref = collection(db, 'orders')
@@ -308,7 +310,7 @@ const closeModal = () => {
     <p class="bg-gray-100 text-gray-500 text-sm p-2">
       <span class="material-icons text-green-600 va-b">
         payments
-        </span> &nbsp; { order.total } PKR</p>
+        </span> &nbsp; { order.total } { currency }</p>
     
     <!-- Show Notes if exist -->
     {#if order.notes.trim().length !== 0}

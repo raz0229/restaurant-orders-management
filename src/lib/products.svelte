@@ -7,6 +7,8 @@
     let storedItems;
     let hideToast = true;
 
+    const currency = import.meta.env.VITE_CURRENCY;
+
     // sort array based on priority
     groups.sort((a,b)=>a.priority - b.priority);
 
@@ -64,7 +66,7 @@
         else if (t == 'm') price = e.target.parentNode.parentNode.dataset.priceM
         else price = e.target.parentNode.parentNode.dataset.priceS
 
-        e.target.parentNode.parentNode.childNodes[2].textContent = `${price} PKR`;
+        e.target.parentNode.parentNode.childNodes[2].textContent = `${price} ${currency}`;
     }
 
     const validateSize = (val, size) => {
@@ -127,7 +129,7 @@
                         <div class="px-5 py-3 size-check" data-title="{item.title}"
                         data-id="{item._id}" data-price="{item.prices[0]}" data-size="st">
                             <h3 class="text-gray-700 dark:text-review-title uppercase">{item.title}</h3>
-                            <span class="text-gray-500 dark:text-dark-p mt-2">{item.prices[0]} PKR</span>
+                            <span class="text-gray-500 dark:text-dark-p mt-2">{item.prices[0]} {currency}</span>
                             <div class="size">
                                 <span class="sizes static">S</span>
                                 <span class="sizes static">M</span>
@@ -138,7 +140,7 @@
                         <div class="px-5 py-3 size-check" data-size="m" data-title="{item.title}"
                         data-id="{item._id}" data-price-s="{item.prices[0]}" data-price-m="{item.prices[1]}">
                             <h3 class="text-gray-700 dark:text-review-title uppercase">{item.title}</h3>
-                            <span class="text-gray-500 dark:text-dark-p mt-2">{item.prices[1]} PKR</span>
+                            <span class="text-gray-500 dark:text-dark-p mt-2">{item.prices[1]} {currency}</span>
                             <div class="size">
                                 <span class="sizes" on:click="{()=>sizeSet('s', event)}">{ validateSize(group.sizes[0], 'S') }</span>
                                 <span class="sizes" on:click="{()=>sizeSet('m', event)}">{ validateSize(group.sizes[1], 'M') }</span>
@@ -149,7 +151,7 @@
                         <div class="px-5 py-3 size-check" data-size="l" data-title="{item.title}"
                         data-id="{item._id}" data-price-s="{item.prices[0]}" data-price-m="{item.prices[1]}" data-price-l="{item.prices[2]}">
                             <h3 class="text-gray-700 dark:text-review-title uppercase">{item.title}</h3>
-                            <span class="text-gray-500 dark:text-dark-p mt-2">{item.prices[2]} PKR</span>
+                            <span class="text-gray-500 dark:text-dark-p mt-2">{item.prices[2]} {currency}</span>
                             <div class="size">
                                 <span class="sizes" on:click="{()=>sizeSet('s', event)}">{ validateSize(group.sizes[0], 'S') }</span>
                                 <span class="sizes" on:click="{()=>sizeSet('m', event)}">{ validateSize(group.sizes[1], 'M') }</span>

@@ -36,6 +36,8 @@
     let showEditModal = false, confirmDelete = false, pendingDelete;
     let deal_name, priority, discount, deal_id, productList, total, temp_total;
 
+    const currency = import.meta.env.VITE_CURRENCY;
+
     let canvas = document.createElement('canvas');
     canvas.setAttribute('id', 'canvas');
     canvas.setAttribute('width', 400);
@@ -192,7 +194,7 @@
                  </div>
                  <div class="relative py-8 sm:py-6">
                      <p class="text-3xl text-white font-bold">{da.price}</p>
-                     <span class="text-base text-gray-400 dark:text-dark-p font-normal">PKR</span>
+                     <span class="text-base text-gray-400 dark:text-dark-p font-normal">{currency}</span>
                      <button on:click={ ()=>editDeal(da.doc_id, da.title, da.id, da.content, da.price) } class="adddealbutton absolute bottom-0 rounded-full bg-indigo-500 dark:bg-dark-indigo text-white drop-shadow-xl hover:bg-indigo-700">
                          <span class="material-icons">
                              edit

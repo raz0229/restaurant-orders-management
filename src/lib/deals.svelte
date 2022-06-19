@@ -11,6 +11,8 @@ export let MAX_DEALS = 1; // set to 1 for deals.length
 let canvas;
 let storedItems;
 
+const currency = import.meta.env.VITE_CURRENCY;
+
 // how many deals to display
     if (!(MAX_DEALS > dealArray.length) && !(MAX_DEALS < 3)) dealArray.length = MAX_DEALS;
 //else MAX_DEALS = dealArray.length // default behavior
@@ -108,7 +110,7 @@ const showNotificationOnBell = () => {
                     </div>
                     <div class="relative py-8 sm:py-6">
                         <p class="text-3xl text-white font-bold">{da.price}</p>
-                        <span class="text-base text-gray-400 dark:text-dark-p font-normal">PKR</span>
+                        <span class="text-base text-gray-400 dark:text-dark-p font-normal">{ currency }</span>
                         <button on:click={ ()=>showNotificationOnCart(da.id, da.title, da.price) } class="adddealbutton absolute bottom-0 rounded-full bg-indigo-500 dark:bg-dark-indigo text-white drop-shadow-xl hover:bg-indigo-700">
                             <span class="material-icons">
                                 add_shopping_cart
