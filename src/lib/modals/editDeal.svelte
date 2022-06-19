@@ -14,6 +14,9 @@
 
     const properties = Canva.getProperties()
 
+
+    // TODO: Discount, Extras
+
     $: total = (() => {
         let pp = 0;
     
@@ -26,8 +29,12 @@
     if (!pp) pp = temp_total;
 
     const calc = (pp + (extras ? extras : 0)) - discount;
-    return calc > 0 ? calc : 0; 
+    return calc > 0 ? convertCurrency(calc) : 0; 
     })();
+
+    function convertCurrency(val){
+        return (Math.floor(val*100).toFixed(0)/100).toFixed(2);
+    }
 
     const updatePreview = () => {
         const canvas = document.querySelector('#preview')
@@ -193,11 +200,11 @@
                                         class="w-full appearance-none block bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-lg p-3" placeholder="Item's Name">
                                         <div class="md:flex flex-row mt-2 md:space-x-4 w-full text-xs">
                                             <input bind:value="{item_price}"
-                                                required="required" name="price" type="number" min="0"
+                                                required="required" name="price" type="number" min="0" step="0.01"
                                                 class="w-full appearance-none block mb-2 bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-lg  py-2 px-2" placeholder="Price">
                                             <input bind:value="{item_qnt}"
                                                 name="qnt" type="number"
-                                                class="w-full appearance-none block mb-2 bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-lg  py-2 px-2" placeholder="Quantity">                                
+                                                class="w-full appearance-none block mb-2 bg-grey-lighter dark:bg-dark-body-bg text-grey-darker dark:text-dark-p dark:placeholder:text-input-border border border-grey-lighter border-input-border rounded-lg  py-2 px-2" placeholder="Quantity" min="1">                                
                                         </div>
                                         <div class="md:flex flex-row mt-2 mb-2 md:space-x-4 w-full text-xs">
                                             <div class="space-y-2 p-1 w-full text-sm">
