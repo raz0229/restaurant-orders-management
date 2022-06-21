@@ -89,8 +89,8 @@
         await addDoc(collection(db, "deals"), {
             id: priority || 0,
             title: capitalize(deal_name.trim().toLowerCase()),
-            price: total,
-            discount: Math.round((discount/total) * 100) || 0,
+            price: parseFloat(total),
+            discount: Math.round((discount/parseFloat(total)) * 100) || 0,
             deal: getCurrentDeal(),
             content: getCurrentContent()
 
