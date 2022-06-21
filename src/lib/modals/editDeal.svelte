@@ -239,7 +239,7 @@
                                             </div>
                                             {#if product.price}
                                             <div class="flex-1 mb-1 space-y-2 w-full text-xs">
-                                                <p>{product.price}</p>
+                                                <p>{convertCurrency(product.price)}</p>
                                             </div>
                                             {/if}
                                         </div>
