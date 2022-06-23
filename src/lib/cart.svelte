@@ -83,6 +83,10 @@ const checkout = async () => {
   document.querySelector('#checkout-btn').disabled = true;
 }
 
+function convertCurrency(val){
+        return (Math.floor(val*100).toFixed(0)/100).toFixed(2);
+}
+
 const postData = async (event) => {
   localStorage.setItem('info', JSON.stringify(event.detail))
   let contentObj = event.detail;
@@ -257,9 +261,9 @@ if (browser) {
                               <!-- Set total price to 0 instead of NaN when cart is cleared -->
                                 <span class="relative total-val">
                                   {#if storedItems.length === 0}
-                                    0 {currency}
+                                    0.00 {currency}
                                   {:else}
-                                    { totalPrice + delivery } {currency}
+                                    { convertCurrency(totalPrice + delivery) } {currency}
                                   {/if}
                                 </span>
                               </span>

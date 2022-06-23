@@ -3,6 +3,10 @@ import { db } from "$lib/config/app";
 import { getDeals, getAllProducts, getMetadata, getActiveHours, getSettings } from "$lib/config/controllers";
 import { collection, addDoc } from "firebase/firestore"; 
 
+function convertCurrency(val){
+    return (Math.floor(val*100).toFixed(0)/100).toFixed(2);
+}
+
 const postData = async (content, delivery, title, phone, address, notes) => {
 
     let time = new Date().toString().substring(4,21)
@@ -21,8 +25,8 @@ const postData = async (content, delivery, title, phone, address, notes) => {
         status: false,
         time,
         oldest,
-        latest,        
-        total: total + delivery,
+        latest,
+        total: parseFloat(convertCurrency(total + delivery)),
         content
     })
 
