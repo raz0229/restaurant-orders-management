@@ -17,7 +17,7 @@ const postData = async (content, delivery, title, phone, address, notes) => {
     for (item of content) total += item.price;
 
     // Add a new document in collection "orders"
-    await addDoc(collection(db, "orders"), {
+    await addDoc(collection(db, "orders"), { 
         title : title.trim().substring(0,24).toLowerCase(), //name of person
         phone : phone.trim().substring(0,14),
         address : address.trim().substring(0,100),
