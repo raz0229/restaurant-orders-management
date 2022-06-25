@@ -74,6 +74,11 @@
         showEditModal = true;
     }
 
+
+  function convertCurrency(val){
+      return (Math.floor(val*100).toFixed(0)/100).toFixed(2);
+  }
+
     const deleteDeal = async (id, confirmed) => {
         pendingDelete = id;
         confirmDelete = true;
@@ -193,9 +198,9 @@
                      </ul>
                  </div>
                  <div class="relative py-8 sm:py-6">
-                     <p class="text-3xl text-white font-bold">{da.price}</p>
+                     <p class="text-3xl text-white font-bold">{ convertCurrency(da.price) } </p>
                      <span class="text-base text-gray-400 dark:text-dark-p font-normal">{currency}</span>
-                     <button on:click={ ()=>editDeal(da.doc_id, da.title, da.id, da.content, da.price) } class="adddealbutton absolute bottom-0 rounded-full bg-indigo-500 dark:bg-dark-indigo text-white drop-shadow-xl hover:bg-indigo-700">
+                     <button on:click={ ()=>editDeal(da.doc_id, da.title, da.id, da.content, da.price) } class="adddealbutton absolute bottom-0 rounded-full bg-indigo-500 dark:bg-dark-indigo text-white drop-shadow-xl hover:opacity-50">
                          <span class="material-icons">
                              edit
                              </span>
