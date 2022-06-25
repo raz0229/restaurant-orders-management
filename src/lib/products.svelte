@@ -60,17 +60,22 @@
     const sizeSet = (t, e) => {
         let price;
         // set data-size to provided size {'l', 'm', 's'}
-        e.target.parentNode.parentNode.dataset.size = t
+        const data = e.target.parentNode.parentNode.dataset;
+        data.size = t
 
-        if (t == 'l') price = e.target.parentNode.parentNode.dataset.priceL
-        else if (t == 'm') price = e.target.parentNode.parentNode.dataset.priceM
-        else price = e.target.parentNode.parentNode.dataset.priceS
+        if (t == 'l') price = data.priceL
+        else if (t == 'm') price = data.priceM
+        else price = data.priceS
 
-        e.target.parentNode.parentNode.childNodes[2].textContent = `${price} ${currency}`;
+        e.target.parentNode.parentNode.childNodes[2].textContent = `${convertCurrency(price)} ${currency}`;
     }
 
     const validateSize = (val, size) => {
         return (!val || val.trim().length === 0) ? size : val;
+    }
+
+    const convertCurrency = (val) => {
+        return (Math.floor(val*100).toFixed(0)/100).toFixed(2).replace(".00", '');
     }
 
     if (browser) {
@@ -129,7 +134,7 @@
                         <div class="px-5 py-3 size-check" data-title="{item.title}"
                         data-id="{item._id}" data-price="{item.prices[0]}" data-size="st">
                             <h3 class="text-gray-700 dark:text-review-title uppercase">{item.title}</h3>
-                            <span class="text-gray-500 dark:text-dark-p mt-2">{item.prices[0]} {currency}</span>
+                            <span class="text-gray-500 dark:text-dark-p mt-2">{convertCurrency(item.prices[0])} {currency}</span>
                             <div class="size">
                                 <span class="sizes static">S</span>
                                 <span class="sizes static">M</span>
@@ -140,7 +145,7 @@
                         <div class="px-5 py-3 size-check" data-size="m" data-title="{item.title}"
                         data-id="{item._id}" data-price-s="{item.prices[0]}" data-price-m="{item.prices[1]}">
                             <h3 class="text-gray-700 dark:text-review-title uppercase">{item.title}</h3>
-                            <span class="text-gray-500 dark:text-dark-p mt-2">{item.prices[1]} {currency}</span>
+                            <span class="text-gray-500 dark:text-dark-p mt-2">{convertCurrency(item.prices[1])} {currency}</span>
                             <div class="size">
                                 <span class="sizes" on:click="{()=>sizeSet('s', event)}">{ validateSize(group.sizes[0], 'S') }</span>
                                 <span class="sizes" on:click="{()=>sizeSet('m', event)}">{ validateSize(group.sizes[1], 'M') }</span>
@@ -151,7 +156,7 @@
                         <div class="px-5 py-3 size-check" data-size="l" data-title="{item.title}"
                         data-id="{item._id}" data-price-s="{item.prices[0]}" data-price-m="{item.prices[1]}" data-price-l="{item.prices[2]}">
                             <h3 class="text-gray-700 dark:text-review-title uppercase">{item.title}</h3>
-                            <span class="text-gray-500 dark:text-dark-p mt-2">{item.prices[2]} {currency}</span>
+                            <span class="text-gray-500 dark:text-dark-p mt-2">{convertCurrency(item.prices[2])} {currency}</span>
                             <div class="size">
                                 <span class="sizes" on:click="{()=>sizeSet('s', event)}">{ validateSize(group.sizes[0], 'S') }</span>
                                 <span class="sizes" on:click="{()=>sizeSet('m', event)}">{ validateSize(group.sizes[1], 'M') }</span>

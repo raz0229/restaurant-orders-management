@@ -76,7 +76,7 @@
 
 
   function convertCurrency(val){
-      return (Math.floor(val*100).toFixed(0)/100).toFixed(2);
+      return (Math.floor(val*100).toFixed(0)/100).toFixed(2).replace(".00", '');
   }
 
     const deleteDeal = async (id, confirmed) => {
