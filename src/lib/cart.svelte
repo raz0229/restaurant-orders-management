@@ -84,7 +84,7 @@ const checkout = async () => {
 }
 
 function convertCurrency(val){
-        return (Math.floor(val*100).toFixed(0)/100).toFixed(2);
+        return (Math.floor(val*100).toFixed(0)/100).toFixed(2).replace(".00", '');
 }
 
 const postData = async (event) => {
@@ -237,7 +237,7 @@ if (browser) {
                       class="relative inline-block px-3 py-1 font-semibold leading-tight">
                           <span aria-hidden
                             class="absolute inset-0 opacity-50 rounded-full"></span>
-									<span class="relative">{ parseFloat(convertCurrency(addToTotal(item.qnt , item.price))) }</span>
+									<span class="relative">{ convertCurrency(addToTotal(item.qnt , item.price)) }</span>
 									</span>
 								</td>
 							</tr>
