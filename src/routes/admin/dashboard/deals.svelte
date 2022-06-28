@@ -1,18 +1,13 @@
 <script context="module">
 
-    import { getAllProducts } from "$lib/config/controllers";
-
     export async function load({ fetch }) {
-      const res = await fetch('/api')
-      const dealRes = await fetch('/api/deals')
+      const res = await fetch('/api/deals')
   
-      const { dealArray } = await dealRes.json()
-      const products = await getAllProducts();
+      const { dealArray } = await res.json()
       
       if (res.ok) {
         return {
           props: {
-            products,
             dealArray
           }
         }
@@ -32,7 +27,7 @@
     import EditDeal from "$lib/modals/editDeal.svelte";
     import { fade } from "svelte/transition";
 
-    export let products, dealArray;
+    export let dealArray;
     let showEditModal = false, confirmDelete = false, pendingDelete;
     let deal_name, priority, discount, deal_id, productList, total, temp_total;
 
@@ -50,7 +45,7 @@
 
     imageURL.forEach(src => { 
          const image = new Image();
-         image.src = `../../${src}`;
+         image.src = `/${src}`;
          image.onload = ()=>{ 
              imageCount++;
              if(imageCount === imageURL.length){ // have all loaded?

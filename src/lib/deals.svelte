@@ -35,7 +35,7 @@ if (browser) {
 
     imageURL.forEach(src => { 
          const image = new Image();
-         image.src = src;
+         image.src = `/${src}`;
          image.onload = ()=>{ 
              imageCount++;
              if(imageCount === imageURL.length){ // have all loaded?

@@ -230,7 +230,7 @@
 	-webkit-appearance: none;
 	-moz-appearance: none;
   	appearance: none;
-  	background-image: url('../../hamburger.svg');
+  	background-image: url('/hamburger.svg');
 	width: 25px;
 	  height: 30px;
   }

@@ -174,7 +174,7 @@
                             <label class="font-semibold text-gray-600 dark:text-dark-p dark:placeholder:text-input-border py-2">Preview</label>
                             <!-- PREVIEW -->
                             <canvas id="preview" class="hidden" width="400" height="250"></canvas>
-                            <img class="canva rounded border border-gray-200 object-center object-cover h-auto w-full" id="canvaspreview" src="../../fallback.png" alt="PREVIEW HERE">
+                            <img class="canva rounded border border-gray-200 object-center object-cover h-auto w-full" id="canvaspreview" src="/fallback.png" alt="PREVIEW HERE">
                         </div>
                     </div>
 

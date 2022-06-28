@@ -46,12 +46,12 @@
 				</div>
 			</div>
 			<div>
-				<img class="dark:invert-[10%] dark:opacity-25" src="404.png" alt="404"/>
+				<img class="dark:invert-[10%] dark:opacity-25" src="/404.png" alt="404"/>
 			</div>
 		</div>
 	</div>
 	<div>
-		<img class="dark:opacity-75 dark:invert-[10%]" src="illustration.png" alt="OOPS"/>
+		<img class="dark:opacity-75 dark:invert-[10%]" src="/illustration.png" alt="OOPS"/>
 	</div>
 </div>
 
