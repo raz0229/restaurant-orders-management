@@ -26,9 +26,8 @@
             })
     }
     
-    if (!pp) pp = temp_total;
-
-    const calc = (pp + (extras ? extras : 0)) - discount;
+    if (!pp) pp = temp_total; // if pp is zero
+    const calc = (parseFloat(pp) + (extras ? extras : 0)) - discount;
     return calc > 0 ? convertCurrency(calc) : 0; 
     })();
 
@@ -75,12 +74,14 @@
 
 
     const capitalize = (mySentence) => {
-        const words = mySentence.split(" ");
+        const words = mySentence.trim().split(" ").filter(n => n);
 
         for (let i = 0; i < words.length; i++) {
-            words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+            let word = words[i]
+            if (word != '') 
+                words[i] = word[0]?.toUpperCase() + word?.substr(1);
         }
-
+        
         return words.join(" ");
     }
 
@@ -151,6 +152,7 @@
         extras = 0;
         discount = 0;
         total = 0;
+        temp_total = 0;
         productList = [];
     }
 

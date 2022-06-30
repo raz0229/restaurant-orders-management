@@ -1,23 +1,23 @@
-<script context="module">
 
-    export async function load({ fetch }) {
-      const res = await fetch('/api/deals')
-  
-      const { dealArray } = await res.json()
-      
-      if (res.ok) {
-        return {
-          props: {
-            dealArray
-          }
+<script context="module">
+  import { getAllProducts } from "$lib/config/controllers";
+  export async function load({ fetch }) {
+    const res = await fetch('/api')
+    const dealRes = await fetch('/api/deals')
+
+    const { dealArray } = await dealRes.json()
+    const products = await getAllProducts();
+    
+    if (res.ok) {
+      return {
+        props: {
+          products,
+          dealArray
         }
       }
-  
-      return {
-        status: res.status,
-        error: new Error('Could not fetch the products')
-      }
     }
+  }
+  
 </script>
 
 <script>
@@ -27,7 +27,7 @@
     import EditDeal from "$lib/modals/editDeal.svelte";
     import { fade } from "svelte/transition";
 
-    export let dealArray;
+    export let products, dealArray;
     let showEditModal = false, confirmDelete = false, pendingDelete;
     let deal_name, priority, discount, deal_id, productList, total, temp_total;
 
