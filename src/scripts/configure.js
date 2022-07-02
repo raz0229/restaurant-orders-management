@@ -8,6 +8,11 @@ Data added can be updated or removed entirely through the admin panel
 
 */
 
+// curl -sL https://firebase.tools | bash
+// firebase login
+// firebase init firestore
+// firebase deploy
+
 import { db, auth, client } from "../lib/config/app.js"
 import { doc, setDoc } from "firebase/firestore";
 import { signInWithEmailAndPassword } from "firebase/auth"
