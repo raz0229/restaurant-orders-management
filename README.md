@@ -4,6 +4,7 @@ This repository is an *Online Orders Management System* made specifically for yo
 **[Click Here to Launch the App](https://pizzahome.vercel.app)**
 
 **Admin Email**:	*test@pizzahome.com*
+
 **Admin Password**: _4c696275_ 
 > These credentials are for *Test Mode* only which restricts making any real changes to the actual website.
 
