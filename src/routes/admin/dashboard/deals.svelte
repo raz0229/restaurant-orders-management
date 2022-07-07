@@ -1,17 +1,13 @@
 
 <script context="module">
-  import { getAllProducts } from "$lib/config/controllers";
   export async function load({ fetch }) {
-    const res = await fetch('/api')
     const dealRes = await fetch('/api/deals')
 
     const { dealArray } = await dealRes.json()
-    const products = await getAllProducts();
     
-    if (res.ok) {
+    if (dealRes.ok) {
       return {
         props: {
-          products,
           dealArray
         }
       }
@@ -27,7 +23,7 @@
     import EditDeal from "$lib/modals/editDeal.svelte";
     import { fade } from "svelte/transition";
 
-    export let products, dealArray;
+    export let dealArray;
     let showEditModal = false, confirmDelete = false, pendingDelete;
     let deal_name, priority, discount, deal_id, productList, total, temp_total;
 
