@@ -4,7 +4,6 @@ node_modules
 /sanity/*
 !/sanity/schemas
 !/README.md
-!/sanity.json
 /build
 /.svelte-kit
 /package

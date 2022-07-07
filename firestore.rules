@@ -6,22 +6,22 @@ service cloud.firestore {
     match /orders/{document=**} {
     	allow create;
     	allow read: if request.auth.uid != null;
-      allow update, delete: if request.auth.uid == 'zF6QMeMGpyLFTzYFDdSXgUVM2Vx2';
+      allow update, delete: if request.auth.uid == '<YOUR UID>';
     }
     
     match /deals/{document=**} {
       allow read;
-      allow write: if request.auth.uid == 'zF6QMeMGpyLFTzYFDdSXgUVM2Vx2';
+      allow write: if request.auth.uid == '<YOUR UID>';
     }
     
     match /reviews/{any} {
       allow read, create;
-      allow update, delete: if request.auth.uid == 'zF6QMeMGpyLFTzYFDdSXgUVM2Vx2';
+      allow update, delete: if request.auth.uid == '<YOUR UID>';
     }
     
     match /settings/{document=**} {
       allow read;
-      allow write: if request.auth.uid == 'zF6QMeMGpyLFTzYFDdSXgUVM2Vx2';
+      allow write: if request.auth.uid == '<YOUR UID>';
     }
   }
 }
