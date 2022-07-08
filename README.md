@@ -75,6 +75,7 @@ Start up a ``firebase`` project locally and by running ``firebase init``.
 
 [Get Started with Firebase CLI](https://firebase.google.com/docs/cli)
 
+Place your Firebase Configuration  settings in *`src/lib/config/app.js`.* in `firebaseConfig` object.
 After setting up your firebase project, enable ``Firebase Authentication`` with Email and Password from the web interface and copy the UID of a user you intend to make the Admin.
 > All other users created under the same project will be running under *Test Mode* i.e they will able to login and view orders but not have access to make any changes in your Firestore database.
 
