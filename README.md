@@ -231,7 +231,7 @@ Everything is almost set up. In your `.env` file:
 	VITE_SANITY_STUDIO_URL=""
 	VITE_CURRENCY="PKR"
 	VITE_UID=""
-	VITE_EMBED_LOCATION_SRC=""
+	VITE_EMBED_LOCATION_SRC="" # Head over to maps.google.com
 	VITE_FACEBOOK_PAGE=""
 	VITE_FACEBOOK_PAGE_ID=""
 	VITE_INSTAGRAM_PAGE=""
@@ -243,3 +243,33 @@ Finally, you can launch the development server:
 
     npm run dev
 Edit the source files accordingly for your business and then, you can run tests on it using `cypress`
+
+## Testing with Cypress
+To install Cypress locally or write your own tests, read their official documentation:
+[Getting Started with Cypress](https://docs.cypress.io/guides/getting-started/)
+
+Some basic API and UI tests are included in `cypress/integration` in the root of your project. 
+
+To run the API tests:
+
+    npm run test:api
+   
+  To ensure, your app flow behave as expected from beginning to end with E2E tests:
+  
+
+    npm run test
+   
+> In `cypress.json` file in the root of your project, add a real `admin_email` and `admin_password` to emulate real-user behavior. Also, change the `base_url` in case you are running your app on a different port.
+
+## Deploy using Vercel
+After making sure, everything works as intended, you can use the `vercel` CLI or sign in to their website and connect to GitHub/GitLab for automatic future deployment with one-click deploy.
+[Read More](https://vercel.com/docs/concepts/deployments/overview) 
+
+## Finishing Up
+- ### Messenger Chat Widget
+Last but not least, set up the messenger chat widget for your website following this tutorial:
+[Adding Facebook Messenger to your Website](https://respond.io/blog/add-messenger-to-website#))
+> Messenger Widget has already been added to your app's source code. You just need to enable it from your Facebook's page settings and add your website's domain name to it. After that, copy your PAGE ID and paste it in the `VITE_FACEBOOK_PAGE_ID` environment variable in `.env` file in your project.
+
+- ### Progressive Web App
+In `static/manifest.json` file, You can change your app's name and the way it registers as an app on mobile devices to give it a native app's look and experience. Also, replace the icons and `favicon.png` in `static` folder with the ones you have designed for your business.
