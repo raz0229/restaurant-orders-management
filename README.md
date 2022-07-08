@@ -70,8 +70,8 @@ Other packages:
 
     npm i -g @sanity/cli firebase cypress
 ## Configuration
-
-Start up a ``firebase`` project locally and by running ``firebase init``.
+### Firebase
+Start up a ``firebase`` project locally and by running ``firebase init firestore``.
 
 [Get Started with Firebase CLI](https://firebase.google.com/docs/cli)
 
@@ -109,3 +109,137 @@ In your local, `firestore.rules` files, paste these rules and replace the UID wi
 
 		}
 	}
+Also save the UID as `VITE_UID` environment variable in `.env` file in the root of your project.
+
+Now, In your local `firestore.indexes.json`:
+
+    {
+		"indexes": [
+			{
+				"collectionGroup": "orders",
+				"queryScope": "COLLECTION",
+				"fields": [
+				{
+					"fieldPath": "phone",
+					"order": "ASCENDING"
+				},
+				{
+					"fieldPath": "latest",
+					"order": "ASCENDING"
+				}
+			  ]
+			},
+			{
+				"collectionGroup": "orders",
+				"queryScope": "COLLECTION",
+				"fields": [
+				{
+					"fieldPath": "status",
+					"order": "ASCENDING"
+				},
+				{
+					"fieldPath": "latest",
+					"order": "ASCENDING"
+				}
+			  ]
+			},
+			{
+				"collectionGroup": "orders",
+				"queryScope": "COLLECTION",
+				"fields": [
+				{
+					"fieldPath": "status",
+					"order": "ASCENDING"
+				},
+				{
+					"fieldPath": "oldest",
+					"order": "ASCENDING"
+				}
+			  ]
+			},
+			{
+				"collectionGroup": "orders",
+				"queryScope": "COLLECTION",
+				"fields": [
+				{
+					"fieldPath": "title",
+					"order": "ASCENDING"
+				},
+				{
+					"fieldPath": "latest",
+					"order": "ASCENDING"
+				}
+
+			  ]
+			},
+			{
+				"collectionGroup": "orders",
+				"queryScope": "COLLECTION",
+				"fields": [
+				{
+					"fieldPath": "title",
+					"order": "ASCENDING"
+				},
+				{
+					"fieldPath": "oldest",
+					"order": "ASCENDING"
+				}
+
+			  ]
+			},
+			{
+				"collectionGroup": "orders",
+				"queryScope": "COLLECTION",
+				"fields": [
+				{
+					"fieldPath": "title",
+					"arrayConfig": "CONTAINS"
+				},
+				{
+					"fieldPath": "latest",
+					"order": "ASCENDING"
+				}
+			  ]
+			}
+		],
+		"fieldOverrides": []
+	}
+
+After that, run `firebase deploy` to deploy the security rules and indexes to your remote Firestore database.
+
+### Sanity IO
+Please read the official Sanity documentation to get started with Sanity IO's headless CMS:
+[Get Started with Sanity IO](https://www.sanity.io/docs/getting-started)
+
+Your Sanity project's client configuration is saved in `src/lib/config/app.js` file.
+
+Using Schemas given in `sanity/schemas` directory under this project, run `sanity deploy`
+> Make sure you create an API Token for Editor from your project's settings and include it in your `clientConfig` object and manage `CORS` to include your development domain.
+> Also, add your remote Sanity Studio's URL in your local `.env` file as `VITE_SANITY_STUDIO_URL` variable
+
+### Run Script
+You are almost done with configuring your project and the rest will be taken care of by the `configure` script in your `package.json` file, which populates your Firestore database and content from your Sanity CMS with dummy data stored in `src/scripts/dummy.js` file.
+
+    npm run configure
+
+_(This step is mandatory too as it also saves some settings required to run your app)_
+
+## Start the development server
+Everything is almost set up. In your `.env` file:
+
+    VITE_BUSINESS_NAME=""
+	VITE_SANITY_STUDIO_URL=""
+	VITE_CURRENCY="PKR"
+	VITE_UID=""
+	VITE_EMBED_LOCATION_SRC=""
+	VITE_FACEBOOK_PAGE=""
+	VITE_FACEBOOK_PAGE_ID=""
+	VITE_INSTAGRAM_PAGE=""
+	VITE_CONTACT_EMAIL=""
+	VITE_CONTACT_PHONE=""
+You can leave `VITE_FACEBOOK_PAGE_ID` blank for now. *(This is used to let visitors talk to you using the Messenger widget on your website. More on that later)* 
+
+Finally, you can launch the development server:
+
+    npm run dev
+Edit the source files accordingly for your business and then, you can run tests on it using `cypress`
