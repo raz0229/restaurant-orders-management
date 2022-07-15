@@ -3,7 +3,7 @@
 ## Description 👈
 This repository is an *Online Orders Management System* made specifically for your restaurant built mainly using the [SvelteKit](https://kit.svelte.dev/) framework, [TailwindCSS](https://tailwindcss.com/), [Sanity.io](https://www.sanity.io/)'s CMS and [Firebase](https://firebase.google.com) backend for authentication and real-time Cloud Firestore's updates.
 
-## Launch App (Live Demo 🚀)
+## Live Demo 🚀
 
 **[Click Here to Launch the App](https://pizzahome.vercel.app)**
 
