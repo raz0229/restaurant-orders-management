@@ -1,5 +1,6 @@
 # Restaurant Orders Management
-
+![Admin Panel](https://i.ibb.co/d4Q051J/rest-mgmt-screenshot.png)
+## Description 👈
 This repository is an *Online Orders Management System* made specifically for your restaurant built mainly using the [SvelteKit](https://kit.svelte.dev/) framework, [TailwindCSS](https://tailwindcss.com/), [Sanity.io](https://www.sanity.io/)'s CMS and [Firebase](https://firebase.google.com) backend for authentication and real-time Cloud Firestore's updates.
 
 ## Launch App (Live Demo 🚀)
