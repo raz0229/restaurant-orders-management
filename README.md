@@ -247,7 +247,7 @@ Edit the source files accordingly for your business and then, you can run tests 
 
 ## Testing with Cypress
 To install Cypress locally or write your own tests, read their official documentation:
-[Getting Started with Cypress](https://docs.cypress.io/guides/getting-started/)
+[Getting Started with Cypress](https://docs.cypress.io/guides/getting-started/installing-cypress)
 
 Some basic API and UI tests are included in `cypress/integration` in the root of your project. 
 
