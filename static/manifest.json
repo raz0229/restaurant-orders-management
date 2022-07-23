@@ -1,6 +1,6 @@
 {
-    "name" : "Pizza Home",
-    "short_name": "PizzaHome",
+    "name" : "",
+    "short_name": "",
     "description" : "Manage, Customize, and Receive Orders for your restaurant.",
     "start_url" : "/",
     "display" : "standalone",
